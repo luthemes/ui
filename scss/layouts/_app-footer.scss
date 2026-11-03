@@ -1,0 +1,29 @@
+////
+/// App footer
+///
+///   <footer class="app-footer">
+///     <div class="app-footer__inner container">
+///       <p class="app-footer__credit">© 2026 Site Title</p>
+///     </div>
+///   </footer>
+///
+/// Colors come from `--color-footer` and `--color-on-footer`.
+///
+/// @group Layouts
+////
+
+.app-footer {
+	background: var( --color-footer );
+	color: var( --color-on-footer );
+	padding-bottom: var( --space-l );
+	padding-top: var( --space-l );
+	text-align: center;
+
+	a {
+		color: inherit;
+	}
+
+	&__credit {
+		margin: 0;
+	}
+}

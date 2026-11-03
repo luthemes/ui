@@ -1,0 +1,21 @@
+////
+/// Spacing
+///
+/// One spacing scale for padding, margins, and gaps. Each step becomes a CSS
+/// custom property (`l` → `--space-l`).
+///
+/// @group Settings
+////
+
+@use 'sass:map';
+
+/// Your overrides. Merged over the defaults below.
+$spacing: () !default;
+
+$spacing: map.merge( (
+	xs: 0.25rem,
+	s:  0.5rem,
+	m:  0.75rem,
+	l:  1.125rem,
+	xl: 2.5rem
+), $spacing );

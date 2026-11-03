@@ -1,36 +1,36 @@
-// -----------------------------------------------------------------------------
-// Button
-// -----------------------------------------------------------------------------
-//
-// An outlined link styled as a button; the primary variant is filled. Colors
-// swap on hover and focus.
-//
-//   <a class="button" href="…">Download</a>
-//   <a class="button button--primary" href="…">View Theme</a>
-//   <div class="buttons">…</div>   a wrapping row of buttons
+/// -----------------------------------------------------------------------------
+/// Button
+/// -----------------------------------------------------------------------------
+///
+/// An outlined link styled as a button; the primary variant is filled. Colors
+/// swap on hover and focus.
+///
+///   <a class="button" href="…">Download</a>
+///   <a class="button button--primary" href="…">View Theme</a>
+///   <div class="buttons">…</div>   a wrapping row of buttons
 
 .button {
-	background: var( --color-white );
-	border: 0.125rem solid var( --color-black );
-	color: var( --color-black );
+	background: var( --color-surface );
+	border: 0.125rem solid var( --color-primary );
+	color: var( --color-primary );
 	display: inline-block;
 	padding: var( --space-s ) 1.25rem;
 	text-decoration: none;
 
 	&:hover,
 	&:focus {
-		background: var( --color-black );
-		color: var( --color-white );
+		background: var( --color-primary );
+		color: var( --color-on-primary );
 	}
 
 	&--primary {
-		background: var( --color-black );
-		color: var( --color-white );
+		background: var( --color-primary );
+		color: var( --color-on-primary );
 
 		&:hover,
 		&:focus {
-			background: var( --color-white );
-			color: var( --color-black );
+			background: var( --color-surface );
+			color: var( --color-primary );
 		}
 	}
 }

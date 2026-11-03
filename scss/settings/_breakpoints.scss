@@ -1,0 +1,26 @@
+////
+/// Breakpoints
+///
+/// The screen widths where layouts change. Every media query in the package
+/// goes through these names (via the `up()` and `down()` mixins in tools), so
+/// "mobile" means the same width everywhere.
+///
+/// Override any of them when loading the package; the rest keep their
+/// defaults:
+///
+///   @use 'luthemes/ui/scss' with ( $breakpoints: ( medium: 782px ) );
+///
+/// @group Settings
+////
+
+@use 'sass:map';
+
+/// Your overrides. Merged over the defaults below.
+$breakpoints: () !default;
+
+$breakpoints: map.merge( (
+	small:  40rem, //  640px  large phones
+	medium: 48rem, //  768px  tablets; the mobile menu switches here
+	large:  64rem, // 1024px  laptops; sidebars appear here
+	wide:   80rem  // 1280px  desktops
+), $breakpoints );

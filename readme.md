@@ -2,14 +2,33 @@
 
 Shared styles and UI building blocks for Luthemes projects. One package, used the same way by **ClassicPress themes** (built on [Backdrop](https://github.com/backdrop-dev/framework)) and **[Novaris](https://github.com/novaris-dev/framework) sites**:
 
-- **SCSS:** design tokens, layout objects, and components, compiled by your project's own build (Vite + Sass).
+- **SCSS:** settings, a reset, base element styles, the page skeleton (header, mobile menu, content with sidebar, footer), layout objects, components, and utilities. Your project's own build (Vite + Sass) compiles it.
+- **JS:** the mobile menu toggle.
 - **PHP:** small helpers that print component markup, with a service provider for each framework.
+
+**New here?** [Build a theme from scratch](docs/build-a-theme.md) walks through a complete ClassicPress theme that uses every part of the package.
+
+## How it's organized
+
+The SCSS follows ITCSS: layers go from the most general to the most specific, and each layer can use everything above it.
+
+| Layer | Folder | What's in it | Outputs CSS? |
+|---|---|---|---|
+| Settings | `scss/settings` | Breakpoints, colors, spacing, fonts, widths | No |
+| Tools | `scss/tools` | `up()` / `down()` mixins, `color()` / `space()` / `width()` functions | No |
+| Generic | `scss/generic` | `:root` custom properties, reset | Yes |
+| Elements | `scss/elements` | Bare HTML tags: `body`, headings, links, tables | Yes |
+| Objects | `scss/objects` | `.container`, `.section`, `.grid` | Yes |
+| Layouts | `scss/layouts` | `.app`, `.app-header`, `.app-nav`, `.app-content`, `.app-footer` | Yes |
+| Components | `scss/components` | `.card`, `.badge`, `.button`, `.section-header` | Yes |
+| Utilities | `scss/utilities` | `.screen-reader-text`, `.text-center`, `.hide-mobile`… | Yes |
+
+**What belongs in the package, and what stays in your theme:** the package handles structure (how the header lays out, when the menu collapses, how a grid drops to one column). Your theme handles the look (colors, fonts, the style of posts and comments, anything unique). Colors and spacing are settings, so each theme sets its own.
 
 ## Requirements
 
-- PHP 7.4 or later
-- Composer
-- Node and a Sass build (e.g. Vite + `sass`) to compile the SCSS
+- PHP 7.4 or later and Composer
+- Node with Vite and `sass` (or any Sass build) to compile the SCSS
 
 ## Install
 
@@ -25,12 +44,14 @@ Until the package is on Packagist, add the repository to your `composer.json` fi
 ]
 ```
 
+Run `composer install` **before** `npm run build`, so Sass can find the files.
+
 ## Styles
 
-Composer installs the SCSS into `vendor/luthemes/ui/scss`. Tell Sass to look in `vendor`. With Vite:
+Composer puts the SCSS in `vendor/luthemes/ui/scss`. Tell Sass to look in `vendor`. With Vite:
 
-```ts
-// vite.config.ts
+```js
+// vite.config.js
 export default defineConfig( {
 	css: {
 		preprocessorOptions: {
@@ -40,50 +61,135 @@ export default defineConfig( {
 } );
 ```
 
-Then forward it from your stylesheet, either all at once:
+Load it **first** in your main stylesheet, then your own styles:
 
 ```scss
-@forward 'luthemes/ui/scss';
+// resources/scss/screen.scss
+@use 'luthemes/ui/scss';
+@use 'components';   // your theme's own partials
 ```
 
-or, if your project follows ITCSS, each layer in its place:
+### Change the settings
+
+Pass overrides with `with ( … )`. You only list what you change; everything else keeps its default.
 
 ```scss
-@forward 'luthemes/ui/scss/tokens';      // in your generics
-@forward 'luthemes/ui/scss/objects';     // in your objects
-@forward 'luthemes/ui/scss/components';  // in your components
+@use 'luthemes/ui/scss' with (
+	$colors: (
+		header:  #1d3557,
+		footer:  #1d3557,
+		primary: #e63946,
+	),
+	$breakpoints: ( medium: 782px ),
+	$font-family-body: ( 'Merriweather', serif )
+);
 ```
 
-Run `composer install` **before** your build (`npm run build`) so Sass can find the files.
+Colors, spacing, and widths also become CSS custom properties, so you can change them later in plain CSS (for example from a Customizer setting):
 
-### Tokens
+```css
+:root { --color-header: #264653; }
+```
 
-CSS custom properties on `:root`. Override any of them in your own stylesheet to restyle everything that uses them.
+### Use the tools in your own partials
 
-| Token | Default |
+Load just the tools: they output no CSS, so this is safe in any partial.
+
+```scss
+// resources/scss/components/_entry.scss
+@use 'luthemes/ui/scss/tools' as ui;
+
+.entry {
+	padding: ui.space( m );                 // var( --space-m )
+	border-bottom: var( --border-rule );
+
+	@include ui.up( medium ) {              // 768px and wider
+		padding: ui.space( xl );
+	}
+}
+```
+
+`ui.color( name )`, `ui.space( name )`, and `ui.width( name )` return the matching `var( --… )`, and fail the build if the name doesn't exist.
+
+## Settings reference
+
+| Setting | Defaults | Custom properties |
+|---|---|---|
+| `$breakpoints` | `small` 40rem (640px), `medium` 48rem (768px), `large` 64rem (1024px), `wide` 80rem (1280px) | none (media queries can't use custom properties) |
+| `$colors` | `black`, `white`, `text`, `heading`, `muted`, `link`, `link-hover`, `background`, `surface`, `surface-alt`, `rule`, `primary`, `on-primary`, `header`, `on-header`, `footer`, `on-footer` | `--color-*` |
+| `$spacing` | `xs` .25rem, `s` .5rem, `m` .75rem, `l` 1.125rem, `xl` 2.5rem | `--space-*` |
+| `$widths` | `wide` 80rem, `medium` 64rem, `narrow` 50rem, `sidebar` 18rem | `--width-*` |
+| `$font-family-body`, `$font-family-heading`, `$font-family-code` | system fonts | `--font-family-*` |
+| `$font-size-base`, `$line-height-base`, `$line-height-heading` | 1.0625rem, 1.7, 1.25 | same names |
+| `$border-width` | 0.063rem | `--border-width`, `--border-dotted`, `--border-solid`, `--border-rule` |
+
+`on-*` colors are the text color that sits on that background (`on-header` is the header's text).
+
+## Layouts: the page skeleton
+
+```html
+<body>
+<a class="skip-link screen-reader-text" href="#main">Skip to content</a>
+<div class="app">
+
+	<header class="app-header">
+		<div class="app-header__inner container">
+			<div class="app-header__branding">
+				<a class="app-header__title" href="/">Site Title</a>
+				<span class="app-header__tagline">Tagline</span>
+			</div>
+			<nav class="app-nav" aria-label="Primary">
+				<button class="app-nav__toggle" type="button" aria-expanded="false" aria-controls="app-nav-menu">Menu</button>
+				<ul class="app-nav__menu" id="app-nav-menu">
+					<li><a href="/" aria-current="page">Home</a></li>
+					<li><a href="/blog">Blog</a>
+						<ul><li><a href="/blog/news">News</a></li></ul>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+
+	<div class="app-content app-content--sidebar-right container">
+		<main id="main" class="app-main">…</main>
+		<aside class="app-sidebar">…</aside>
+	</div>
+
+	<footer class="app-footer">
+		<div class="app-footer__inner container">
+			<p class="app-footer__credit">© 2026 Site Title</p>
+		</div>
+	</footer>
+
+</div>
+</body>
+```
+
+| Class | What it does |
 |---|---|
-| `--color-black`, `--color-white` | `#000000`, `#ffffff` |
-| `--color-text`, `--color-muted` | `#677d89`, `#555555` |
-| `--color-surface`, `--color-surface-alt` | `#ffffff`, `#f5f5f5` |
-| `--color-rule` | `#cccccc` |
-| `--space-xs` … `--space-xl` | `0.25rem`, `0.5rem`, `0.75rem`, `1.125rem`, `2.5rem` |
-| `--border-width`, `--border-dotted`, `--border-solid` | `0.063rem` dotted / solid black |
-| `--width-wide`, `--width-medium`, `--width-narrow` | `80rem`, `64rem`, `50rem` |
+| `.app` | Wraps the page; keeps the footer at the bottom on short pages |
+| `.app-header` (`__inner`, `__branding`, `__title`, `__tagline`) | Branding left, menu right. Tagline hides on phones |
+| `.app-nav` (`__toggle`, `__menu`) | Phones: Menu button opens a panel below the header. `medium` and up: a row of links with dropdowns |
+| `.app-content` · `--sidebar-right` · `--sidebar-left` | Content area; the sidebar sits beside the main column from `large` up and stacks below it before that |
+| `.app-main`, `.app-sidebar` | The two columns |
+| `.app-footer` (`__inner`, `__credit`) | Footer band |
 
-### Objects (layout)
+The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from ClassicPress's `wp_nav_menu()` and Novaris's menu works without extra classes. The current page is underlined, marked by `aria-current="page"`, `.current-menu-item`, or `.menu-items__item--current`.
+
+## Objects
 
 | Class | What it does |
 |---|---|
 | `.container` · `--medium` · `--narrow` | Centered, max-width, side padding |
 | `.section` · `--muted` | Full-width band with vertical padding; `--muted` is light gray |
-| `.grid` · `--2` · `--3` | Equal columns; one column under 768px. Works on lists |
+| `.grid` · `--2` · `--3` · `--4` | One column on phones; 2 or 3 columns from `medium`; `--4` is 2 then 4 from `large`. Works on lists |
 
-### Components
+## Components
 
 | Class | What it does |
 |---|---|
 | `.card` · `--muted` | Dotted box; its last child (a link or button) sits at the bottom |
-| `.badge` · `--large` | Small black uppercase label |
+| `.badge` · `--large` | Small uppercase label in the `primary` color |
 | `.button` · `--primary`, `.buttons` | Outlined / filled button; a wrapping row of buttons |
 | `.section-header` (`__title`, `__description`) | Centered heading block |
 
@@ -104,6 +210,28 @@ CSS custom properties on `:root`. Override any of them in your own stylesheet to
 	</div>
 </section>
 ```
+
+## Utilities
+
+| Class | What it does |
+|---|---|
+| `.screen-reader-text` | Hidden visually, still read by screen readers |
+| `.skip-link` | With `.screen-reader-text`: appears on keyboard focus |
+| `.hide-mobile`, `.hide-desktop` | Hide below / from the `medium` breakpoint |
+| `.text-left`, `.text-center`, `.text-right`, `.text-muted`, `.text-small` | Text helpers |
+
+## JavaScript
+
+The mobile menu needs `js/app-nav.js`. Import it into your own script and your build bundles it:
+
+```js
+// resources/js/app.js
+import { appNav } from '../../vendor/luthemes/ui/js/app-nav.js';
+
+appNav();
+```
+
+It toggles `.app-nav--open` and `aria-expanded`, closes on Escape (returning focus to the button), on a click outside, and when the screen widens past the mobile breakpoint.
 
 ## PHP
 
@@ -142,7 +270,7 @@ Each project only loads its own provider, so a ClassicPress theme never needs No
 | `badge( $text, $modifiers = [] )` | `<span class="badge …">` |
 | `button( $text, $url, $modifiers = [] )` | `<a class="button …">` |
 | `classes( $block, $modifiers = [] )` | `'button button--primary'` |
-| `scssPath( $append = '' )` | Path to the package's SCSS |
+| `scssPath( $append = '' )`, `jsPath( $append = '' )` | Paths to the package's SCSS and JS |
 
 Text and URLs are escaped for you.
 

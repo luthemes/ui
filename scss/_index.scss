@@ -1,14 +1,37 @@
-// -----------------------------------------------------------------------------
-// Luthemes UI
-// -----------------------------------------------------------------------------
-//
-// Everything at once, in the right order. If your project follows ITCSS, you
-// can instead forward each layer where it belongs:
-//
-//   @forward 'luthemes/ui/scss/tokens';      // with your generics
-//   @forward 'luthemes/ui/scss/objects';     // with your objects
-//   @forward 'luthemes/ui/scss/components';  // with your components
+////
+/// Luthemes UI
+///
+/// Loads every layer in ITCSS order, from the most general to the most
+/// specific. Settings and tools only define values and helpers; real CSS
+/// starts at generic.
+///
+///   settings    breakpoints, colors, spacing, fonts, widths  (no CSS)
+///   tools       up()/down() mixins, color()/space() functions (no CSS)
+///   generic     :root custom properties, reset
+///   elements    bare HTML tags: body, headings, links, tables
+///   objects     .container, .section, .grid
+///   layouts     .app, .app-header, .app-nav, .app-content, .app-footer
+///   components  .card, .badge, .button, .section-header
+///   utilities   .screen-reader-text, .text-center, .hide-mobile…
+///
+/// In your theme's main stylesheet, load it first, with any overrides:
+///
+///   @use 'luthemes/ui/scss' with (
+///     $colors:      ( header: #1d3557, footer: #1d3557 ),
+///     $breakpoints: ( medium: 782px )
+///   );
+///
+/// Settings must be forwarded first so `with ( … )` reaches them before any
+/// other layer reads them.
+///
+/// @group Luthemes UI
+////
 
-@forward 'tokens';
+@forward 'settings';
+@forward 'tools';
+@forward 'generic';
+@forward 'elements';
 @forward 'objects';
+@forward 'layouts';
 @forward 'components';
+@forward 'utilities';
