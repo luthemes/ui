@@ -1,0 +1,16 @@
+////
+/// Layouts
+///
+/// The page skeleton every site shares: `.app`, `.app-header`, `.app-nav`,
+/// `.app-content` (with optional sidebar), and `.app-footer`. These handle
+/// structure and the mobile menu; colors come from custom properties, so a
+/// theme restyles them without touching this file.
+///
+/// @group Layouts
+////
+
+@forward '01.app';
+@forward '02.header';
+@forward '03.navigation';
+@forward '04.content';
+@forward '05.footer';

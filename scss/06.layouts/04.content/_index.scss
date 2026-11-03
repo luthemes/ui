@@ -1,0 +1,57 @@
+////
+/// App content
+///
+/// The area between header and footer. Holds the main column and, optionally,
+/// a sidebar. Sidebars appear from the `large` breakpoint; below that the
+/// sidebar stacks under the main column.
+///
+///   <div class="app-content container">               no sidebar
+///     <main class="app-main">…</main>
+///   </div>
+///
+///   <div class="app-content app-content--sidebar-right container">
+///     <main class="app-main">…</main>
+///     <aside class="app-sidebar">…</aside>
+///   </div>
+///
+///   <div class="app-content app-content--sidebar-left container">…</div>
+///
+/// @group Layouts
+////
+
+@use '../../02.tools' as ui;
+
+.app-content {
+	padding-bottom: var( --space-xl );
+	padding-top: var( --space-xl );
+
+	&--sidebar-left,
+	&--sidebar-right {
+		display: grid;
+		gap: var( --space-xl );
+		grid-template-columns: minmax( 0, 1fr );
+	}
+
+	@include ui.up( large ) {
+		&--sidebar-right {
+			grid-template-columns: minmax( 0, 1fr ) var( --width-sidebar );
+		}
+
+		&--sidebar-left {
+			grid-template-columns: var( --width-sidebar ) minmax( 0, 1fr );
+
+			> .app-sidebar {
+				grid-column: 1;
+				grid-row: 1;
+			}
+		}
+	}
+}
+
+.app-main {
+	min-width: 0;
+}
+
+.app-sidebar {
+	min-width: 0;
+}
