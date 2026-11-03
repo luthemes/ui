@@ -1,0 +1,32 @@
+// -----------------------------------------------------------------------------
+// Grid
+// -----------------------------------------------------------------------------
+//
+// Equal-width columns with consistent gaps. Works on lists too (bullets and
+// padding are removed). Every grid drops to one column on small screens.
+//
+//   <ul class="grid grid--3">…</ul>
+//   <div class="grid grid--2">…</div>
+
+.grid {
+	display: grid;
+	gap: var( --space-l );
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+
+	&--2 {
+		grid-template-columns: repeat( 2, minmax( 0, 1fr ) );
+	}
+
+	&--3 {
+		grid-template-columns: repeat( 3, minmax( 0, 1fr ) );
+	}
+}
+
+@media screen and ( max-width: 768px ) {
+	.grid--2,
+	.grid--3 {
+		grid-template-columns: minmax( 0, 1fr );
+	}
+}

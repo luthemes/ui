@@ -1,0 +1,25 @@
+// -----------------------------------------------------------------------------
+// Container
+// -----------------------------------------------------------------------------
+//
+// Centers content at a readable width with side padding.
+//
+//   <div class="container">…</div>                 80rem
+//   <div class="container container--medium">…</div> 64rem
+//   <div class="container container--narrow">…</div> 50rem
+
+.container {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: var( --width-wide );
+	padding-left: var( --space-l );
+	padding-right: var( --space-l );
+
+	&--medium {
+		max-width: var( --width-medium );
+	}
+
+	&--narrow {
+		max-width: var( --width-narrow );
+	}
+}

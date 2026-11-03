@@ -1,0 +1,17 @@
+// -----------------------------------------------------------------------------
+// Section
+// -----------------------------------------------------------------------------
+//
+// A full-width band of the page with vertical padding.
+//
+//   <section class="section">…</section>
+//   <section class="section section--muted">…</section>   light gray band
+
+.section {
+	padding-bottom: var( --space-xl );
+	padding-top: var( --space-xl );
+
+	&--muted {
+		background: var( --color-surface-alt );
+	}
+}

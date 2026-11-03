@@ -1,0 +1,38 @@
+// -----------------------------------------------------------------------------
+// Card
+// -----------------------------------------------------------------------------
+//
+// A boxed block with the site's dotted outline and solid bottom edge. Cards
+// stretch to the height of their grid row, and the last item (a link or a
+// button) sits at the bottom so rows line up.
+//
+//   <article class="card">…</article>
+//   <div class="card card--muted">…</div>   light gray background
+
+.card {
+	background: var( --color-surface );
+	border: var( --border-dotted );
+	border-bottom: var( --border-solid );
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	padding: var( --space-l );
+
+	> * {
+		margin-bottom: 0;
+		margin-top: 0;
+	}
+
+	> * + * {
+		margin-top: var( --space-m );
+	}
+
+	> :last-child:not( :first-child ) {
+		margin-top: auto;
+		padding-top: var( --space-m );
+	}
+
+	&--muted {
+		background: var( --color-surface-alt );
+	}
+}

@@ -1,0 +1,27 @@
+{
+	"name": "luthemes/ui",
+	"description": "Shared styles and UI building blocks for Luthemes projects: SCSS tokens, layout objects, and components, with service providers for Backdrop (ClassicPress) and Novaris.",
+	"type": "library",
+	"license": "GPL-2.0-or-later",
+	"keywords": [ "scss", "css", "ui", "classicpress", "backdrop", "novaris" ],
+	"homepage": "https://github.com/luthemes/ui",
+	"authors": [
+		{
+			"name": "Benjamin Lu",
+			"email": "benlumia007@gmail.com",
+			"homepage": "https://luthemes.com"
+		}
+	],
+	"require": {
+		"php": ">=7.4"
+	},
+	"suggest": {
+		"backdrop-dev/framework": "Use Luthemes\\UI\\Providers\\Backdrop in ClassicPress themes.",
+		"novaris-dev/framework": "Use Luthemes\\UI\\Providers\\Novaris in Novaris sites."
+	},
+	"autoload": {
+		"psr-4": {
+			"Luthemes\\UI\\": "src/"
+		}
+	}
+}
