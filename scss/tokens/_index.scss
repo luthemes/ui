@@ -1,0 +1,35 @@
+// -----------------------------------------------------------------------------
+// Design tokens
+// -----------------------------------------------------------------------------
+//
+// Shared values as CSS custom properties, so every object, component, and
+// utility uses the same colors, spacing, borders, and widths. Change a value
+// here and it updates everywhere.
+
+:root {
+	// Colors.
+	--color-black:      #000000;
+	--color-white:      #ffffff;
+	--color-text:       #677d89;
+	--color-muted:      #555555;
+	--color-surface:    #ffffff;
+	--color-surface-alt: #f5f5f5;
+	--color-rule:       #cccccc;
+
+	// Spacing scale.
+	--space-xs: 0.25rem;
+	--space-s:  0.5rem;
+	--space-m:  0.75rem;
+	--space-l:  1.125rem;
+	--space-xl: 2.5rem;
+
+	// Borders. Cards and boxes use a dotted outline with a solid bottom edge.
+	--border-width:  0.063rem;
+	--border-dotted: var( --border-width ) dotted var( --color-black );
+	--border-solid:  var( --border-width ) solid var( --color-black );
+
+	// Content widths.
+	--width-wide:   80rem;
+	--width-medium: 64rem;
+	--width-narrow: 50rem;
+}
