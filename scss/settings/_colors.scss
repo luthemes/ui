@@ -1,0 +1,49 @@
+////
+/// Colors
+///
+/// Every color the package uses. Each one becomes a CSS custom property in
+/// generic/_root.scss (`text` → `--color-text`), so you can change colors two
+/// ways:
+///
+///   // 1. At build time, when loading the package:
+///   @use 'luthemes/ui/scss' with ( $colors: ( header: #1d3557 ) );
+///
+///   // 2. At run time, in plain CSS (handy for a Customizer setting):
+///   :root { --color-header: #1d3557; }
+///
+/// @group Settings
+////
+
+@use 'sass:map';
+
+/// Your overrides. Merged over the defaults below.
+$colors: () !default;
+
+$colors: map.merge( (
+	// Basics.
+	black:       #000000,
+	white:       #ffffff,
+
+	// Text.
+	text:        #677d89,
+	heading:     #000000,
+	muted:       #555555,
+	link:        #000000,
+	link-hover:  #677d89,
+
+	// Backgrounds and lines.
+	background:  #ffffff,
+	surface:     #ffffff,
+	surface-alt: #f5f5f5,
+	rule:        #cccccc,
+
+	// Brand. `on-*` is the text color that sits on top of that background.
+	primary:     #000000,
+	on-primary:  #ffffff,
+
+	// Site header and footer.
+	header:      #000000,
+	on-header:   #ffffff,
+	footer:      #000000,
+	on-footer:   #ffffff
+), $colors );

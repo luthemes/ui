@@ -1,0 +1,21 @@
+////
+/// Sizing
+///
+/// Content widths and borders. Widths become `--width-*` custom properties.
+///
+/// @group Settings
+////
+
+@use 'sass:map';
+
+/// Your overrides. Merged over the defaults below.
+$widths: () !default;
+
+$widths: map.merge( (
+	wide:    80rem,
+	medium:  64rem,
+	narrow:  50rem,
+	sidebar: 18rem
+), $widths );
+
+$border-width: 0.063rem !default;

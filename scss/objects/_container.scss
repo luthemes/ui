@@ -1,12 +1,12 @@
-// -----------------------------------------------------------------------------
-// Container
-// -----------------------------------------------------------------------------
-//
-// Centers content at a readable width with side padding.
-//
-//   <div class="container">…</div>                 80rem
-//   <div class="container container--medium">…</div> 64rem
-//   <div class="container container--narrow">…</div> 50rem
+/// -----------------------------------------------------------------------------
+/// Container
+/// -----------------------------------------------------------------------------
+///
+/// Centers content at a readable width with side padding.
+///
+///   <div class="container">…</div>                 80rem
+///   <div class="container container--medium">…</div> 64rem
+///   <div class="container container--narrow">…</div> 50rem
 
 .container {
 	margin-left: auto;

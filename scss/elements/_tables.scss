@@ -1,0 +1,21 @@
+////
+/// Tables
+///
+/// @group Elements
+////
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+th,
+td {
+	border-bottom: var( --border-rule );
+	padding: var( --space-s ) var( --space-m );
+	text-align: left;
+}
+
+th {
+	color: var( --color-heading );
+}

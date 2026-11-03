@@ -1,0 +1,21 @@
+////
+/// Links
+///
+/// @group Elements
+////
+
+a {
+	color: var( --color-link );
+	text-decoration-thickness: 0.0625rem;
+	text-underline-offset: 0.2em;
+
+	&:hover,
+	&:focus {
+		color: var( --color-link-hover );
+	}
+}
+
+:focus-visible {
+	outline: 0.125rem solid var( --color-primary );
+	outline-offset: 0.125rem;
+}

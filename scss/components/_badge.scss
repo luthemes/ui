@@ -1,16 +1,16 @@
-// -----------------------------------------------------------------------------
-// Badge
-// -----------------------------------------------------------------------------
-//
-// A small uppercase label, e.g. "Flagship Theme" or "Shared hosting".
-//
-//   <span class="badge">Shared hosting</span>
-//   <span class="badge badge--large">Flagship Theme</span>
+/// -----------------------------------------------------------------------------
+/// Badge
+/// -----------------------------------------------------------------------------
+///
+/// A small uppercase label, e.g. "Flagship Theme" or "Shared hosting".
+///
+///   <span class="badge">Shared hosting</span>
+///   <span class="badge badge--large">Flagship Theme</span>
 
 .badge {
 	align-self: flex-start;
-	background: var( --color-black );
-	color: var( --color-white );
+	background: var( --color-primary );
+	color: var( --color-on-primary );
 	display: inline-block;
 	font-size: 0.75rem;
 	letter-spacing: 0.08em;

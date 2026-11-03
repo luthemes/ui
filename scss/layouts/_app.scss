@@ -1,0 +1,27 @@
+////
+/// App
+///
+/// The outer wrapper around the whole page. It stacks header, content, and
+/// footer, and keeps the footer at the bottom on short pages.
+///
+///   <body>
+///     <div class="app">
+///       <header class="app-header">…</header>
+///       <div class="app-content">…</div>
+///       <footer class="app-footer">…</footer>
+///     </div>
+///   </body>
+///
+/// @group Layouts
+////
+
+.app {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	min-height: 100dvh;
+
+	> .app-content {
+		flex: 1 0 auto;
+	}
+}

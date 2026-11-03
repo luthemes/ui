@@ -1,0 +1,141 @@
+////
+/// App navigation
+///
+/// The primary menu. On phones it collapses behind a Menu button and opens
+/// as a panel below the header; from the `medium` breakpoint up it's a row
+/// of links with hover/focus dropdowns. Needs `js/app-nav.js` for the button.
+///
+///   <nav class="app-nav" aria-label="Primary">
+///     <button class="app-nav__toggle" type="button"
+///             aria-expanded="false" aria-controls="app-nav-menu">Menu</button>
+///     <ul class="app-nav__menu" id="app-nav-menu">
+///       <li><a href="/" aria-current="page">Home</a></li>
+///       <li><a href="/blog">Blog</a>
+///         <ul><li><a href="/blog/news">News</a></li></ul>
+///       </li>
+///     </ul>
+///   </nav>
+///
+/// Menu items are styled by structure (`li`, `a`, nested `ul`), so markup
+/// from ClassicPress's `wp_nav_menu()` or Novaris's menu works as is. The
+/// current page is marked with `aria-current="page"` or the frameworks'
+/// current-item classes.
+///
+/// @group Layouts
+////
+
+@use '../tools' as ui;
+
+// Current-page selectors from ClassicPress and Novaris, plus plain HTML.
+$_current: '[aria-current="page"], .current-menu-item > a, .current_page_item > a, .menu-items__item--current > a';
+
+.app-nav {
+	// Menu button. Phones only.
+	&__toggle {
+		background: transparent;
+		border: var( --border-width ) solid currentColor;
+		color: inherit;
+		cursor: pointer;
+		padding: var( --space-xs ) var( --space-m );
+
+		@include ui.up( medium ) {
+			display: none;
+		}
+	}
+
+	&__menu {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		li {
+			position: relative;
+		}
+
+		a {
+			color: var( --color-on-header );
+			display: block;
+			padding: var( --space-s ) var( --space-m );
+			text-decoration: none;
+
+			&:hover,
+			&:focus {
+				text-decoration: underline;
+				text-decoration-thickness: 0.125rem;
+				text-underline-offset: 0.25rem;
+			}
+		}
+
+		#{ $_current } {
+			text-decoration: underline;
+			text-decoration-thickness: 0.125rem;
+			text-underline-offset: 0.25rem;
+		}
+	}
+
+	// Phones: a closed menu is hidden; an open one drops down below the
+	// header as a full-width panel. Submenus show indented.
+	@include ui.down( medium ) {
+		&__menu {
+			background: var( --color-header );
+			display: none;
+			left: 0;
+			padding: var( --space-s ) var( --space-l ) var( --space-l );
+			position: absolute;
+			right: 0;
+			top: 100%;
+			z-index: 100;
+
+			ul {
+				padding-left: var( --space-l );
+			}
+		}
+
+		&--open &__menu {
+			display: block;
+		}
+	}
+
+	// Tablets and up: a row of links; submenus drop down on hover or focus.
+	@include ui.up( medium ) {
+		&__menu {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: flex-end;
+
+			ul {
+				background: var( --color-header );
+				left: 0;
+				min-width: 12rem;
+				opacity: 0;
+				padding: var( --space-s ) 0;
+				position: absolute;
+				top: 100%;
+				transform: translateY( -0.5rem );
+				transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
+				visibility: hidden;
+				z-index: 100;
+
+				// Third level opens to the side.
+				ul {
+					left: 100%;
+					top: 0;
+				}
+			}
+
+			li:hover > ul,
+			li:focus-within > ul {
+				opacity: 1;
+				transform: translateY( 0 );
+				transition-delay: 0s;
+				visibility: visible;
+			}
+		}
+	}
+}

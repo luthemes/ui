@@ -1,0 +1,76 @@
+////
+/// App header
+///
+/// The site header: branding on the left, navigation on the right. Put a
+/// `.container` inside to line it up with the content.
+///
+///   <header class="app-header">
+///     <div class="app-header__inner container">
+///       <div class="app-header__branding">
+///         <a class="app-header__title" href="/">Site Title</a>
+///         <span class="app-header__tagline">Tagline</span>
+///       </div>
+///       <nav class="app-nav" aria-label="Primary">…</nav>
+///     </div>
+///   </header>
+///
+/// Colors come from `--color-header` and `--color-on-header`.
+///
+/// @group Layouts
+////
+
+@use '../tools' as ui;
+
+.app-header {
+	background: var( --color-header );
+	color: var( --color-on-header );
+	position: relative; // The mobile menu opens just below the header.
+
+	&__inner {
+		align-items: center;
+		display: flex;
+		gap: var( --space-l );
+		justify-content: space-between;
+		padding-bottom: var( --space-m );
+		padding-top: var( --space-m );
+	}
+
+	&__branding {
+		align-items: baseline;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0 var( --space-m );
+		min-width: 0;
+	}
+
+	&__title {
+		color: inherit;
+		font-family: var( --font-family-heading );
+		font-size: 1.5rem;
+		font-weight: 700;
+		line-height: var( --line-height-heading );
+		margin: 0;
+		text-decoration: none;
+
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+
+		@include ui.up( medium ) {
+			font-size: 1.75rem;
+		}
+	}
+
+	// Hidden on phones to save space; shown from `small` up.
+	&__tagline {
+		display: none;
+		font-size: 0.9375rem;
+		margin: 0;
+		opacity: 0.85;
+
+		@include ui.up( small ) {
+			display: block;
+		}
+	}
+}

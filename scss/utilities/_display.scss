@@ -1,0 +1,24 @@
+////
+/// Display helpers
+///
+///   <span class="hide-mobile">Only on tablets and up</span>
+///   <span class="hide-desktop">Only on phones</span>
+///
+/// Both switch at the `medium` breakpoint, the same one the menu uses.
+///
+/// @group Utilities
+////
+
+@use '../tools' as ui;
+
+.hide-mobile {
+	@include ui.down( medium ) {
+		display: none !important;
+	}
+}
+
+.hide-desktop {
+	@include ui.up( medium ) {
+		display: none !important;
+	}
+}

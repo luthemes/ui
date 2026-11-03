@@ -1,20 +1,20 @@
-// -----------------------------------------------------------------------------
-// Section header
-// -----------------------------------------------------------------------------
-//
-// A centered title and optional description above a section's content.
-//
-//   <header class="section-header">
-//     <h2 class="section-header__title">Latest Posts</h2>
-//     <span class="section-header__description">…</span>
-//   </header>
+/// -----------------------------------------------------------------------------
+/// Section header
+/// -----------------------------------------------------------------------------
+///
+/// A centered title and optional description above a section's content.
+///
+///   <header class="section-header">
+///     <h2 class="section-header__title">Latest Posts</h2>
+///     <span class="section-header__description">…</span>
+///   </header>
 
 .section-header {
 	margin-bottom: var( --space-l );
 	text-align: center;
 
 	&__title {
-		color: var( --color-black );
+		color: var( --color-heading );
 		margin: 0;
 		padding: 0;
 	}

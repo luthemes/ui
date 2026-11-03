@@ -1,13 +1,13 @@
-// -----------------------------------------------------------------------------
-// Card
-// -----------------------------------------------------------------------------
-//
-// A boxed block with the site's dotted outline and solid bottom edge. Cards
-// stretch to the height of their grid row, and the last item (a link or a
-// button) sits at the bottom so rows line up.
-//
-//   <article class="card">…</article>
-//   <div class="card card--muted">…</div>   light gray background
+/// -----------------------------------------------------------------------------
+/// Card
+/// -----------------------------------------------------------------------------
+///
+/// A boxed block with the site's dotted outline and solid bottom edge. Cards
+/// stretch to the height of their grid row, and the last item (a link or a
+/// button) sits at the bottom so rows line up.
+///
+///   <article class="card">…</article>
+///   <div class="card card--muted">…</div>   light gray background
 
 .card {
 	background: var( --color-surface );

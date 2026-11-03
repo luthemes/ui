@@ -1,0 +1,42 @@
+////
+/// Shortcut functions
+///
+/// Short ways to reference the custom properties from settings, with a
+/// build-time check that the name exists (a typo fails the build instead of
+/// silently doing nothing):
+///
+///   color: ui.color( muted );    // var( --color-muted )
+///   gap:   ui.space( l );        // var( --space-l )
+///   max-width: ui.width( narrow );
+///
+/// @group Tools
+////
+
+@use 'sass:map';
+@use '../settings/colors' as colors;
+@use '../settings/spacing' as spacing;
+@use '../settings/sizing' as sizing;
+
+@function color( $name ) {
+	@if not map.has-key( colors.$colors, $name ) {
+		@error 'Unknown color `#{ $name }`. Use one of: #{ map.keys( colors.$colors ) }.';
+	}
+
+	@return var( --color-#{ $name } );
+}
+
+@function space( $name ) {
+	@if not map.has-key( spacing.$spacing, $name ) {
+		@error 'Unknown space `#{ $name }`. Use one of: #{ map.keys( spacing.$spacing ) }.';
+	}
+
+	@return var( --space-#{ $name } );
+}
+
+@function width( $name ) {
+	@if not map.has-key( sizing.$widths, $name ) {
+		@error 'Unknown width `#{ $name }`. Use one of: #{ map.keys( sizing.$widths ) }.';
+	}
+
+	@return var( --width-#{ $name } );
+}

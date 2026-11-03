@@ -42,6 +42,14 @@ class UI
 	}
 
 	/**
+	 * Returns the path to the package's JavaScript (e.g. `js/app-nav.js`).
+	 */
+	public function jsPath( string $append = '' ): string
+	{
+		return $this->path( 'js' . ( $append ? '/' . ltrim( $append, '/' ) : '' ) );
+	}
+
+	/**
 	 * Returns a badge, e.g. `badge( 'Flagship Theme', [ 'large' ] )`.
 	 *
 	 * @param string   $text      Label text.
