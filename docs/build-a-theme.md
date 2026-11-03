@@ -22,9 +22,10 @@ starter/
     │   └── app.js         turns on the mobile menu
     └── scss/
         ├── screen.scss    loads the package, then your styles
-        └── components/
+        └── 07.components/
             ├── _index.scss
-            └── _entry.scss
+            └── 01.entry/
+                └── _index.scss
 ```
 
 The build writes `public/css/screen.css` and `public/js/app.js`. Those are what the site loads.
@@ -153,7 +154,7 @@ The one line that connects Vite to the package is `loadPaths: [ 'vendor' ]`.
 );
 
 // 2. This theme's own styles.
-@use 'components';
+@use '07.components';
 ```
 
 What you just got from the package, in order:
@@ -167,13 +168,13 @@ What you just got from the package, in order:
 7. **components**: `.card`, `.badge`, `.button`, `.section-header`.
 8. **utilities**: `.screen-reader-text`, `.hide-mobile`…
 
-Now add something that's only yours. `resources/scss/components/_index.scss`:
+Now add something that's only yours. Number your folders the same way the package does (`07.components` is the components layer). `resources/scss/07.components/_index.scss`:
 
 ```scss
-@forward 'entry';
+@forward '01.entry';
 ```
 
-`resources/scss/components/_entry.scss`:
+`resources/scss/07.components/01.entry/_index.scss`:
 
 ```scss
 ////
@@ -181,7 +182,7 @@ Now add something that's only yours. `resources/scss/components/_index.scss`:
 ////
 
 // Load only the tools: mixins and functions, no CSS output.
-@use 'luthemes/ui/scss/tools' as ui;
+@use 'luthemes/ui/scss/02.tools' as ui;
 
 .entry {
 	&__title {
@@ -364,7 +365,7 @@ Each widget gets the package's `card` class, so the sidebar is styled with no ex
 
 Each class on an article comes from a different place:
 - `card` comes from the package: the dotted box, with the button pinned to the bottom.
-- `entry` comes from your theme: the title and date styles in `_entry.scss`.
+- `entry` comes from your theme: the title and date styles in `01.entry`.
 - `grid grid--2` comes from the package: one column on phones, two from 768px.
 
 ### `sidebar.php`: `.app-sidebar`
@@ -405,19 +406,19 @@ Then make the browser narrow:
 
 | Width | What changes | Where it comes from |
 |---|---|---|
-| under 640px | Tagline hides | `layouts/_app-header.scss`, `up( small )` |
-| under 768px | Menu collapses behind the **Menu** button; posts go to one column | `layouts/_app-nav.scss` and `objects/_grid.scss`, `medium` |
-| under 1024px | Sidebar moves below the posts | `layouts/_app-content.scss`, `up( large )` |
+| under 640px | Tagline hides | `06.layouts/02.header`, `up( small )` |
+| under 768px | Menu collapses behind the **Menu** button; posts go to one column | `06.layouts/03.navigation` and `05.objects/03.grids`, `medium` |
+| under 1024px | Sidebar moves below the posts | `06.layouts/04.content`, `up( large )` |
 
 ### Experiments
 
 Each one is a one-line change. Rebuild with `npm run build` after each, or keep `npm run watch` running.
 
-- **Move every breakpoint at once.** Add `$breakpoints: ( medium: 900px )` to the `with ( … )` in `screen.scss`. The menu, grid, and `ui.up( medium )` in your `_entry.scss` all switch at 900px together. This is the point of sharing breakpoints.
+- **Move every breakpoint at once.** Add `$breakpoints: ( medium: 900px )` to the `with ( … )` in `screen.scss`. The menu, grid, and `ui.up( medium )` in your `01.entry` all switch at 900px together. This is the point of sharing breakpoints.
 - **Sidebar on the left.** In `index.php`, change `app-content--sidebar-right` to `app-content--sidebar-left`.
 - **No sidebar.** Remove the `--sidebar-right` class and `get_sidebar()`.
 - **Recolor without rebuilding.** Add `:root { --color-header: #2a9d8f; }` to the Customizer's *Additional CSS*. The header changes immediately. Colors are custom properties, so they can change at run time.
-- **Break it on purpose.** Write `@include ui.up( tablet )` in `_entry.scss`. The build fails with `Unknown breakpoint 'tablet'` and lists the real names.
+- **Break it on purpose.** Write `@include ui.up( tablet )` in `01.entry`. The build fails with `Unknown breakpoint 'tablet'` and lists the real names.
 
 ## 10. Optional: use Backdrop and the PHP helpers
 

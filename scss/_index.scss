@@ -2,17 +2,22 @@
 /// Luthemes UI
 ///
 /// Loads every layer in ITCSS order, from the most general to the most
-/// specific. Settings and tools only define values and helpers; real CSS
-/// starts at generic.
+/// specific. The numbers are the load order. Settings and tools only define
+/// values and helpers; real CSS starts at generics.
 ///
-///   settings    breakpoints, colors, spacing, fonts, widths  (no CSS)
-///   tools       up()/down() mixins, color()/space() functions (no CSS)
-///   generic     :root custom properties, reset
-///   elements    bare HTML tags: body, headings, links, tables
-///   objects     .container, .section, .grid
-///   layouts     .app, .app-header, .app-nav, .app-content, .app-footer
-///   components  .card, .badge, .button, .section-header
-///   utilities   .screen-reader-text, .text-center, .hide-mobile…
+///   01.settings    breakpoints, colors, fonts, widths, spacing     (no CSS)
+///   02.tools       up()/down() mixins, color()/space() functions  (no CSS)
+///   03.generics    :root custom properties, reset
+///   04.elements    bare HTML tags: body, headings, links, tables
+///   05.objects     .container, .section, .grid
+///   06.layouts     .app, .app-header, .app-nav, .app-content, .app-footer
+///   07.components  .card, .badge, .button, .section-header
+///   08.utilities   .screen-reader-text, .alignwide, .hide-mobile…
+///
+/// Each piece is a numbered folder with an `_index.scss`, like
+/// `01.settings/02.colors/_index.scss`. Load a single layer by its folder:
+///
+///   @use 'luthemes/ui/scss/02.tools' as ui;
 ///
 /// In your theme's main stylesheet, load it first, with any overrides:
 ///
@@ -27,11 +32,11 @@
 /// @group Luthemes UI
 ////
 
-@forward 'settings';
-@forward 'tools';
-@forward 'generic';
-@forward 'elements';
-@forward 'objects';
-@forward 'layouts';
-@forward 'components';
-@forward 'utilities';
+@forward '01.settings';
+@forward '02.tools';
+@forward '03.generics';
+@forward '04.elements';
+@forward '05.objects';
+@forward '06.layouts';
+@forward '07.components';
+@forward '08.utilities';

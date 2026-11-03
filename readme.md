@@ -12,16 +12,18 @@ Shared styles and UI building blocks for Luthemes projects. One package, used th
 
 The SCSS follows ITCSS: layers go from the most general to the most specific, and each layer can use everything above it.
 
+The numbers are the load order, the same convention as [novaris-dev/novaris](https://github.com/novaris-dev/novaris/tree/develop/resources/scss). Each piece is a numbered folder with an `_index.scss` (`scss/01.settings/02.colors/_index.scss`).
+
 | Layer | Folder | What's in it | Outputs CSS? |
 |---|---|---|---|
-| Settings | `scss/settings` | Breakpoints, colors, spacing, fonts, widths | No |
-| Tools | `scss/tools` | `up()` / `down()` mixins, `color()` / `space()` / `width()` functions | No |
-| Generic | `scss/generic` | `:root` custom properties, reset | Yes |
-| Elements | `scss/elements` | Bare HTML tags: `body`, headings, links, tables | Yes |
-| Objects | `scss/objects` | `.container`, `.section`, `.grid` | Yes |
-| Layouts | `scss/layouts` | `.app`, `.app-header`, `.app-nav`, `.app-content`, `.app-footer` | Yes |
-| Components | `scss/components` | `.card`, `.badge`, `.button`, `.section-header` | Yes |
-| Utilities | `scss/utilities` | `.screen-reader-text`, `.text-center`, `.hide-mobile`… | Yes |
+| Settings | `scss/01.settings` | `01.breaks`, `02.colors`, `03.fonts`, `04.sizings`, `05.spacings` | No |
+| Tools | `scss/02.tools` | `01.breakpoints`: `up()` / `down()` mixins; `02.functions`: `color()` / `space()` / `width()` | No |
+| Generics | `scss/03.generics` | `01.tokens`: `:root` custom properties; `02.resets` | Yes |
+| Elements | `scss/04.elements` | `01.defaults`, `02.headings`, `03.links`, `04.tables` | Yes |
+| Objects | `scss/05.objects` | `01.containers`, `02.sections`, `03.grids` | Yes |
+| Layouts | `scss/06.layouts` | `01.app`, `02.header`, `03.navigation`, `04.content`, `05.footer` | Yes |
+| Components | `scss/07.components` | `01.cards`, `02.badges`, `03.buttons`, `04.section-headers` | Yes |
+| Utilities | `scss/08.utilities` | `01.a11y`, `02.alignments`, `03.display`, `04.text` | Yes |
 
 **What belongs in the package, and what stays in your theme:** the package handles structure (how the header lays out, when the menu collapses, how a grid drops to one column). Your theme handles the look (colors, fonts, the style of posts and comments, anything unique). Colors and spacing are settings, so each theme sets its own.
 
@@ -66,7 +68,7 @@ Load it **first** in your main stylesheet, then your own styles:
 ```scss
 // resources/scss/screen.scss
 @use 'luthemes/ui/scss';
-@use 'components';   // your theme's own partials
+@use '07.components';   // your theme's own partials
 ```
 
 ### Change the settings
@@ -96,8 +98,8 @@ Colors, spacing, and widths also become CSS custom properties, so you can change
 Load just the tools: they output no CSS, so this is safe in any partial.
 
 ```scss
-// resources/scss/components/_entry.scss
-@use 'luthemes/ui/scss/tools' as ui;
+// resources/scss/07.components/01.entry/_index.scss
+@use 'luthemes/ui/scss/02.tools' as ui;
 
 .entry {
 	padding: ui.space( m );                 // var( --space-m )
@@ -216,7 +218,8 @@ The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from
 | Class | What it does |
 |---|---|
 | `.screen-reader-text` | Hidden visually, still read by screen readers |
-| `.skip-link` | With `.screen-reader-text`: appears on keyboard focus |
+| `.skip-link` | With `.screen-reader-text`: appears on keyboard focus (any `.screen-reader-text` does) |
+| `.alignleft`, `.alignright`, `.aligncenter`, `.alignwide`, `.alignfull` | The editor's alignment classes; `.alignwide` uses `--width-wide` |
 | `.hide-mobile`, `.hide-desktop` | Hide below / from the `medium` breakpoint |
 | `.text-left`, `.text-center`, `.text-right`, `.text-muted`, `.text-small` | Text helpers |
 

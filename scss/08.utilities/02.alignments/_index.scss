@@ -1,0 +1,50 @@
+////
+/// Alignments
+///
+/// The alignment classes the ClassicPress editor adds to images and blocks.
+///
+///   .alignleft / .alignright   float, with text wrapping around
+///   .aligncenter               centered block
+///   .alignwide                 breaks out of the text column, up to
+///                              `--width-wide` (never wider than the screen)
+///   .alignfull                 the full width of the screen
+///
+/// `.alignwide` and `.alignfull` assume the content sits in a centered
+/// column, such as `.container--narrow`.
+///
+/// @group Utilities
+////
+
+.alignleft {
+	float: left;
+	margin: 0 var( --space-l ) var( --space-l ) 0;
+}
+
+.alignright {
+	float: right;
+	margin: 0 0 var( --space-l ) var( --space-l );
+}
+
+.aligncenter {
+	clear: both;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.alignwide {
+	// The wide width, but never wider than the screen minus side padding.
+	--align-wide-width: min( var( --width-wide ), calc( 100vw - 2 * var( --space-l ) ) );
+
+	margin-left: calc( 50% - var( --align-wide-width ) / 2 );
+	margin-right: calc( 50% - var( --align-wide-width ) / 2 );
+	max-width: none;
+	width: var( --align-wide-width );
+}
+
+.alignfull {
+	margin-left: calc( 50% - 50vw );
+	margin-right: calc( 50% - 50vw );
+	max-width: 100vw;
+	width: 100vw;
+}

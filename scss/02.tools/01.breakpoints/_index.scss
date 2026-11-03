@@ -1,0 +1,46 @@
+////
+/// Breakpoint tools
+///
+/// Write mobile-first CSS, then add wider-screen styles with `up()`:
+///
+///   @use 'luthemes/ui/scss/02.tools' as ui;
+///
+///   .entry {
+///     padding: var( --space-m );        // phones
+///
+///     @include ui.up( medium ) {        // 768px and wider
+///       padding: var( --space-xl );
+///     }
+///   }
+///
+/// Use `down()` for the rare style that should only apply below a width.
+///
+/// @group Tools
+////
+
+@use 'sass:map';
+@use '../../01.settings/01.breaks' as settings;
+
+/// Returns a breakpoint's width by name, e.g. `breakpoint( medium )` → 48rem.
+@function breakpoint( $name ) {
+	@if not map.has-key( settings.$breakpoints, $name ) {
+		@error 'Unknown breakpoint `#{ $name }`. Use one of: #{ map.keys( settings.$breakpoints ) }.';
+	}
+
+	@return map.get( settings.$breakpoints, $name );
+}
+
+/// Styles for screens at least this wide.
+@mixin up( $name ) {
+	@media screen and ( min-width: #{ breakpoint( $name ) } ) {
+		@content;
+	}
+}
+
+/// Styles for screens narrower than this breakpoint. Stops just short of it,
+/// so `down( medium )` and `up( medium )` never overlap.
+@mixin down( $name ) {
+	@media screen and ( max-width: #{ breakpoint( $name ) - 0.02 } ) {
+		@content;
+	}
+}

@@ -1,0 +1,43 @@
+////
+/// Custom properties
+///
+/// Turns the settings into CSS custom properties on `:root`. This is the
+/// first CSS the package outputs. Everything after this uses `var( --… )`,
+/// so a theme can restyle the whole package by changing these at run time.
+///
+/// @group Generic
+////
+
+@use 'sass:meta';
+@use '../../01.settings/02.colors' as colors;
+@use '../../01.settings/05.spacings' as spacing;
+@use '../../01.settings/04.sizings' as sizing;
+@use '../../01.settings/03.fonts' as type;
+
+:root {
+	@each $name, $value in colors.$colors {
+		--color-#{ $name }: #{ $value };
+	}
+
+	@each $name, $value in spacing.$spacing {
+		--space-#{ $name }: #{ $value };
+	}
+
+	@each $name, $value in sizing.$widths {
+		--width-#{ $name }: #{ $value };
+	}
+
+	// `meta.inspect()` keeps the quotes around font names like 'Fira Sans'.
+	--font-family-body:    #{ meta.inspect( type.$font-family-body ) };
+	--font-family-heading: #{ meta.inspect( type.$font-family-heading ) };
+	--font-family-code:    #{ meta.inspect( type.$font-family-code ) };
+	--font-size-base:      #{ type.$font-size-base };
+	--line-height-base:    #{ type.$line-height-base };
+	--line-height-heading: #{ type.$line-height-heading };
+
+	// Borders. Cards and boxes use a dotted outline with a solid bottom edge.
+	--border-width:  #{ sizing.$border-width };
+	--border-dotted: var( --border-width ) dotted var( --color-black );
+	--border-solid:  var( --border-width ) solid var( --color-black );
+	--border-rule:   var( --border-width ) solid var( --color-rule );
+}

@@ -2,7 +2,7 @@
  * App navigation
  *
  * Opens and closes the mobile menu for every `.app-nav` on the page. Pairs
- * with `scss/layouts/_app-nav.scss`.
+ * with `scss/06.layouts/03.navigation`.
  *
  *   import { appNav } from '../../vendor/luthemes/ui/js/app-nav.js';
  *   appNav();
