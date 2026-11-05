@@ -14,6 +14,8 @@
 ///     </div>
 ///   </header>
 ///
+/// Add `.app-header--full` to let the row run the full width of the screen.
+///
 /// Colors come from `--color-header` and `--color-on-header`.
 ///
 /// @group Layouts
@@ -31,8 +33,12 @@
 		display: flex;
 		gap: var( --space-l );
 		justify-content: space-between;
-		padding-bottom: var( --space-m );
-		padding-top: var( --space-m );
+		padding-bottom: var( --header-padding );
+		padding-top: var( --header-padding );
+	}
+
+	&--full &__inner {
+		max-width: none;
 	}
 
 	&__branding {
@@ -46,8 +52,8 @@
 	&__title {
 		color: inherit;
 		font-family: var( --font-family-heading );
-		font-size: 1.5rem;
-		font-weight: 700;
+		font-size: var( --header-title-size );
+		font-weight: var( --font-weight-heading );
 		line-height: var( --line-height-heading );
 		margin: 0;
 		text-decoration: none;
@@ -58,14 +64,14 @@
 		}
 
 		@include ui.up( medium ) {
-			font-size: 1.75rem;
+			font-size: var( --header-title-size-large );
 		}
 	}
 
 	// Hidden on phones to save space; shown from `small` up.
 	&__tagline {
 		display: none;
-		font-size: 0.9375rem;
+		font-size: var( --header-tagline-size );
 		margin: 0;
 		opacity: 0.85;
 

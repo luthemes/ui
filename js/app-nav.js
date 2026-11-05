@@ -7,7 +7,8 @@
  *   import { appNav } from '../../vendor/luthemes/ui/js/app-nav.js';
  *   appNav();
  *
- * - The Menu button toggles `.app-nav--open` and keeps `aria-expanded` in sync.
+ * - The Menu button is `.app-nav__toggle`, or the `.menu-toggle` that Novaris
+ *   prints. It toggles `.app-nav--open` and keeps `aria-expanded` in sync.
  * - Escape closes the menu and returns focus to the button.
  * - Clicking outside the menu closes it.
  * - Widening the screen past the mobile breakpoint resets it to closed.
@@ -18,7 +19,7 @@
 
 export function appNav( root = document ) {
 	root.querySelectorAll( '.app-nav' ).forEach( ( nav ) => {
-		const toggle = nav.querySelector( '.app-nav__toggle' );
+		const toggle = nav.querySelector( '.app-nav__toggle, .menu-toggle' );
 
 		if ( ! toggle || toggle.dataset.appNav ) {
 			return;

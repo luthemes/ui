@@ -11,12 +11,13 @@
 	align-self: flex-start;
 	background: var( --color-primary );
 	color: var( --color-on-primary );
+	border-radius: var( --radius );
 	display: inline-block;
-	font-size: 0.75rem;
-	letter-spacing: 0.08em;
+	font-size: var( --badge-font-size );
+	letter-spacing: var( --badge-letter-spacing );
 	line-height: 1.6;
-	padding: 0.2rem 0.6rem;
-	text-transform: uppercase;
+	padding: var( --badge-padding );
+	text-transform: var( --badge-text-transform );
 
 	&--large {
 		font-size: 0.875rem;

@@ -13,6 +13,7 @@
 @use '../../01.settings/05.spacings' as spacing;
 @use '../../01.settings/04.sizings' as sizing;
 @use '../../01.settings/03.fonts' as type;
+@use '../../01.settings/06.design' as design;
 
 :root {
 	@each $name, $value in colors.$colors {
@@ -34,10 +35,38 @@
 	--font-size-base:      #{ type.$font-size-base };
 	--line-height-base:    #{ type.$line-height-base };
 	--line-height-heading: #{ type.$line-height-heading };
+	--font-weight-heading: #{ type.$font-weight-heading };
 
-	// Borders. Cards and boxes use a dotted outline with a solid bottom edge.
+	@each $name, $value in type.$heading-sizes {
+		--font-size-#{ $name }: #{ $value };
+	}
+
+	// Borders.
 	--border-width:  #{ sizing.$border-width };
-	--border-dotted: var( --border-width ) dotted var( --color-black );
-	--border-solid:  var( --border-width ) solid var( --color-black );
+	--border-dotted: var( --border-width ) dotted var( --color-border );
+	--border-solid:  var( --border-width ) solid var( --color-border );
 	--border-rule:   var( --border-width ) solid var( --color-rule );
+	--border-box:        var( --border-width ) #{ design.$box-border-style } var( --color-border );
+	--border-box-bottom: var( --border-width ) #{ design.$box-border-bottom-style } var( --color-border );
+
+	// Shapes.
+	--radius: #{ design.$radius };
+	--shadow: #{ design.$shadow };
+
+	// Header.
+	--header-padding:          #{ design.$header-padding };
+	--header-title-size:       #{ design.$header-title-size };
+	--header-title-size-large: #{ design.$header-title-size-large };
+	--header-tagline-size:     #{ design.$header-tagline-size };
+	--nav-link-padding:        #{ design.$nav-link-padding };
+
+	// Buttons.
+	--button-border-width: #{ design.$button-border-width };
+	--button-padding:      #{ design.$button-padding };
+
+	// Badges.
+	--badge-font-size:      #{ design.$badge-font-size };
+	--badge-letter-spacing: #{ design.$badge-letter-spacing };
+	--badge-padding:        #{ design.$badge-padding };
+	--badge-text-transform: #{ design.$badge-text-transform };
 }
