@@ -1,22 +1,22 @@
 <?php
 /**
- * Luthemes UI.
+ * Chassis.
  *
  * Framework-agnostic helpers for the shared UI: where the package lives (so
  * build tools can find the SCSS) and small functions that print the markup
  * for its components. Works the same in ClassicPress themes (Backdrop) and
  * Novaris sites; each framework gets a thin service provider in `Providers/`.
  *
- * @package   Luthemes\UI
+ * @package   Techkodeninja\Chassis
  * @author    Benjamin Lu <benlumia007@gmail.com>
  * @copyright 2026 Benjamin Lu
  * @license   https://www.gnu.org/licenses/gpl-2.0.html
- * @link      https://github.com/luthemes/ui
+ * @link      https://github.com/techkodeninja/chassis
  */
 
-namespace Luthemes\UI;
+namespace Techkodeninja\Chassis;
 
-class UI
+class Chassis
 {
 	/**
 	 * Package version.

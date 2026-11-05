@@ -4,18 +4,18 @@
  *
  * Register in a Novaris site's `config/app.php`:
  *
- *     'providers' => [ Luthemes\UI\Providers\Novaris::class ],
+ *     'providers' => [ Techkodeninja\Chassis\Providers\Novaris::class ],
  *
- * Then use it anywhere with `app( 'luthemes.ui' )`.
+ * Then use it anywhere with `app( 'chassis' )`.
  *
  * Requires novaris-dev/framework, which the site already has.
  *
- * @package Luthemes\UI
+ * @package Techkodeninja\Chassis
  */
 
-namespace Luthemes\UI\Providers;
+namespace Techkodeninja\Chassis\Providers;
 
-use Luthemes\UI\UI;
+use Techkodeninja\Chassis\Chassis;
 use Novaris\Core\ServiceProvider;
 
 class Novaris extends ServiceProvider
@@ -25,7 +25,7 @@ class Novaris extends ServiceProvider
 	 */
 	public function register(): void
 	{
-		$this->app->singleton( UI::class );
-		$this->app->alias( UI::class, 'luthemes.ui' );
+		$this->app->singleton( Chassis::class );
+		$this->app->alias( Chassis::class, 'chassis' );
 	}
 }

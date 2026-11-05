@@ -1,5 +1,5 @@
 ////
-/// Luthemes UI
+/// Chassis
 ///
 /// Loads every layer in ITCSS order, from the most general to the most
 /// specific. The numbers are the load order. Settings and tools only define
@@ -18,11 +18,11 @@
 /// Each piece is a numbered folder with an `_index.scss`, like
 /// `01.settings/02.colors/_index.scss`. Load a single layer by its folder:
 ///
-///   @use 'luthemes/ui/scss/02.tools' as ui;
+///   @use 'techkodeninja/chassis/scss/02.tools' as ui;
 ///
 /// In your theme's main stylesheet, load it first, with any overrides:
 ///
-///   @use 'luthemes/ui/scss' with (
+///   @use 'techkodeninja/chassis/scss' with (
 ///     $colors:      ( header: #1d3557, footer: #1d3557 ),
 ///     $breakpoints: ( medium: 782px )
 ///   );
@@ -30,7 +30,7 @@
 /// Settings must be forwarded first so `with ( … )` reaches them before any
 /// other layer reads them.
 ///
-/// @group Luthemes UI
+/// @group Chassis
 ////
 
 @forward '01.settings';

@@ -1,6 +1,6 @@
 # Build a theme from scratch
 
-This guide builds **Starter**, a small ClassicPress theme, using every part of Luthemes UI. By the end you'll know which parts come from the package, which parts belong to your theme, and how they connect.
+This guide builds **Starter**, a small ClassicPress theme, using every part of Chassis. By the end you'll know which parts come from the package, which parts belong to your theme, and how they connect.
 
 It uses plain ClassicPress functions (no framework), so you can see exactly what the package does. [Step 10](#10-optional-use-backdrop-and-the-php-helpers) adds Backdrop at the end.
 
@@ -8,7 +8,7 @@ It uses plain ClassicPress functions (no framework), so you can see exactly what
 
 ```
 starter/
-├── composer.json          gets luthemes/ui
+├── composer.json          gets techkodeninja/chassis
 ├── package.json           Vite + Sass
 ├── vite.config.js         compiles resources/ into public/
 ├── style.css              theme header (ClassicPress needs it)
@@ -37,7 +37,7 @@ In `wp-content/themes/`, make a folder called `starter` and add `style.css`. Cla
 ```css
 /*
  * Theme Name:  Starter
- * Description: Learning theme built on Luthemes UI.
+ * Description: Learning theme built on Chassis.
  * Version:     0.1.0
  * Author:      Your Name
  * Requires PHP: 7.4
@@ -55,11 +55,11 @@ In `wp-content/themes/`, make a folder called `starter` and add `style.css`. Cla
 	"name": "you/starter",
 	"type": "wordpress-theme",
 	"repositories": [
-		{ "type": "vcs", "url": "https://github.com/luthemes/ui" }
+		{ "type": "vcs", "url": "https://github.com/techkodeninja/chassis" }
 	],
 	"require": {
 		"php": ">=7.4",
-		"luthemes/ui": "dev-main"
+		"techkodeninja/chassis": "dev-main"
 	}
 }
 ```
@@ -68,9 +68,9 @@ In `wp-content/themes/`, make a folder called `starter` and add `style.css`. Cla
 composer install
 ```
 
-You now have `vendor/luthemes/ui/` with `scss/`, `js/`, and `src/` inside. Look around: every SCSS file starts with a comment explaining what it does.
+You now have `vendor/techkodeninja/chassis/` with `scss/`, `js/`, and `src/` inside. Look around: every SCSS file starts with a comment explaining what it does.
 
-> The repository entry and `dev-main` are only needed until the package is on Packagist and tagged. Then it becomes `"luthemes/ui": "^0.1"`.
+> The repository entry and `dev-main` are only needed until the package is on Packagist and tagged. Then it becomes `"techkodeninja/chassis": "^0.1"`.
 
 ## 3. Set up Vite
 
@@ -102,7 +102,7 @@ export default defineConfig( {
 
 	css: {
 		preprocessorOptions: {
-			// Lets SCSS find 'luthemes/ui/scss' inside vendor/.
+			// Lets SCSS find 'techkodeninja/chassis/scss' inside vendor/.
 			scss: { loadPaths: [ 'vendor' ] },
 		},
 	},
@@ -141,7 +141,7 @@ The one line that connects Vite to the package is `loadPaths: [ 'vendor' ]`.
 ////
 
 // 1. The package, with this theme's settings. Only list what you change.
-@use 'luthemes/ui/scss' with (
+@use 'techkodeninja/chassis/scss' with (
 	$colors: (
 		header:     #1d3557,
 		footer:     #1d3557,
@@ -182,7 +182,7 @@ Now add something that's only yours. Number your folders the same way the packag
 ////
 
 // Load only the tools: mixins and functions, no CSS output.
-@use 'luthemes/ui/scss/02.tools' as ui;
+@use 'techkodeninja/chassis/scss/02.tools' as ui;
 
 .entry {
 	&__title {
@@ -213,7 +213,7 @@ Notice the split: the **package** gives you `.card`, the grid, and the breakpoin
 `resources/js/app.js`:
 
 ```js
-import { appNav } from '../../vendor/luthemes/ui/js/app-nav.js';
+import { appNav } from '../../vendor/techkodeninja/chassis/js/app-nav.js';
 
 appNav();
 ```
@@ -228,7 +228,7 @@ npm run build
 
 You should see `public/css/screen.css` and `public/js/app.js` (Vite may also write a near-empty `js/screen.js` for the stylesheet entry; ignore it). Open the CSS and find your `--color-header: #1d3557` near the top.
 
-If the build says it can't find `luthemes/ui/scss`, run `composer install` first. If it says `Unknown breakpoint` or `Unknown color`, there's a typo in a name, and the error lists the valid ones.
+If the build says it can't find `techkodeninja/chassis/scss`, run `composer install` first. If it says `Unknown breakpoint` or `Unknown color`, there's a typo in a name, and the error lists the valid ones.
 
 ## 7. Load the files and register the menu: `functions.php`
 
@@ -431,12 +431,12 @@ composer require backdrop-dev/framework
 ```php
 // app/framework.php (or functions.php)
 $theme = new Backdrop\Core\Application();
-$theme->provider( Luthemes\UI\Providers\Backdrop::class );
+$theme->provider( Techkodeninja\Chassis\Providers\Backdrop::class );
 $theme->boot();
 ```
 
 ```php
-<?php $ui = Backdrop\App::resolve( 'luthemes.ui' ); ?>
+<?php $ui = Backdrop\App::resolve( 'chassis' ); ?>
 
 <?= $ui->badge( 'Featured' ); ?>
 <?= $ui->button( 'Read more', get_permalink(), [ 'primary' ] ); ?>
@@ -456,4 +456,4 @@ Leave out `node_modules/`, `resources/`, and the build files if you like (keepin
 
 ## The same package on a Novaris site
 
-The SCSS and JS steps (2–6) are identical. Only the PHP side differs: register `Luthemes\UI\Providers\Novaris::class` in `config/app.php`, and use the same class names in your views (`resources/views/header/default.php` and so on). luthemes.com is a working example.
+The SCSS and JS steps (2–6) are identical. Only the PHP side differs: register `Techkodeninja\Chassis\Providers\Novaris::class` in `config/app.php`, and use the same class names in your views (`resources/views/header/default.php` and so on). luthemes.com is a working example.

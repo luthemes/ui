@@ -1,6 +1,6 @@
-# Luthemes UI
+# Chassis
 
-Shared styles and UI building blocks for Luthemes projects. One package, used the same way by **ClassicPress themes** (built on [Backdrop](https://github.com/backdrop-dev/framework)) and **[Novaris](https://github.com/novaris-dev/framework) sites**:
+Shared structure and UI building blocks for themes. One package, used the same way by **ClassicPress themes** (built on [Backdrop](https://github.com/backdrop-dev/framework)) and **[Novaris](https://github.com/novaris-dev/framework) sites**:
 
 - **SCSS:** settings, a reset, base element styles, the page skeleton (header, mobile menu, content with sidebar, footer), layout objects, components, and utilities. Your project's own build (Vite + Sass) compiles it.
 - **JS:** the mobile menu toggle.
@@ -35,14 +35,14 @@ The numbers are the load order, the same convention as [novaris-dev/novaris](htt
 ## Install
 
 ```bash
-composer require luthemes/ui
+composer require techkodeninja/chassis
 ```
 
 Until the package is on Packagist, add the repository to your `composer.json` first:
 
 ```json
 "repositories": [
-	{ "type": "vcs", "url": "https://github.com/luthemes/ui" }
+	{ "type": "vcs", "url": "https://github.com/techkodeninja/chassis" }
 ]
 ```
 
@@ -50,7 +50,7 @@ Run `composer install` **before** `npm run build`, so Sass can find the files.
 
 ## Styles
 
-Composer puts the SCSS in `vendor/luthemes/ui/scss`. Tell Sass to look in `vendor`. With Vite:
+Composer puts the SCSS in `vendor/techkodeninja/chassis/scss`. Tell Sass to look in `vendor`. With Vite:
 
 ```js
 // vite.config.js
@@ -67,7 +67,7 @@ Load it **first** in your main stylesheet, then your own styles:
 
 ```scss
 // resources/scss/screen.scss
-@use 'luthemes/ui/scss';
+@use 'techkodeninja/chassis/scss';
 @forward '07.components';   // your theme's own partials
 ```
 
@@ -76,7 +76,7 @@ Load it **first** in your main stylesheet, then your own styles:
 Pass overrides with `with ( … )`. You only list what you change; everything else keeps its default.
 
 ```scss
-@use 'luthemes/ui/scss' with (
+@use 'techkodeninja/chassis/scss' with (
 	$colors: (
 		header:  #1d3557,
 		footer:  #1d3557,
@@ -99,7 +99,7 @@ Load just the tools: they output no CSS, so this is safe in any partial.
 
 ```scss
 // resources/scss/07.components/01.entry/_index.scss
-@use 'luthemes/ui/scss/02.tools' as ui;
+@use 'techkodeninja/chassis/scss/02.tools' as ui;
 
 .entry {
 	padding: ui.space( m );                 // var( --space-m )
@@ -147,7 +147,7 @@ These control the look of the shared pieces, so each theme can have its own desi
 | `$pagination-padding` | `var( --space-xs ) var( --space-m )` | `--pagination-padding` |
 
 ```scss
-@use 'luthemes/ui/scss' with (
+@use 'techkodeninja/chassis/scss' with (
 	$colors: ( background: #0f1117, text: #d7dae0, border: #2d3446 ),
 	$radius: 0.5rem,
 	$box-border-style: solid,
@@ -251,8 +251,8 @@ The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from
 The core works on Novaris and ClassicPress. ClassicPress prints some markup that themes can't rename, so that lives in an add-on. Load it after the package:
 
 ```scss
-@use 'luthemes/ui/scss' with ( … );
-@use 'luthemes/ui/scss/platforms/classicpress';
+@use 'techkodeninja/chassis/scss' with ( … );
+@use 'techkodeninja/chassis/scss/platforms/classicpress';
 ```
 
 It covers captions, sticky posts, threaded comments and the comment form, the search form, the calendar widget, and `the_posts_pagination()`. It uses the same settings as the core, so a theme's colors and shapes apply here too. Novaris sites don't need it.
@@ -273,7 +273,7 @@ The mobile menu needs `js/app-nav.js`. Import it into your own script and your b
 
 ```js
 // resources/js/app.js
-import { appNav } from '../../vendor/luthemes/ui/js/app-nav.js';
+import { appNav } from '../../vendor/techkodeninja/chassis/js/app-nav.js';
 
 appNav();
 ```
@@ -288,12 +288,12 @@ The helpers are for sites, not distributed themes. An exported theme doesn't inc
 
 ```php
 'providers' => [
-	Luthemes\UI\Providers\Novaris::class,
+	Techkodeninja\Chassis\Providers\Novaris::class,
 ],
 ```
 
 ```php
-<?= app( 'luthemes.ui' )->button( 'Download', $url, [ 'primary' ] ); ?>
+<?= app( 'chassis' )->button( 'Download', $url, [ 'primary' ] ); ?>
 ```
 
 ### ClassicPress (Backdrop)
@@ -301,21 +301,21 @@ The helpers are for sites, not distributed themes. An exported theme doesn't inc
 Register the provider in your theme's `app/framework.php`:
 
 ```php
-$theme->provider( Luthemes\UI\Providers\Backdrop::class );
+$theme->provider( Techkodeninja\Chassis\Providers\Backdrop::class );
 ```
 
 ```php
-<?= Backdrop\App::resolve( 'luthemes.ui' )->badge( 'Featured' ); ?>
+<?= Backdrop\App::resolve( 'chassis' )->badge( 'Featured' ); ?>
 ```
 
 Each project only loads its own provider, so a ClassicPress theme never needs Novaris and a Novaris site never needs Backdrop.
 
 ### ClassicPress without a framework
 
-`Luthemes\UI\UI` has no framework dependency, so a theme can load Composer's autoloader and create it directly:
+`Techkodeninja\Chassis\Chassis` has no framework dependency, so a theme can load Composer's autoloader and create it directly:
 
 ```php
-$ui = new Luthemes\UI\UI();
+$ui = new Techkodeninja\Chassis\Chassis();
 echo $ui->button( 'Download', $url, [ 'primary' ] );
 ```
 

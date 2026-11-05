@@ -5,8 +5,8 @@
 /// comments and the search form. Novaris sites don't need this. Load it
 /// after the package:
 ///
-///   @use 'luthemes/ui/scss' with ( … );
-///   @use 'luthemes/ui/scss/platforms/classicpress';
+///   @use 'techkodeninja/chassis/scss' with ( … );
+///   @use 'techkodeninja/chassis/scss/platforms/classicpress';
 ///
 /// Everything here reads the package's custom properties, so a theme's
 /// settings apply here too.
