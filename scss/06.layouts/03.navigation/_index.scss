@@ -30,8 +30,9 @@
 $_current: '[aria-current="page"], .current-menu-item > a, .current_page_item > a, .menu-items__item--current > a';
 
 .app-nav {
-	// Menu button. Phones only.
-	&__toggle {
+	// Menu button. Phones only. Novaris prints `.menu-toggle`.
+	&__toggle,
+	.menu-toggle {
 		background: transparent;
 		border: var( --border-width ) solid currentColor;
 		color: inherit;

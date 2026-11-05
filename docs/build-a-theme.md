@@ -154,7 +154,7 @@ The one line that connects Vite to the package is `loadPaths: [ 'vendor' ]`.
 );
 
 // 2. This theme's own styles.
-@use '07.components';
+@forward '07.components';
 ```
 
 What you just got from the package, in order:

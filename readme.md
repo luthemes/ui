@@ -68,7 +68,7 @@ Load it **first** in your main stylesheet, then your own styles:
 ```scss
 // resources/scss/screen.scss
 @use 'luthemes/ui/scss';
-@use '07.components';   // your theme's own partials
+@forward '07.components';   // your theme's own partials
 ```
 
 ### Change the settings
@@ -176,7 +176,7 @@ Load just the tools: they output no CSS, so this is safe in any partial.
 | `.app-main`, `.app-sidebar` | The two columns |
 | `.app-footer` (`__inner`, `__credit`) | Footer band |
 
-The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from ClassicPress's `wp_nav_menu()` and Novaris's menu works without extra classes. The current page is underlined, marked by `aria-current="page"`, `.current-menu-item`, or `.menu-items__item--current`.
+The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from ClassicPress's `wp_nav_menu()` and Novaris's menu works once the container has `.app-nav` and the list has `.app-nav__menu`. In Novaris, pass those as `container_class` and `menu_class`. The button can be `.app-nav__toggle` or the `.menu-toggle` that Novaris prints. The current page is underlined, marked by `aria-current="page"`, `.current-menu-item`, or `.menu-items__item--current`.
 
 ## Objects
 
@@ -240,7 +240,7 @@ It toggles `.app-nav--open` and `aria-expanded`, closes on Escape (returning foc
 
 ### Novaris
 
-Register the provider in `config/app.php`:
+The helpers are for sites, not distributed themes. An exported theme doesn't include `vendor`, and a site's `providers` setting replaces the theme's, so a theme should write the class names directly. To use the helpers on a site, require the package in that site's `composer.json`, then register the provider in `config/app.php`:
 
 ```php
 'providers' => [
