@@ -1,0 +1,42 @@
+////
+/// Widgets
+///
+/// Sidebar boxes. Novaris's template tags and ClassicPress and WordPress
+/// sidebars all print `.widget` and `.widget-title`.
+///
+///   <div class="widget">
+///     <h3 class="widget-title">Recent Posts</h3>
+///     <ul><li><a href="/post">A post</a></li></ul>
+///   </div>
+///
+/// @group Components
+////
+
+.widget {
+	background: var( --color-surface );
+	border: var( --border-box );
+	border-bottom: var( --border-box-bottom );
+	border-radius: var( --radius );
+	box-shadow: var( --shadow );
+	margin-bottom: var( --space-l );
+	padding: var( --space-l );
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	li + li {
+		margin-top: var( --space-xs );
+	}
+}
+
+.widget-title {
+	font-size: var( --font-size-h4 );
+	margin-bottom: var( --space-s );
+}

@@ -1,0 +1,112 @@
+////
+/// Comments
+///
+/// Threaded comments and the comment form. Covers the default markup from
+/// `wp_list_comments()` and the `.comments` items that custom callbacks print.
+///
+/// @group Platforms
+////
+
+.comments-area {
+	margin-top: var( --space-xl );
+}
+
+.comments-title,
+.comment-reply-title {
+	font-size: var( --font-size-h3 );
+}
+
+.comment-list,
+.comment-list .children {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.comment-list {
+	margin-bottom: var( --space-xl );
+
+	.children {
+		margin-top: var( --space-l );
+		padding-left: var( --space-l );
+	}
+
+	.comment,
+	.comments {
+		margin-bottom: var( --space-l );
+	}
+
+	.avatar,
+	.comment-avatar {
+		border-radius: var( --radius );
+		float: left;
+		margin-right: var( --space-m );
+	}
+}
+
+.comment-body {
+	border-bottom: var( --border-rule );
+	padding-bottom: var( --space-l );
+}
+
+.bypostauthor > .comment-body {
+	background: var( --color-surface-alt );
+	border-bottom: 0;
+	border-radius: var( --radius );
+	padding: var( --space-l );
+}
+
+.comment-meta,
+.comment-metadata {
+	font-size: 0.875em;
+
+	&::after {
+		clear: both;
+		content: '';
+		display: table;
+	}
+}
+
+.comment-metadata a {
+	color: var( --color-muted );
+}
+
+.comment-moderation {
+	color: var( --color-muted );
+	font-style: italic;
+}
+
+.comment-respond {
+	margin-top: var( --space-xl );
+}
+
+.comment-form {
+	label {
+		display: block;
+		margin-bottom: var( --space-xs );
+	}
+
+	input:not( [type='checkbox'], [type='submit'] ),
+	textarea {
+		background: var( --color-surface );
+		border: var( --border-rule );
+		border-radius: var( --radius );
+		color: var( --color-text );
+		padding: var( --space-s );
+		width: 100%;
+	}
+
+	.comment-form-cookies-consent label {
+		display: inline;
+		margin-left: var( --space-xs );
+	}
+
+	.submit {
+		background: var( --color-primary );
+		border: var( --button-border-width ) solid var( --color-primary );
+		border-radius: var( --radius );
+		color: var( --color-on-primary );
+		cursor: pointer;
+		padding: var( --button-padding );
+	}
+}

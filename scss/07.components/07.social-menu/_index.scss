@@ -1,0 +1,37 @@
+////
+/// Social menu
+///
+/// A row of icon links. Put a `.screen-reader-text` label in each link.
+///
+///   <nav class="social-menu" aria-label="Social">
+///     <ul>
+///       <li><a href="https://example.com"><svg>…</svg></a></li>
+///     </ul>
+///   </nav>
+///
+/// @group Components
+////
+
+.social-menu {
+	ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var( --space-s );
+		justify-content: center;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	a {
+		color: inherit;
+		display: block;
+		line-height: 0;
+	}
+
+	svg {
+		fill: currentColor;
+		height: 1.5rem;
+		width: 1.5rem;
+	}
+}

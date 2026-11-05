@@ -20,6 +20,8 @@
 - `border` color, used by box borders. It defaults to black, so dark themes should set it.
 - `.app-header--full`, which lets the header row run the full width of the screen.
 - The menu script and styles accept the `.menu-toggle` button that Novaris prints.
+- Components for all platforms: `.pagination`, `.widget` and `.widget-title`, and `.social-menu`, with a `$pagination-padding` setting.
+- `platforms/press`: an optional add-on for ClassicPress and WordPress, with captions, sticky posts, threaded comments, the comment form, the search form, the calendar widget, and `the_posts_pagination()`.
 
 ### Fixed
 - `--border-dotted` and `--border-solid` no longer use `--color-black`, which was almost invisible on dark themes. They use `--color-border`.

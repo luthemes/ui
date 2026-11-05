@@ -252,7 +252,7 @@ add_action( 'widgets_init', function () {
 	register_sidebar( [
 		'id'            => 'primary',
 		'name'          => __( 'Primary Sidebar', 'starter' ),
-		'before_widget' => '<section id="%1$s" class="widget card %2$s">',
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
 		'before_title'  => '<h2 class="widget__title">',
 		'after_title'   => '</h2>',
@@ -274,7 +274,7 @@ add_filter( 'script_loader_tag', function ( $tag, $handle ) {
 }, 10, 2 );
 ```
 
-Each widget gets the package's `card` class, so the sidebar is styled with no extra CSS.
+Each widget gets the package's `widget` class, so the sidebar is styled with no extra CSS.
 
 ## 8. The templates
 
