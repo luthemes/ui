@@ -1,10 +1,10 @@
 {
-	"name": "luthemes/ui",
-	"description": "Shared styles and UI building blocks for Luthemes projects: SCSS tokens, layout objects, and components, with service providers for Backdrop (ClassicPress) and Novaris.",
+	"name": "techkodeninja/chassis",
+	"description": "Shared structure and UI building blocks for themes: SCSS tokens, layout objects, and components, with service providers for Backdrop (ClassicPress) and Novaris.",
 	"type": "library",
 	"license": "GPL-2.0-or-later",
 	"keywords": [ "scss", "css", "ui", "classicpress", "backdrop", "novaris" ],
-	"homepage": "https://github.com/luthemes/ui",
+	"homepage": "https://github.com/techkodeninja/chassis",
 	"authors": [
 		{
 			"name": "Benjamin Lu",
@@ -16,12 +16,12 @@
 		"php": ">=7.4"
 	},
 	"suggest": {
-		"backdrop-dev/framework": "Use Luthemes\\UI\\Providers\\Backdrop in ClassicPress themes.",
-		"novaris-dev/framework": "Use Luthemes\\UI\\Providers\\Novaris in Novaris sites."
+		"backdrop-dev/framework": "Use Techkodeninja\\Chassis\\Providers\\Backdrop in ClassicPress themes.",
+		"novaris-dev/framework": "Use Techkodeninja\\Chassis\\Providers\\Novaris in Novaris sites."
 	},
 	"autoload": {
 		"psr-4": {
-			"Luthemes\\UI\\": "src/"
+			"Techkodeninja\\Chassis\\": "src/"
 		}
 	}
 }

@@ -4,19 +4,19 @@
  *
  * Register in the theme's `app/framework.php`:
  *
- *     $theme->provider( Luthemes\UI\Providers\Backdrop::class );
+ *     $theme->provider( Techkodeninja\Chassis\Providers\Backdrop::class );
  *
- * Then use it anywhere with `Backdrop\App::resolve( 'luthemes.ui' )`.
+ * Then use it anywhere with `Backdrop\App::resolve( 'chassis' )`.
  *
  * Requires backdrop-dev/framework, which the theme already has.
  *
- * @package Luthemes\UI
+ * @package Techkodeninja\Chassis
  */
 
-namespace Luthemes\UI\Providers;
+namespace Techkodeninja\Chassis\Providers;
 
 use Backdrop\Core\ServiceProvider;
-use Luthemes\UI\UI;
+use Techkodeninja\Chassis\Chassis;
 
 class Backdrop extends ServiceProvider
 {
@@ -25,7 +25,7 @@ class Backdrop extends ServiceProvider
 	 */
 	public function register(): void
 	{
-		$this->app->singleton( UI::class );
-		$this->app->alias( UI::class, 'luthemes.ui' );
+		$this->app->singleton( Chassis::class );
+		$this->app->alias( Chassis::class, 'chassis' );
 	}
 }

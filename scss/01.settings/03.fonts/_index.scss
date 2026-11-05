@@ -4,7 +4,7 @@
 /// Fonts and base text size. The package doesn't load any font files; load
 /// your fonts in the theme (or let the font fall back to the system stack).
 ///
-///   @use 'luthemes/ui/scss' with (
+///   @use 'techkodeninja/chassis/scss' with (
 ///     @use 'sass:map';
 
 $font-family-body:    ( 'Merriweather', serif ),

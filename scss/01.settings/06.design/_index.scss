@@ -5,7 +5,7 @@
 /// changing the package. Each one becomes a CSS custom property in
 /// 03.generics/01.tokens, so it can also be changed later in plain CSS.
 ///
-///   @use 'luthemes/ui/scss' with (
+///   @use 'techkodeninja/chassis/scss' with (
 ///     $radius: 0.5rem,
 ///     $box-border-style: solid,
 ///     $header-padding: var( --space-s )

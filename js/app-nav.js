@@ -4,7 +4,7 @@
  * Opens and closes the mobile menu for every `.app-nav` on the page. Pairs
  * with `scss/06.layouts/03.navigation`.
  *
- *   import { appNav } from '../../vendor/luthemes/ui/js/app-nav.js';
+ *   import { appNav } from '../../vendor/techkodeninja/chassis/js/app-nav.js';
  *   appNav();
  *
  * - The Menu button is `.app-nav__toggle`, or the `.menu-toggle` that Novaris
@@ -13,7 +13,7 @@
  * - Clicking outside the menu closes it.
  * - Widening the screen past the mobile breakpoint resets it to closed.
  *
- * @package Luthemes\UI
+ * @package Techkodeninja\Chassis
  * @license GPL-2.0-or-later
  */
 

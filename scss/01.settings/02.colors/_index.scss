@@ -6,7 +6,7 @@
 /// ways:
 ///
 ///   // 1. At build time, when loading the package:
-///   @use 'luthemes/ui/scss' with ( $colors: ( header: #1d3557 ) );
+///   @use 'techkodeninja/chassis/scss' with ( $colors: ( header: #1d3557 ) );
 ///
 ///   // 2. At run time, in plain CSS (handy for a Customizer setting):
 ///   :root { --color-header: #1d3557; }
