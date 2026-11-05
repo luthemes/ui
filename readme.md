@@ -144,6 +144,7 @@ These control the look of the shared pieces, so each theme can have its own desi
 | `$nav-link-padding` | `var( --space-s ) var( --space-m )` | `--nav-link-padding` |
 | `$button-border-width`, `$button-padding` | 0.125rem, `var( --space-s ) 1.25rem` | `--button-border-width`, `--button-padding` |
 | `$badge-font-size`, `$badge-letter-spacing`, `$badge-padding`, `$badge-text-transform` | 0.75rem, 0.08em, 0.2rem 0.6rem, `uppercase` | `--badge-font-size`, `--badge-letter-spacing`, `--badge-padding`, `--badge-text-transform` |
+| `$pagination-padding` | `var( --space-xs ) var( --space-m )` | `--pagination-padding` |
 
 ```scss
 @use 'luthemes/ui/scss' with (
@@ -223,6 +224,9 @@ The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from
 | `.badge` · `--large` | Small uppercase label in the `primary` color |
 | `.button` · `--primary`, `.buttons` | Outlined / filled button; a wrapping row of buttons |
 | `.section-header` (`__title`, `__description`) | Centered heading block |
+| `.pagination` (`__items`, `__item`, `__anchor`) | Numbered page links. Novaris's default `pagination-items` classes work too |
+| `.widget`, `.widget-title` | Sidebar boxes, as printed by Novaris, ClassicPress, and WordPress |
+| `.social-menu` | A row of icon links |
 
 ```html
 <section class="section section--muted">
@@ -241,6 +245,17 @@ The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from
 	</div>
 </section>
 ```
+
+## Platforms
+
+The core works on Novaris, ClassicPress, and WordPress. ClassicPress and WordPress print some markup that themes can't rename, so that lives in an add-on. Load it after the package:
+
+```scss
+@use 'luthemes/ui/scss' with ( … );
+@use 'luthemes/ui/scss/platforms/press';
+```
+
+It covers captions, sticky posts, threaded comments and the comment form, the search form, the calendar widget, and `the_posts_pagination()`. It uses the same settings as the core, so a theme's colors and shapes apply here too. Novaris sites don't need it.
 
 ## Utilities
 
@@ -294,6 +309,15 @@ $theme->provider( Luthemes\UI\Providers\Backdrop::class );
 ```
 
 Each project only loads its own provider, so a ClassicPress theme never needs Novaris and a Novaris site never needs Backdrop.
+
+### WordPress without a framework
+
+`Luthemes\UI\UI` has no framework dependency, so a theme can load Composer's autoloader and create it directly:
+
+```php
+$ui = new Luthemes\UI\UI();
+echo $ui->button( 'Download', $url, [ 'primary' ] );
+```
 
 ### Helpers
 

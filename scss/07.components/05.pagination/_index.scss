@@ -1,0 +1,58 @@
+////
+/// Pagination
+///
+/// Numbered page links. Works with Novaris's default classes and with the
+/// `pagination__` classes that Novaris and Backdrop themes pass in.
+///
+///   <div class="pagination">
+///     <ul class="pagination__items">
+///       <li class="pagination__item">
+///         <a class="pagination__anchor" href="/page/2">2</a>
+///       </li>
+///     </ul>
+///   </div>
+///
+/// The current page is marked by `aria-current` or an `--current` class.
+///
+/// @group Components
+////
+
+.pagination {
+	margin-top: var( --space-xl );
+
+	&__items,
+	&-items {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var( --space-s );
+		justify-content: center;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	&__anchor,
+	&-anchor {
+		border: var( --border-rule );
+		border-radius: var( --radius );
+		color: var( --color-link );
+		display: block;
+		padding: var( --pagination-padding );
+		text-decoration: none;
+
+		&:hover,
+		&:focus {
+			background: var( --color-primary );
+			border-color: var( --color-primary );
+			color: var( --color-on-primary );
+		}
+	}
+
+	&__anchor--current,
+	&-anchor--current,
+	[aria-current] {
+		background: var( --color-primary );
+		border-color: var( --color-primary );
+		color: var( --color-on-primary );
+	}
+}

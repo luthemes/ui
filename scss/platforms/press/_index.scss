@@ -1,0 +1,20 @@
+////
+/// ClassicPress and WordPress
+///
+/// Styles for markup that these platforms print and themes can't rename, such
+/// as comments and the search form. Novaris sites don't need this. Load it
+/// after the package:
+///
+///   @use 'luthemes/ui/scss' with ( … );
+///   @use 'luthemes/ui/scss/platforms/press';
+///
+/// Everything here reads the package's custom properties, so a theme's
+/// settings apply here too.
+///
+/// @group Platforms
+////
+
+@forward '01.content';
+@forward '02.comments';
+@forward '03.widgets';
+@forward '04.pagination';

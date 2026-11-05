@@ -38,3 +38,6 @@ $badge-font-size:      0.75rem !default;
 $badge-letter-spacing: 0.08em !default;
 $badge-padding:        0.2rem 0.6rem !default;
 $badge-text-transform: uppercase !default;
+
+// Pagination.
+$pagination-padding: var( --space-xs ) var( --space-m ) !default;

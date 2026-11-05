@@ -1,0 +1,52 @@
+////
+/// Widgets
+///
+/// The search form and calendar widget.
+///
+/// @group Platforms
+////
+
+.search-form {
+	display: flex;
+	gap: var( --space-s );
+}
+
+.search-form label {
+	flex: 1;
+	min-width: 0;
+}
+
+.search-field {
+	background: var( --color-surface );
+	border: var( --border-rule );
+	border-radius: var( --radius );
+	color: var( --color-text );
+	padding: var( --space-s );
+	width: 100%;
+}
+
+.search-submit {
+	background: var( --color-primary );
+	border: var( --button-border-width ) solid var( --color-primary );
+	border-radius: var( --radius );
+	color: var( --color-on-primary );
+	cursor: pointer;
+	padding: var( --space-s ) var( --space-m );
+}
+
+.widget_calendar {
+	table {
+		border-collapse: collapse;
+		width: 100%;
+	}
+
+	caption {
+		margin-bottom: var( --space-xs );
+	}
+
+	th,
+	td {
+		padding: var( --space-xs );
+		text-align: center;
+	}
+}

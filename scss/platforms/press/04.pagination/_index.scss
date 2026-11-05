@@ -1,0 +1,39 @@
+////
+/// Pagination
+///
+/// The markup from `the_posts_pagination()`. Themes that use Backdrop's
+/// pagination can use the package's `.pagination` classes instead.
+///
+/// @group Platforms
+////
+
+.nav-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var( --space-s );
+	justify-content: center;
+	margin-top: var( --space-xl );
+}
+
+.page-numbers {
+	border: var( --border-rule );
+	border-radius: var( --radius );
+	color: var( --color-link );
+	display: block;
+	padding: var( --pagination-padding );
+	text-decoration: none;
+
+	&:hover,
+	&:focus,
+	&.current {
+		background: var( --color-primary );
+		border-color: var( --color-primary );
+		color: var( --color-on-primary );
+	}
+
+	&.dots {
+		background: transparent;
+		border-color: transparent;
+		color: var( --color-muted );
+	}
+}
