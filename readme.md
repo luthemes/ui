@@ -16,7 +16,7 @@ The numbers are the load order, the same convention as [novaris-dev/novaris](htt
 
 | Layer | Folder | What's in it | Outputs CSS? |
 |---|---|---|---|
-| Settings | `scss/01.settings` | `01.breaks`, `02.colors`, `03.fonts`, `04.sizings`, `05.spacings` | No |
+| Settings | `scss/01.settings` | `01.breaks`, `02.colors`, `03.fonts`, `04.sizings`, `05.spacings`, `06.design` | No |
 | Tools | `scss/02.tools` | `01.breakpoints`: `up()` / `down()` mixins; `02.functions`: `color()` / `space()` / `width()` | No |
 | Generics | `scss/03.generics` | `01.tokens`: `:root` custom properties; `02.resets` | Yes |
 | Elements | `scss/04.elements` | `01.defaults`, `02.headings`, `03.links`, `04.tables` | Yes |
@@ -118,7 +118,7 @@ Load just the tools: they output no CSS, so this is safe in any partial.
 | Setting | Defaults | Custom properties |
 |---|---|---|
 | `$breakpoints` | `small` 40rem (640px), `medium` 48rem (768px), `large` 64rem (1024px), `wide` 80rem (1280px) | none (media queries can't use custom properties) |
-| `$colors` | `black`, `white`, `text`, `heading`, `muted`, `link`, `link-hover`, `background`, `surface`, `surface-alt`, `rule`, `primary`, `on-primary`, `header`, `on-header`, `footer`, `on-footer` | `--color-*` |
+| `$colors` | `black`, `white`, `text`, `heading`, `muted`, `link`, `link-hover`, `background`, `surface`, `surface-alt`, `rule`, `border`, `primary`, `on-primary`, `header`, `on-header`, `footer`, `on-footer` | `--color-*` |
 | `$spacing` | `xs` .25rem, `s` .5rem, `m` .75rem, `l` 1.125rem, `xl` 2.5rem | `--space-*` |
 | `$widths` | `wide` 80rem, `medium` 64rem, `narrow` 50rem, `sidebar` 18rem | `--width-*` |
 | `$font-family-body`, `$font-family-heading`, `$font-family-code` | system fonts | `--font-family-*` |
@@ -126,6 +126,35 @@ Load just the tools: they output no CSS, so this is safe in any partial.
 | `$border-width` | 0.063rem | `--border-width`, `--border-dotted`, `--border-solid`, `--border-rule` |
 
 `on-*` colors are the text color that sits on that background (`on-header` is the header's text).
+
+### Design settings
+
+These control the look of the shared pieces, so each theme can have its own design while the package stays the same. The defaults keep the package's standard look.
+
+| Setting | Default | Custom property |
+|---|---|---|
+| `$radius` | `0` | `--radius` (cards, buttons, badges) |
+| `$shadow` | `none` | `--shadow` (cards) |
+| `$box-border-style`, `$box-border-bottom-style` | `dotted`, `solid` | `--border-box`, `--border-box-bottom` |
+| `$font-weight-heading` | `700` | `--font-weight-heading` |
+| `$heading-sizes` | `h1` 2.25rem, `h2` 1.75rem, `h3` 1.375rem, `h4` 1.125rem, `h5` 1rem, `h6` 0.875rem | `--font-size-h1` to `--font-size-h6` |
+| `$header-padding` | `var( --space-m )` | `--header-padding` |
+| `$header-title-size`, `$header-title-size-large` | 1.5rem, 1.75rem | `--header-title-size`, `--header-title-size-large` |
+| `$header-tagline-size` | 0.9375rem | `--header-tagline-size` |
+| `$nav-link-padding` | `var( --space-s ) var( --space-m )` | `--nav-link-padding` |
+| `$button-border-width`, `$button-padding` | 0.125rem, `var( --space-s ) 1.25rem` | `--button-border-width`, `--button-padding` |
+| `$badge-font-size`, `$badge-letter-spacing`, `$badge-padding`, `$badge-text-transform` | 0.75rem, 0.08em, 0.2rem 0.6rem, `uppercase` | `--badge-font-size`, `--badge-letter-spacing`, `--badge-padding`, `--badge-text-transform` |
+
+```scss
+@use 'luthemes/ui/scss' with (
+	$colors: ( background: #0f1117, text: #d7dae0, border: #2d3446 ),
+	$radius: 0.5rem,
+	$box-border-style: solid,
+	$header-padding: var( --space-s )
+);
+```
+
+Dark themes should set `border`, because it defaults to black.
 
 ## Layouts: the page skeleton
 
@@ -170,7 +199,7 @@ Load just the tools: they output no CSS, so this is safe in any partial.
 | Class | What it does |
 |---|---|
 | `.app` | Wraps the page; keeps the footer at the bottom on short pages |
-| `.app-header` (`__inner`, `__branding`, `__title`, `__tagline`) | Branding left, menu right. Tagline hides on phones |
+| `.app-header` (`__inner`, `__branding`, `__title`, `__tagline`) · `--full` | Branding left, menu right. Tagline hides on phones. `--full` lets the row run the full width of the screen |
 | `.app-nav` (`__toggle`, `__menu`) | Phones: Menu button opens a panel below the header. `medium` and up: a row of links with dropdowns |
 | `.app-content` · `--sidebar-right` · `--sidebar-left` | Content area; the sidebar sits beside the main column from `large` up and stacks below it before that |
 | `.app-main`, `.app-sidebar` | The two columns |

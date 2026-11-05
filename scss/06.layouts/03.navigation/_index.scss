@@ -62,7 +62,7 @@ $_current: '[aria-current="page"], .current-menu-item > a, .current_page_item > 
 		a {
 			color: var( --color-on-header );
 			display: block;
-			padding: var( --space-s ) var( --space-m );
+			padding: var( --nav-link-padding );
 			text-decoration: none;
 
 			&:hover,

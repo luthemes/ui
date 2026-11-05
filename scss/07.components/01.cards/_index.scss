@@ -11,8 +11,10 @@
 
 .card {
 	background: var( --color-surface );
-	border: var( --border-dotted );
-	border-bottom: var( --border-solid );
+	border: var( --border-box );
+	border-bottom: var( --border-box-bottom );
+	border-radius: var( --radius );
+	box-shadow: var( --shadow );
 	display: flex;
 	flex-direction: column;
 	height: 100%;

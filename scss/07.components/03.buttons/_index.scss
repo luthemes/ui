@@ -11,10 +11,11 @@
 
 .button {
 	background: var( --color-surface );
-	border: 0.125rem solid var( --color-primary );
+	border: var( --button-border-width ) solid var( --color-primary );
+	border-radius: var( --radius );
 	color: var( --color-primary );
 	display: inline-block;
-	padding: var( --space-s ) 1.25rem;
+	padding: var( --button-padding );
 	text-decoration: none;
 
 	&:hover,

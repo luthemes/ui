@@ -1,0 +1,40 @@
+////
+/// Design
+///
+/// The look of the shared pieces, so a theme can change its design without
+/// changing the package. Each one becomes a CSS custom property in
+/// 03.generics/01.tokens, so it can also be changed later in plain CSS.
+///
+///   @use 'luthemes/ui/scss' with (
+///     $radius: 0.5rem,
+///     $box-border-style: solid,
+///     $header-padding: var( --space-s )
+///   );
+///
+/// @group Settings
+////
+
+// Shapes, used by cards, buttons, and badges.
+$radius: 0 !default;
+$shadow: none !default;
+
+// Boxes. The default is a dotted outline with a solid bottom edge.
+$box-border-style:        dotted !default;
+$box-border-bottom-style: solid !default;
+
+// Header.
+$header-padding:          var( --space-m ) !default;
+$header-title-size:       1.5rem !default;
+$header-title-size-large: 1.75rem !default; // From `medium` up.
+$header-tagline-size:     0.9375rem !default;
+$nav-link-padding:        var( --space-s ) var( --space-m ) !default;
+
+// Buttons.
+$button-border-width: 0.125rem !default;
+$button-padding:      var( --space-s ) 1.25rem !default;
+
+// Badges.
+$badge-font-size:      0.75rem !default;
+$badge-letter-spacing: 0.08em !default;
+$badge-padding:        0.2rem 0.6rem !default;
+$badge-text-transform: uppercase !default;
