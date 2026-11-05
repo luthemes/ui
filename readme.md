@@ -225,7 +225,7 @@ The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from
 | `.button` · `--primary`, `.buttons` | Outlined / filled button; a wrapping row of buttons |
 | `.section-header` (`__title`, `__description`) | Centered heading block |
 | `.pagination` (`__items`, `__item`, `__anchor`) | Numbered page links. Novaris's default `pagination-items` classes work too |
-| `.widget`, `.widget-title` | Sidebar boxes, as printed by Novaris, ClassicPress, and WordPress |
+| `.widget`, `.widget-title` | Sidebar boxes, as printed by Novaris and ClassicPress |
 | `.social-menu` | A row of icon links |
 
 ```html
@@ -248,11 +248,11 @@ The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from
 
 ## Platforms
 
-The core works on Novaris, ClassicPress, and WordPress. ClassicPress and WordPress print some markup that themes can't rename, so that lives in an add-on. Load it after the package:
+The core works on Novaris and ClassicPress. ClassicPress prints some markup that themes can't rename, so that lives in an add-on. Load it after the package:
 
 ```scss
 @use 'luthemes/ui/scss' with ( … );
-@use 'luthemes/ui/scss/platforms/press';
+@use 'luthemes/ui/scss/platforms/classicpress';
 ```
 
 It covers captions, sticky posts, threaded comments and the comment form, the search form, the calendar widget, and `the_posts_pagination()`. It uses the same settings as the core, so a theme's colors and shapes apply here too. Novaris sites don't need it.
@@ -310,7 +310,7 @@ $theme->provider( Luthemes\UI\Providers\Backdrop::class );
 
 Each project only loads its own provider, so a ClassicPress theme never needs Novaris and a Novaris site never needs Backdrop.
 
-### WordPress without a framework
+### ClassicPress without a framework
 
 `Luthemes\UI\UI` has no framework dependency, so a theme can load Composer's autoloader and create it directly:
 
