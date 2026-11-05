@@ -1,6 +1,6 @@
 <?php
 /**
- * Backdrop service provider, for ClassicPress (and WordPress) themes.
+ * Backdrop service provider, for ClassicPress themes.
  *
  * Register in the theme's `app/framework.php`:
  *
