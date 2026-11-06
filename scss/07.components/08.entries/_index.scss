@@ -1,0 +1,83 @@
+////
+/// Entries
+///
+/// Posts and pages. Each one sits in a box that matches the sidebar widgets.
+///
+///   <main class="app-main">
+///     <article>
+///       <header class="entry__header">
+///         <div class="entry__metadata">March 6, 2022</div>
+///         <h1 class="entry__title">A post</h1>
+///       </header>
+///       <picture class="entry__thumbnail"><img src="…" alt="…"></picture>
+///       <div class="entry__content">…</div>
+///       <div class="entry__terms">Filed under: <a href="…">News</a></div>
+///     </article>
+///   </main>
+///
+/// @group Components
+////
+
+.app-main > article {
+	background: var( --color-content-background );
+	border: var( --border-box );
+	border-bottom: var( --border-box-bottom );
+	border-radius: var( --radius );
+	box-shadow: var( --shadow );
+	margin-bottom: var( --entry-padding );
+	padding: var( --entry-padding );
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	.entry__content > :last-child {
+		margin-bottom: 0;
+	}
+}
+
+.entry__header {
+	margin-bottom: var( --space-m );
+}
+
+.entry__metadata {
+	color: var( --color-content-muted );
+	font-size: 0.875rem;
+}
+
+.entry__title {
+	margin-bottom: 0;
+}
+
+.entry__title-anchor {
+	color: inherit;
+	text-decoration: none;
+
+	&:hover,
+	&:focus {
+		color: var( --color-link-hover );
+	}
+}
+
+.entry__thumbnail {
+	display: block;
+	margin-bottom: var( --space-l );
+
+	img {
+		display: block;
+		height: auto;
+		width: 100%;
+	}
+}
+
+.entry__more-link {
+	white-space: nowrap;
+}
+
+.entry__terms {
+	border-top: var( --border-rule );
+	color: var( --color-content-muted );
+	font-size: 0.875rem;
+	margin-top: var( --space-l );
+	padding-top: var( --space-m );
+}

@@ -25,6 +25,9 @@
 - The service provider is now what turns Chassis on. It loads built files from `dist/`, through `styles()` and `scripts()` on Novaris and automatically on ClassicPress.
 - `dist/`, built by a GitHub Action that also compiles every pull request.
 - `platform()`, which returns the platform of the provider in use: `novaris`, `backdrop`, or `plain`.
+- `.app-main > article` and `.entry__*`: posts and pages, in a box that matches the widgets.
+- `.app-nav--bottom`: moves the phone menu button to the bottom left, with the menu above it.
+- `$content-padding`, `$sidebar-gap`, and `$entry-padding` settings.
 - `platforms/classicpress`: an optional add-on for ClassicPress, with captions, sticky posts, threaded comments, the comment form, the search form, the calendar widget, and `the_posts_pagination()`.
 
 ### Changed

@@ -22,14 +22,14 @@
 @use '../../02.tools' as ui;
 
 .app-content {
-	padding-bottom: var( --space-xl );
-	padding-top: var( --space-xl );
+	padding-bottom: var( --content-padding );
+	padding-top: var( --content-padding );
 
 	&--sidebar-left,
 	&--sidebar-right {
 		align-content: start;
 		display: grid;
-		gap: var( --space-xl );
+		gap: var( --sidebar-gap );
 		grid-template-columns: minmax( 0, 1fr );
 	}
 

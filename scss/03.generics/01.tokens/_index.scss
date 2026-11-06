@@ -56,6 +56,10 @@
 	--radius: #{ design.$radius };
 	--shadow: #{ design.$shadow };
 
+	// Page layout.
+	--content-padding: #{ design.$content-padding };
+	--sidebar-gap:     #{ design.$sidebar-gap };
+
 	// Header.
 	--header-padding:          #{ design.$header-padding };
 	--header-title-size:       #{ design.$header-title-size };
@@ -75,4 +79,7 @@
 
 	// Pagination.
 	--pagination-padding: #{ design.$pagination-padding };
+
+	// Entries.
+	--entry-padding: #{ design.$entry-padding };
 }
