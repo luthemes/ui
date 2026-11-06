@@ -122,7 +122,7 @@ Load just the tools: they output no CSS, so this is safe in any partial.
 | `$spacing` | `xs` .25rem, `s` .5rem, `m` .75rem, `l` 1.125rem, `xl` 2.5rem | `--space-*` |
 | `$widths` | `wide` 80rem, `medium` 64rem, `narrow` 50rem, `sidebar` 18rem | `--width-*` |
 | `$font-family-body`, `$font-family-heading`, `$font-family-code` | system fonts | `--font-family-*` |
-| `$font-size-base`, `$line-height-base`, `$line-height-heading` | 1.0625rem, 1.7, 1.25 | same names |
+| `$font-size-base`, `$line-height-base`, `$line-height-heading` | 1rem, 1.7, 1.25 | same names |
 | `$border-width` | 0.063rem | `--border-width`, `--border-dotted`, `--border-solid`, `--border-rule` |
 
 `on-*` colors are the text color that sits on that background (`on-header` is the header's text).
