@@ -141,7 +141,18 @@ $_current: '[aria-current="page"], .current-menu-item > a, .current_page_item > 
 			padding: var( --menu-toggle-padding, var( --space-s ) var( --space-l ) );
 			position: var( --menu-toggle-position, fixed );
 			right: var( --menu-toggle-right, auto );
+			transition: opacity 0.25s ease, transform 0.25s ease;
 			z-index: 101;
+		}
+
+		// `js/app-nav.js` adds `.app-nav--hidden` while scrolling down. The
+		// button slides off the screen: down at the bottom, up at the top.
+		// It stays focusable, so tabbing to it brings it back.
+		&--hidden &__toggle,
+		&--hidden .menu-toggle {
+			opacity: 0;
+			pointer-events: none;
+			transform: translateY( var( --menu-toggle-hide-offset, calc( 100% + var( --space-l ) ) ) );
 		}
 
 		&__menu {
@@ -167,6 +178,7 @@ $_current: '[aria-current="page"], .current-menu-item > a, .current_page_item > 
 			--menu-panel-inset: 0;
 			--menu-panel-position: absolute;
 			--menu-panel-top: 100%;
+			--menu-toggle-hide-offset: calc( -100% - var( --space-l ) );
 		}
 
 		&--bottom {

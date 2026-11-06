@@ -14,6 +14,10 @@
  * - Escape closes the menu and returns focus to the button.
  * - Clicking outside the menu closes it.
  * - Widening the screen past the mobile breakpoint resets it to closed.
+ * - On phones the button hides when you scroll down and comes back when you
+ *   scroll up, reach the top or bottom of the page, or tab to it. It toggles
+ *   `.app-nav--hidden`. `--menu-hide-on-scroll: 0` turns this off, which is
+ *   what `"hide-on-scroll": false` under `menu` in `chassis.json` sets.
  *
  * @package Techkodeninja\Chassis
  * @license GPL-2.0-or-later
@@ -109,7 +113,57 @@ export function appNav( root = document ) {
 				setOpen( false );
 			}
 		} );
+
+		hideOnScroll( nav, toggle, isOpen );
 	} );
+}
+
+/**
+ * Hides the Menu button while scrolling down, and shows it again on the way up.
+ * Small movements are ignored, so it doesn't flicker while reading.
+ */
+function hideOnScroll( nav, toggle, isOpen ) {
+	const threshold = 16;
+	let lastY = window.scrollY;
+	let ticking = false;
+
+	const enabled = () => {
+		const value = getComputedStyle( nav ).getPropertyValue( '--menu-hide-on-scroll' ).trim();
+
+		return '0' !== value && 'none' !== getComputedStyle( toggle ).display;
+	};
+
+	const setHidden = ( hidden ) => nav.classList.toggle( 'app-nav--hidden', hidden );
+
+	const update = () => {
+		ticking = false;
+
+		const y = window.scrollY;
+		const atEdge = y <= threshold || window.innerHeight + y >= document.documentElement.scrollHeight - threshold;
+
+		if ( ! enabled() || isOpen() || atEdge ) {
+			setHidden( false );
+			lastY = y;
+			return;
+		}
+
+		if ( Math.abs( y - lastY ) < threshold ) {
+			return;
+		}
+
+		setHidden( y > lastY );
+		lastY = y;
+	};
+
+	window.addEventListener( 'scroll', () => {
+		if ( ! ticking ) {
+			ticking = true;
+			window.requestAnimationFrame( update );
+		}
+	}, { passive: true } );
+
+	// Keyboard users can always reach it.
+	toggle.addEventListener( 'focus', () => setHidden( false ) );
 }
 
 export default appNav;
