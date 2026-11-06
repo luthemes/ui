@@ -2,6 +2,14 @@
 
 All notable changes to Chassis will be documented in this file.
 
+## [Unreleased]
+
+### Fixed
+
+- The submenu toggle (▾) was about 21px wide, too small to tap reliably. It's now at least 24px everywhere, and a 44px square on phones.
+- The submenu arrow showed as `â–¾` on pages that aren't served as UTF-8. `chassis.js` now writes it as an escape, so the file is plain ASCII.
+- On ClassicPress, pages scrolled by 32px (46px on phones) when the admin bar was showing, because `.app` was a full screen tall on top of the space the bar takes. `chassis-classicpress.css` now takes the bar off.
+
 ## [0.0.8] - 11.06.2026
 
 ### Added

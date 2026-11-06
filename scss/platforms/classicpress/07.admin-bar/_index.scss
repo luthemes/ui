@@ -1,0 +1,22 @@
+////
+/// Admin bar
+///
+/// When someone is logged in, ClassicPress shows its admin bar and pushes the
+/// page down to make room: 32px, or 46px on screens 782px wide and smaller.
+/// `.app` is at least one screen tall so the footer sits at the bottom, so
+/// without this the page is taller than the screen and scrolls for no reason.
+///
+/// 782px is ClassicPress's own breakpoint, not one of Chassis's.
+///
+/// @group Platforms
+////
+
+.admin-bar .app {
+	min-height: calc( 100vh - 32px );
+	min-height: calc( 100dvh - 32px );
+
+	@media screen and ( max-width: 782px ) {
+		min-height: calc( 100vh - 46px );
+		min-height: calc( 100dvh - 46px );
+	}
+}

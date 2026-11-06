@@ -62,7 +62,7 @@ export function appNav( root = document ) {
 
 			button.type = 'button';
 			button.className = 'app-nav__submenu-toggle';
-			button.textContent = '▾';
+			button.textContent = '\u25BE'; // A small down arrow, escaped so it shows on pages that aren't UTF-8.
 			button.setAttribute( 'aria-expanded', 'false' );
 			button.setAttribute( 'aria-label', `Submenu for ${ link.textContent.trim() }` );
 

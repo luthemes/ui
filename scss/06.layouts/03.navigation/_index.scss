@@ -63,11 +63,18 @@ $_current: '[aria-current="page"], .current-menu-item > a, .current_page_item > 
 		}
 
 		// The button `js/app-nav.js` adds next to links with a submenu.
+		// At least 24px on every side, the accessibility minimum for a tap
+		// target; phones make it bigger below.
 		.app-nav__submenu-toggle {
+			align-items: center;
 			background: transparent;
 			border: 0;
 			color: var( --color-header-text );
 			cursor: pointer;
+			display: inline-flex;
+			justify-content: center;
+			min-height: 1.5rem;
+			min-width: 1.5rem;
 			padding: var( --space-xs );
 		}
 
@@ -106,6 +113,12 @@ $_current: '[aria-current="page"], .current-menu-item > a, .current_page_item > 
 
 			li > a {
 				flex: 1;
+			}
+
+			// A comfortable 44px square for a finger.
+			.app-nav__submenu-toggle {
+				min-height: 2.75rem;
+				min-width: 2.75rem;
 			}
 
 			ul {
