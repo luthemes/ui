@@ -49,7 +49,7 @@ In `wp-content/themes/`, make a folder called `starter` and add `style.css`. Cla
 	"require": {
 		"php": ">=7.4",
 		"backdrop-dev/framework": "dev-develop",
-		"techkodeninja/chassis": "~0.0.6"
+		"techkodeninja/chassis": "^0.1"
 	}
 }
 ```

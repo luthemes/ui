@@ -437,7 +437,7 @@ That's the same setup the providers do. Chassis copies its CSS and JavaScript in
 
 ```html
 <head>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/techkodeninja/chassis@0.0.7/dist/chassis.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/techkodeninja/chassis@0.1.0/dist/chassis.css">
 	<style>
 		:root {
 			--color-accent: #e63946;
@@ -447,7 +447,7 @@ That's the same setup the providers do. Chassis copies its CSS and JavaScript in
 </head>
 <body>
 	…
-	<script src="https://cdn.jsdelivr.net/gh/techkodeninja/chassis@0.0.7/dist/chassis.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/techkodeninja/chassis@0.1.0/dist/chassis.js"></script>
 </body>
 ```
 
