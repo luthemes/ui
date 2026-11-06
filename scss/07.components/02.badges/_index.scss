@@ -9,8 +9,8 @@
 
 .badge {
 	align-self: flex-start;
-	background: var( --color-primary );
-	color: var( --color-on-primary );
+	background: var( --color-accent );
+	color: var( --color-accent-text );
 	border-radius: var( --radius );
 	display: inline-block;
 	font-size: var( --badge-font-size );

@@ -42,17 +42,17 @@
 
 		&:hover,
 		&:focus {
-			background: var( --color-primary );
-			border-color: var( --color-primary );
-			color: var( --color-on-primary );
+			background: var( --color-accent );
+			border-color: var( --color-accent );
+			color: var( --color-accent-text );
 		}
 	}
 
 	&__anchor--current,
 	&-anchor--current,
 	[aria-current] {
-		background: var( --color-primary );
-		border-color: var( --color-primary );
-		color: var( --color-on-primary );
+		background: var( --color-accent );
+		border-color: var( --color-accent );
+		color: var( --color-accent-text );
 	}
 }

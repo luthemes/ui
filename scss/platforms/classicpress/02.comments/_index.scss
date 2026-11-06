@@ -50,7 +50,7 @@
 }
 
 .bypostauthor > .comment-body {
-	background: var( --color-surface-alt );
+	background: var( --color-content-alt );
 	border-bottom: 0;
 	border-radius: var( --radius );
 	padding: var( --space-l );
@@ -68,11 +68,11 @@
 }
 
 .comment-metadata a {
-	color: var( --color-muted );
+	color: var( --color-content-muted );
 }
 
 .comment-moderation {
-	color: var( --color-muted );
+	color: var( --color-content-muted );
 	font-style: italic;
 }
 
@@ -88,10 +88,10 @@
 
 	input:not( [type='checkbox'], [type='submit'] ),
 	textarea {
-		background: var( --color-surface );
+		background: var( --color-content-background );
 		border: var( --border-rule );
 		border-radius: var( --radius );
-		color: var( --color-text );
+		color: var( --color-content-text );
 		padding: var( --space-s );
 		width: 100%;
 	}
@@ -102,10 +102,10 @@
 	}
 
 	.submit {
-		background: var( --color-primary );
-		border: var( --button-border-width ) solid var( --color-primary );
+		background: var( --color-accent );
+		border: var( --button-border-width ) solid var( --color-accent );
 		border-radius: var( --radius );
-		color: var( --color-on-primary );
+		color: var( --color-accent-text );
 		cursor: pointer;
 		padding: var( --button-padding );
 	}

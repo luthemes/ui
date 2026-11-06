@@ -26,14 +26,14 @@
 	&:hover,
 	&:focus,
 	&.current {
-		background: var( --color-primary );
-		border-color: var( --color-primary );
-		color: var( --color-on-primary );
+		background: var( --color-accent );
+		border-color: var( --color-accent );
+		color: var( --color-accent-text );
 	}
 
 	&.dots {
 		background: transparent;
 		border-color: transparent;
-		color: var( --color-muted );
+		color: var( --color-content-muted );
 	}
 }

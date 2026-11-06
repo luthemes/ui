@@ -23,7 +23,7 @@
 /// In your theme's main stylesheet, load it first, with any overrides:
 ///
 ///   @use 'techkodeninja/chassis/scss' with (
-///     $colors:      ( header: #1d3557, footer: #1d3557 ),
+///     $colors:      ( header-background: #1d3557, footer-background: #1d3557 ),
 ///     $breakpoints: ( medium: 782px )
 ///   );
 ///

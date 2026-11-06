@@ -17,13 +17,15 @@
 - Service providers for Backdrop (ClassicPress themes) and Novaris sites.
 - `docs/build-a-theme.md`: a complete ClassicPress theme built on the package, step by step.
 - Design settings, each with a matching custom property: `$radius`, `$shadow`, `$box-border-style`, `$box-border-bottom-style`, `$font-weight-heading`, `$heading-sizes`, `$header-padding`, `$header-title-size`, `$header-title-size-large`, `$header-tagline-size`, `$nav-link-padding`, `$button-border-width`, `$button-padding`, `$badge-font-size`, `$badge-letter-spacing`, `$badge-padding`, `$badge-text-transform`. Their defaults keep the existing look.
-- `border` color, used by box borders. It defaults to black, so dark themes should set it.
+- `content-border` color, used by box borders. It defaults to black, so dark themes should set it.
+- `widget-background`, `widget-border`, `widget-title`, and `widget-text` colors. They follow the content colors unless a theme sets them.
 - `.app-header--full`, which lets the header row run the full width of the screen.
 - The menu script and styles accept the `.menu-toggle` button that Novaris prints.
 - Components for all platforms: `.pagination`, `.widget` and `.widget-title`, and `.social-menu`, with a `$pagination-padding` setting.
 - `platforms/classicpress`: an optional add-on for ClassicPress, with captions, sticky posts, threaded comments, the comment form, the search form, the calendar widget, and `the_posts_pagination()`.
 
 ### Changed
+- Grouped the colors by where they appear and renamed them: `background` to `page-background`, `surface` to `content-background`, `surface-alt` to `content-alt`, `border` to `content-border`, `rule` to `content-divider`, `heading` to `content-heading`, `text` to `content-text`, `muted` to `content-muted`, `header` to `header-background`, `on-header` to `header-text`, `footer` to `footer-background`, `on-footer` to `footer-text`, `primary` to `accent`, and `on-primary` to `accent-text`.
 - Renamed the package from `luthemes/ui` to `techkodeninja/chassis`. The namespace is now `Techkodeninja\Chassis`, the `UI` class is now `Chassis`, and the container key is now `chassis`.
 
 ### Fixed

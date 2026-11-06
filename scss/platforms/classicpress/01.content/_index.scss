@@ -12,13 +12,13 @@
 }
 
 .wp-caption-text {
-	color: var( --color-muted );
+	color: var( --color-content-muted );
 	font-size: 0.875em;
 	margin-bottom: 0;
 	margin-top: var( --space-s );
 }
 
 .sticky {
-	border-left: 0.25rem solid var( --color-primary );
+	border-left: 0.25rem solid var( --color-accent );
 	padding-left: var( --space-l );
 }

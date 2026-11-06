@@ -10,28 +10,28 @@
 ///   <div class="buttons">…</div>   a wrapping row of buttons
 
 .button {
-	background: var( --color-surface );
-	border: var( --button-border-width ) solid var( --color-primary );
+	background: var( --color-content-background );
+	border: var( --button-border-width ) solid var( --color-accent );
 	border-radius: var( --radius );
-	color: var( --color-primary );
+	color: var( --color-accent );
 	display: inline-block;
 	padding: var( --button-padding );
 	text-decoration: none;
 
 	&:hover,
 	&:focus {
-		background: var( --color-primary );
-		color: var( --color-on-primary );
+		background: var( --color-accent );
+		color: var( --color-accent-text );
 	}
 
 	&--primary {
-		background: var( --color-primary );
-		color: var( --color-on-primary );
+		background: var( --color-accent );
+		color: var( --color-accent-text );
 
 		&:hover,
 		&:focus {
-			background: var( --color-surface );
-			color: var( --color-primary );
+			background: var( --color-content-background );
+			color: var( --color-accent );
 		}
 	}
 }

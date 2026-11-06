@@ -17,19 +17,19 @@
 }
 
 .search-field {
-	background: var( --color-surface );
+	background: var( --color-content-background );
 	border: var( --border-rule );
 	border-radius: var( --radius );
-	color: var( --color-text );
+	color: var( --color-content-text );
 	padding: var( --space-s );
 	width: 100%;
 }
 
 .search-submit {
-	background: var( --color-primary );
-	border: var( --button-border-width ) solid var( --color-primary );
+	background: var( --color-accent );
+	border: var( --button-border-width ) solid var( --color-accent );
 	border-radius: var( --radius );
-	color: var( --color-on-primary );
+	color: var( --color-accent-text );
 	cursor: pointer;
 	padding: var( --space-s ) var( --space-m );
 }

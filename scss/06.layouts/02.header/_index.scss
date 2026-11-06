@@ -16,7 +16,7 @@
 ///
 /// Add `.app-header--full` to let the row run the full width of the screen.
 ///
-/// Colors come from `--color-header` and `--color-on-header`.
+/// Colors come from `--color-header-background` and `--color-header-text`.
 ///
 /// @group Layouts
 ////
@@ -24,8 +24,8 @@
 @use '../../02.tools' as ui;
 
 .app-header {
-	background: var( --color-header );
-	color: var( --color-on-header );
+	background: var( --color-header-background );
+	color: var( --color-header-text );
 	position: relative; // The mobile menu opens just below the header.
 
 	&__inner {
