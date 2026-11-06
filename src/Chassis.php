@@ -21,7 +21,7 @@ class Chassis
 	/**
 	 * Package version.
 	 */
-	const VERSION = '0.0.5';
+	const VERSION = '0.0.6';
 
 	/**
 	 * The platform this was created for: `novaris`, `backdrop`, or `plain`.
@@ -71,6 +71,7 @@ class Chassis
 			'menu-panel-inset'       => '0',
 			'menu-panel-position'    => 'absolute',
 			'menu-panel-top'         => '100%',
+			'menu-toggle-hide-offset' => 'calc( -100% - var( --space-l ) )',
 		],
 		'top-left'     => [
 			'menu-toggle-background' => 'transparent',
@@ -83,6 +84,7 @@ class Chassis
 			'menu-panel-inset'       => '0',
 			'menu-panel-position'    => 'absolute',
 			'menu-panel-top'         => '100%',
+			'menu-toggle-hide-offset' => 'calc( -100% - var( --space-l ) )',
 			'menu-toggle-order'      => '-1',
 			'menu-header-justify'    => 'flex-start',
 		],
@@ -215,6 +217,8 @@ class Chassis
 	 *   (the default), `bottom-right`, `top-right`, or `top-left`
 	 * - `menu.design.background` → `--menu-toggle-background`, and the same
 	 *   for `text` (`--menu-toggle-color`), `border`, and `padding`
+	 * - `menu.hide-on-scroll` → `false` keeps the Menu button on screen while
+	 *   scrolling (it hides on the way down by default)
 	 *
 	 * Returns an empty string when there's nothing to set.
 	 */
@@ -255,6 +259,14 @@ class Chassis
 				$properties = array_merge( $properties, self::MENU_TOGGLE[ $toggle ] );
 			} else {
 				trigger_error( sprintf( 'Chassis skipped menu.toggle in chassis.json: use %s.', implode( ', ', array_keys( self::MENU_TOGGLE ) ) ), E_USER_WARNING );
+			}
+		}
+
+		if ( array_key_exists( 'hide-on-scroll', $menu ) ) {
+			if ( is_bool( $menu['hide-on-scroll'] ) ) {
+				$properties['menu-hide-on-scroll'] = $menu['hide-on-scroll'] ? '1' : '0';
+			} else {
+				trigger_error( 'Chassis skipped menu.hide-on-scroll in chassis.json: use true or false.', E_USER_WARNING );
 			}
 		}
 

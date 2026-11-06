@@ -229,6 +229,8 @@ The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from
 }
 ```
 
+While you scroll down on a phone, the button slides off the screen; it comes back when you scroll up, reach the top or bottom of the page, open the menu, or tab to it. `"hide-on-scroll": false` under `menu` keeps it on screen.
+
 Themes without `chassis.json` can use the `.app-nav--top` or `.app-nav--bottom` class instead, and a class wins over `chassis.json`. The current page is underlined, marked by `aria-current="page"`, `.current-menu-item`, or `.menu-items__item--current`.
 
 ## Objects
@@ -347,6 +349,7 @@ A theme sets its design in a `chassis.json` file in its root folder, next to `th
 | `design.radius` | `--radius`, for any other setting in the [settings reference](#settings-reference) |
 | `menu.toggle` | Where the Menu button sits on phones: `bottom-left` (the default), `bottom-right`, `top-right`, or `top-left` |
 | `menu.design` | How the Menu button looks: `background`, `text`, `border`, and `padding` (size names work, e.g. `s l`) |
+| `menu.hide-on-scroll` | `false` keeps the Menu button on screen while scrolling. It hides on the way down by default. |
 
 The `$schema` line gives editors autocomplete and catches typos. A child theme's `chassis.json` overrides its parent's, setting by setting. Values that aren't plain CSS (with `{`, `}`, `;`, `<`, or `>`) are skipped with a warning.
 

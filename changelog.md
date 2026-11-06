@@ -2,6 +2,12 @@
 
 All notable changes to Chassis will be documented in this file.
 
+## [0.0.6] - 11.06.2026
+
+### Added
+
+- The Menu button hides on phones while you scroll down, and comes back when you scroll up, reach the top or bottom of the page, open the menu, or tab to it. This works in every `menu.toggle` position. `"hide-on-scroll": false` under `menu` in `chassis.json` turns it off.
+
 ## [0.0.5] - 11.06.2026
 
 ### Changed

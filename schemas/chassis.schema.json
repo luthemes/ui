@@ -525,6 +525,11 @@
 							"description": "Padding. Size names work, e.g. `s l`."
 						}
 					}
+				},
+				"hide-on-scroll": {
+					"type": "boolean",
+					"default": true,
+					"description": "Hide the Menu button while scrolling down on phones, and show it again on the way up. `false` keeps it on screen."
 				}
 			}
 		}
