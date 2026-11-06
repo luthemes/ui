@@ -305,6 +305,100 @@ Then make the browser narrow:
 | under 768px | Menu collapses behind the **Menu** button; posts go to one column | `06.layouts/03.navigation` and `05.objects/03.grids`, `medium` |
 | under 1024px | Sidebar moves below the posts | `06.layouts/04.content`, `up( large )` |
 
+### The HTML it prints
+
+View the page source and you'll see this, trimmed. Every class follows the same BEM pattern:
+
+- **Block:** a standalone piece, like `app-header`, `app-nav`, `entry`, or `widget`.
+- **Element:** a part of a block, written `block__element`, like `app-header__title` or `entry__title`.
+- **Modifier:** a variation, written `block--modifier`, like `app-content--sidebar-right` or `button--primary`.
+
+```html
+<head>
+	<link rel="stylesheet" id="chassis-css" href="…/chassis/dist/chassis.css">
+	<style id="chassis-inline-css">:root{--color-accent:#e63946;--color-link:#1d3557;--color-header-background:#1d3557;…}</style>
+</head>
+<body class="home blog">
+<a class="skip-link screen-reader-text" href="#main">Skip to content</a>
+
+<div class="app">
+
+	<header class="app-header">
+		<div class="app-header__inner container">
+			<div class="app-header__branding">
+				<a class="app-header__title" href="/">Starter</a>
+				<span class="app-header__tagline">Learning theme built on Chassis</span>
+			</div>
+			<nav class="app-nav app-nav--ready" aria-label="Primary">
+				<button class="app-nav__toggle" type="button" aria-expanded="false" aria-controls="app-nav-menu">Menu</button>
+				<ul id="app-nav-menu" class="app-nav__menu">
+					<li class="current-menu-item"><a href="/" aria-current="page">Home</a></li>
+					<li><a href="/blog">Blog</a><button class="app-nav__submenu-toggle" aria-expanded="false">▾</button>
+						<ul class="sub-menu"><li><a href="/blog/news">News</a></li></ul>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+
+	<div class="app-content app-content--sidebar-right container">
+		<main id="main" class="app-main">
+			<div class="grid grid--2">
+				<article id="post-1" class="card entry post-1 post">
+					<h2 class="entry__title"><a href="/hello-world">Hello world</a></h2>
+					<div class="entry__meta">November 6, 2026</div>
+					<p>Welcome to your new site…</p>
+					<a class="button" href="/hello-world">Read more</a>
+				</article>
+			</div>
+		</main>
+
+		<aside class="app-sidebar" aria-label="Sidebar">
+			<section id="categories-2" class="widget widget_categories">
+				<h2 class="widget-title">Categories</h2>
+				<ul><li><a href="/category/news">News</a></li></ul>
+			</section>
+		</aside>
+	</div>
+
+	<footer class="app-footer">
+		<div class="app-footer__inner container">
+			<p class="app-footer__credit">&copy; 2026 Starter</p>
+		</div>
+	</footer>
+
+</div>
+<script src="…/chassis/dist/chassis.js"></script>
+</body>
+```
+
+Some of these come from elsewhere:
+- `app-nav--ready` and `app-nav__submenu-toggle` are added by `chassis.js`. While the menu is open the nav also gets `app-nav--open`, and it gets `app-nav--hidden` while the button is scrolled away.
+- `widget_categories`, `current-menu-item`, `sub-menu`, and `post-1` come from ClassicPress. Chassis styles menus by their structure and `aria-current`, so it doesn't need them.
+- `container`, `grid`, `card`, and `button` are Chassis objects and components, so they have no `app-` prefix. The `app-` blocks are the page skeleton.
+
+A Novaris site prints the same skeleton. [Nocturne](https://github.com/novaris-dev/nocturne)'s header and nav, for example:
+
+```html
+<header id="masthead" class="app-header app-header--full">
+	<div class="app-header__inner container">
+		<div class="app-header__branding">
+			<p class="app-header__title"><a href="https://nocturne.codestacks.cc" rel="home">Nocturne</a></p>
+			<span class="app-header__tagline">A Novaris Theme</span>
+		</div>
+		<nav class="app-nav">
+			<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-menu">Menu</button>
+			<ul id="primary-menu" class="app-nav__menu">
+				<li class="menu-items__item"><a href="/blog" class="menu-items__item-anchor">Blog</a></li>
+				<li class="menu-items__item"><a href="/about" class="menu-items__item-anchor">About</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+```
+
+Novaris prints `menu-toggle` instead of `app-nav__toggle`, and its own `menu-items__*` classes. Chassis styles both the same way.
+
 ## 8. Experiments
 
 Each one is a one-line change. For `chassis.json`, save and refresh; there's nothing to build.
