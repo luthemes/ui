@@ -24,6 +24,38 @@ class Chassis
 	const VERSION = '0.1.0';
 
 	/**
+	 * The platform this was created for: `novaris`, `backdrop`, or `plain`.
+	 *
+	 * @var string
+	 */
+	protected $platform;
+
+	/**
+	 * Turns a file in `dist/` into a URL. Set by the service providers.
+	 *
+	 * @var callable|null
+	 */
+	protected $asset;
+
+	/**
+	 * Sets the platform and how to reach the files in `dist/`. The service
+	 * providers pass these in, and `plain` means no provider is in use.
+	 */
+	public function __construct( string $platform = 'plain', ?callable $asset = null )
+	{
+		$this->platform = $platform;
+		$this->asset    = $asset;
+	}
+
+	/**
+	 * Returns the platform: `novaris`, `backdrop`, or `plain`.
+	 */
+	public function platform(): string
+	{
+		return $this->platform;
+	}
+
+	/**
 	 * Returns the package's root path, with an optional appended path.
 	 */
 	public function path( string $append = '' ): string
@@ -39,6 +71,48 @@ class Chassis
 	public function scssPath( string $append = '' ): string
 	{
 		return $this->path( 'scss' . ( $append ? '/' . ltrim( $append, '/' ) : '' ) );
+	}
+
+	/**
+	 * Returns the path to a built file in `dist/`.
+	 */
+	public function distPath( string $append = '' ): string
+	{
+		return $this->path( 'dist' . ( $append ? '/' . ltrim( $append, '/' ) : '' ) );
+	}
+
+	/**
+	 * Returns the URL of a built file, or an empty string if it can't be
+	 * reached.
+	 */
+	public function assetUrl( string $file ): string
+	{
+		if ( ! $this->asset || ! is_file( $this->distPath( $file ) ) ) {
+			return '';
+		}
+
+		return (string) call_user_func( $this->asset, $file );
+	}
+
+	/**
+	 * Returns the stylesheet tag. Print this in the page head, before the
+	 * theme's own stylesheet.
+	 */
+	public function styles(): string
+	{
+		$url = $this->assetUrl( 'chassis.css' );
+
+		return $url ? sprintf( '<link rel="stylesheet" href="%s">', $this->escape( $url ) ) : '';
+	}
+
+	/**
+	 * Returns the script tag. Print this at the end of the page.
+	 */
+	public function scripts(): string
+	{
+		$url = $this->assetUrl( 'chassis.js' );
+
+		return $url ? sprintf( '<script src="%s"></script>', $this->escape( $url ) ) : '';
 	}
 
 	/**

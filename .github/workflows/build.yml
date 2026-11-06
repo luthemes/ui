@@ -1,0 +1,30 @@
+name: Build
+
+# Compiles Chassis on every pull request, so a broken build shows up before
+# merging. On develop, it also commits the result to `dist/`, which is what
+# sites load.
+on:
+  pull_request:
+  push:
+    branches: [ develop ]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: npm run build
+      - name: Commit dist
+        if: github.event_name == 'push'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist
+          git diff --cached --quiet || { git commit -m 'Build dist [skip ci]'; git push; }

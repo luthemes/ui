@@ -1,0 +1,10 @@
+////
+/// ClassicPress stylesheet
+///
+/// Builds `dist/chassis-classicpress.css`, which the Backdrop provider loads
+/// after `dist/chassis.css`.
+///
+/// @group Styles
+////
+
+@use 'platforms/classicpress';

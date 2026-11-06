@@ -318,6 +318,44 @@ appNav();
 
 It toggles `.app-nav--open` and `aria-expanded`, closes on Escape (returning focus to the button), on a click outside, and when the screen widens past the mobile breakpoint.
 
+## Turning Chassis on
+
+Chassis doesn't load until a site registers its service provider. Nothing else turns it on.
+
+**Novaris.** Register the provider in `config/app.php`:
+
+```php
+'providers' => [
+	Techkodeninja\Chassis\Providers\Novaris::class,
+],
+```
+
+Then print the files in the theme's views, with `styles()` before the theme's own stylesheet:
+
+```php
+<?= app( 'chassis' )->styles() ?>   // in the head
+<?= app( 'chassis' )->scripts() ?>  // at the end of the page
+```
+
+The provider copies the built files into `public/assets/chassis`, because browsers can't reach `vendor`. Without the provider, these calls fail, so a missing provider is obvious straight away.
+
+**ClassicPress.** Register `Providers\Backdrop` in the theme's `app/framework.php`. It loads the CSS, the ClassicPress add-on, and the JavaScript for you.
+
+A theme sets its design in its own stylesheet, which loads after Chassis:
+
+```scss
+:root {
+	--color-page-background: #0f1117;
+	--color-accent: #7c9cff;
+}
+```
+
+Colors, spacing, fonts, and widths all work this way. Breakpoints are fixed at the defaults, because media queries can't read custom properties. A theme can still use the Sass helpers, which print no CSS of their own:
+
+```scss
+@use 'techkodeninja/chassis/scss/02.tools' as ui;
+```
+
 ## PHP
 
 ### Novaris
@@ -347,6 +385,16 @@ $theme->provider( Techkodeninja\Chassis\Providers\Backdrop::class );
 ```
 
 Each project only loads its own provider, so a ClassicPress theme never needs Novaris and a Novaris site never needs Backdrop.
+
+### Which platform is running
+
+The provider a site registers decides the platform, so nothing has to guess. `platform()` returns `novaris`, `backdrop`, or `plain` when no provider is in use:
+
+```php
+if ( 'novaris' === app( 'chassis' )->platform() ) {
+	// Novaris version
+}
+```
 
 ### ClassicPress without a framework
 
