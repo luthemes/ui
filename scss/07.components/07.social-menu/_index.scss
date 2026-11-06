@@ -1,7 +1,8 @@
 ////
 /// Social menu
 ///
-/// A row of icon links. Put a `.screen-reader-text` label in each link.
+/// A row of links, with text or icons. Give icon links a `.screen-reader-text`
+/// label.
 ///
 ///   <nav class="social-menu" aria-label="Social">
 ///     <ul>
@@ -26,10 +27,10 @@
 	a {
 		color: inherit;
 		display: block;
-		line-height: 0;
 	}
 
 	svg {
+		display: block;
 		fill: currentColor;
 		height: 1.5rem;
 		width: 1.5rem;
