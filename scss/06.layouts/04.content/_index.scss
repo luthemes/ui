@@ -27,6 +27,7 @@
 
 	&--sidebar-left,
 	&--sidebar-right {
+		align-content: start;
 		display: grid;
 		gap: var( --space-xl );
 		grid-template-columns: minmax( 0, 1fr );
