@@ -1,0 +1,15 @@
+{
+	"name": "chassis",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Builds the Chassis CSS and JavaScript.",
+	"license": "GPL-2.0-or-later",
+	"scripts": {
+		"build": "npm run build:css && npm run build:js",
+		"build:css": "sass --no-source-map --style=compressed scss/chassis.scss:dist/chassis.css scss/chassis-classicpress.scss:dist/chassis-classicpress.css",
+		"build:js": "node scripts/build-js.mjs"
+	},
+	"devDependencies": {
+		"sass": "^1.93.3"
+	}
+}

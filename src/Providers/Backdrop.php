@@ -6,7 +6,8 @@
  *
  *     $theme->provider( Techkodeninja\Chassis\Providers\Backdrop::class );
  *
- * Then use it anywhere with `Backdrop\App::resolve( 'chassis' )`.
+ * This is what turns Chassis on. It loads the CSS and JavaScript for you, and
+ * `Backdrop\App::resolve( 'chassis' )` gives you the helpers.
  *
  * Requires backdrop-dev/framework, which the theme already has.
  *

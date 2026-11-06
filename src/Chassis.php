@@ -31,12 +31,20 @@ class Chassis
 	protected $platform;
 
 	/**
-	 * Sets the platform. The service providers pass in their own name, and
-	 * `plain` means no provider is in use.
+	 * Turns a file in `dist/` into a URL. Set by the service providers.
+	 *
+	 * @var callable|null
 	 */
-	public function __construct( string $platform = 'plain' )
+	protected $asset;
+
+	/**
+	 * Sets the platform and how to reach the files in `dist/`. The service
+	 * providers pass these in, and `plain` means no provider is in use.
+	 */
+	public function __construct( string $platform = 'plain', ?callable $asset = null )
 	{
 		$this->platform = $platform;
+		$this->asset    = $asset;
 	}
 
 	/**
@@ -63,6 +71,48 @@ class Chassis
 	public function scssPath( string $append = '' ): string
 	{
 		return $this->path( 'scss' . ( $append ? '/' . ltrim( $append, '/' ) : '' ) );
+	}
+
+	/**
+	 * Returns the path to a built file in `dist/`.
+	 */
+	public function distPath( string $append = '' ): string
+	{
+		return $this->path( 'dist' . ( $append ? '/' . ltrim( $append, '/' ) : '' ) );
+	}
+
+	/**
+	 * Returns the URL of a built file, or an empty string if it can't be
+	 * reached.
+	 */
+	public function assetUrl( string $file ): string
+	{
+		if ( ! $this->asset || ! is_file( $this->distPath( $file ) ) ) {
+			return '';
+		}
+
+		return (string) call_user_func( $this->asset, $file );
+	}
+
+	/**
+	 * Returns the stylesheet tag. Print this in the page head, before the
+	 * theme's own stylesheet.
+	 */
+	public function styles(): string
+	{
+		$url = $this->assetUrl( 'chassis.css' );
+
+		return $url ? sprintf( '<link rel="stylesheet" href="%s">', $this->escape( $url ) ) : '';
+	}
+
+	/**
+	 * Returns the script tag. Print this at the end of the page.
+	 */
+	public function scripts(): string
+	{
+		$url = $this->assetUrl( 'chassis.js' );
+
+		return $url ? sprintf( '<script src="%s"></script>', $this->escape( $url ) ) : '';
 	}
 
 	/**
