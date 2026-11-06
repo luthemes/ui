@@ -101,6 +101,28 @@ $_current: '[aria-current="page"], .current-menu-item > a, .current_page_item > 
 		&--open &__menu {
 			display: block;
 		}
+
+		// `.app-nav--bottom`: the button sits at the bottom left of the screen,
+		// and the menu opens above it.
+		&--bottom &__toggle,
+		&--bottom .menu-toggle {
+			background: var( --color-header-background );
+			border: 0;
+			bottom: var( --space-l );
+			color: var( --color-header-text );
+			left: var( --space-l );
+			padding: var( --space-s ) var( --space-l );
+			position: fixed;
+			z-index: 101;
+		}
+
+		&--bottom &__menu {
+			bottom: 3.5rem;
+			left: var( --space-l );
+			position: fixed;
+			right: var( --space-l );
+			top: auto;
+		}
 	}
 
 	// Tablets and up: a row of links; submenus drop down on hover or focus.

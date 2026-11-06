@@ -183,6 +183,9 @@ These control the look of the shared pieces, so each theme can have its own desi
 | `$button-border-width`, `$button-padding` | 0.125rem, `var( --space-s ) 1.25rem` | `--button-border-width`, `--button-padding` |
 | `$badge-font-size`, `$badge-letter-spacing`, `$badge-padding`, `$badge-text-transform` | 0.75rem, 0.08em, 0.2rem 0.6rem, `uppercase` | `--badge-font-size`, `--badge-letter-spacing`, `--badge-padding`, `--badge-text-transform` |
 | `$pagination-padding` | `var( --space-xs ) var( --space-m )` | `--pagination-padding` |
+| `$content-padding` | `var( --space-xl )` | `--content-padding` (above and below the content) |
+| `$sidebar-gap` | `var( --space-xl )` | `--sidebar-gap` (between the content and sidebar) |
+| `$entry-padding` | `var( --space-l )` | `--entry-padding` (inside post boxes) |
 
 ```scss
 @use 'techkodeninja/chassis/scss' with (
@@ -239,7 +242,7 @@ Dark themes should set `content-border`, because it defaults to black.
 |---|---|
 | `.app` | Wraps the page; keeps the footer at the bottom on short pages |
 | `.app-header` (`__inner`, `__branding`, `__title`, `__tagline`) · `--full` | Branding left, menu right. Tagline hides on phones. `--full` lets the row run the full width of the screen |
-| `.app-nav` (`__toggle`, `__menu`) | Phones: Menu button opens a panel below the header. `medium` and up: a row of links with dropdowns |
+| `.app-nav` (`__toggle`, `__menu`) · `--bottom` | Phones: Menu button opens a panel below the header. `medium` and up: a row of links with dropdowns. `--bottom` moves the phone button to the bottom left, with the menu above it |
 | `.app-content` · `--sidebar-right` · `--sidebar-left` | Content area; the sidebar sits beside the main column from `large` up and stacks below it before that |
 | `.app-main`, `.app-sidebar` | The two columns |
 | `.app-footer` (`__inner`, `__credit`) | Footer band |
@@ -264,6 +267,7 @@ The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from
 | `.section-header` (`__title`, `__description`) | Centered heading block |
 | `.pagination` (`__items`, `__item`, `__anchor`) | Numbered page links. Novaris's default `pagination-items` classes work too |
 | `.widget`, `.widget-title` | Sidebar boxes, as printed by Novaris and ClassicPress |
+| `.app-main > article`, `.entry__header`, `__metadata`, `__title`, `__title-anchor`, `__thumbnail`, `__content`, `__more-link`, `__terms` | Posts and pages, in a box that matches the widgets |
 | `.social-menu` | A row of icon links |
 
 ```html

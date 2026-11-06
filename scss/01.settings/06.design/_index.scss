@@ -22,6 +22,10 @@ $shadow: none !default;
 $box-border-style:        dotted !default;
 $box-border-bottom-style: solid !default;
 
+// Page layout.
+$content-padding: var( --space-xl ) !default; // above and below the content
+$sidebar-gap:     var( --space-xl ) !default; // between the content and sidebar
+
 // Header.
 $header-padding:          var( --space-m ) !default;
 $header-title-size:       1.5rem !default;
@@ -41,3 +45,6 @@ $badge-text-transform: uppercase !default;
 
 // Pagination.
 $pagination-padding: var( --space-xs ) var( --space-m ) !default;
+
+// Entries.
+$entry-padding: var( --space-l ) !default; // inside post boxes
