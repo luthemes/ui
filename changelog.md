@@ -1,45 +1,51 @@
 # Changelog
 
-## 0.1.0 - Unreleased
+All notable changes to Chassis will be documented in this file.
 
-### Added
-- SCSS in numbered ITCSS layers (`01.settings` … `08.utilities`, one `NN.name/_index.scss` folder per piece, as in novaris-dev/novaris), loaded together with `@use 'techkodeninja/chassis/scss'`:
-  - **settings**: breakpoints, colors, spacing, typography, widths. Each is overridable with `@use … with ( … )`; maps merge over the defaults.
-  - **tools**: `up()` / `down()` breakpoint mixins and `breakpoint()`, `color()`, `space()`, `width()` functions, with build errors for unknown names.
-  - **generic**: `:root` custom properties built from the settings, and a small reset.
-  - **elements**: body text, headings, links, focus outline, tables.
-  - **objects**: `.container`, `.section`, `.grid` (`--2`, `--3`, `--4`), mobile first.
-  - **layouts**: the page skeleton: `.app`, `.app-header`, `.app-nav` (mobile menu and dropdowns), `.app-content` with `--sidebar-left` / `--sidebar-right`, `.app-main`, `.app-sidebar`, `.app-footer`.
-  - **components**: `.card`, `.badge`, `.button` (and `.buttons`), `.section-header`.
-  - **utilities**: `.screen-reader-text` (shown on focus), `.skip-link`, editor alignments (`.alignleft`, `.alignright`, `.aligncenter`, `.alignwide`, `.alignfull`), `.hide-mobile`, `.hide-desktop`, text helpers.
-- `js/app-nav.js`: mobile menu toggle with `aria-expanded`, Escape, click-outside, and resize handling.
-- `Techkodeninja\Chassis\Chassis` with `badge()`, `button()`, `classes()`, `path()`, `scssPath()`, and `jsPath()` helpers.
-- Service providers for Backdrop (ClassicPress themes) and Novaris sites.
-- `docs/build-a-theme.md`: a complete ClassicPress theme built on the package, step by step.
-- Design settings, each with a matching custom property: `$radius`, `$shadow`, `$box-border-style`, `$box-border-bottom-style`, `$font-weight-heading`, `$heading-sizes`, `$header-padding`, `$header-title-size`, `$header-title-size-large`, `$header-tagline-size`, `$nav-link-padding`, `$button-border-width`, `$button-padding`, `$badge-font-size`, `$badge-letter-spacing`, `$badge-padding`, `$badge-text-transform`. Their defaults keep the existing look.
-- `content-border` color, used by box borders. It defaults to black, so dark themes should set it.
-- `widget-background`, `widget-border`, `widget-title`, and `widget-text` colors. They follow the content colors unless a theme sets them.
-- `.app-header--full`, which lets the header row run the full width of the screen.
-- The menu script and styles accept the `.menu-toggle` button that Novaris prints.
-- Components for all platforms: `.pagination`, `.widget` and `.widget-title`, and `.social-menu`, with a `$pagination-padding` setting.
-- The service provider is now what turns Chassis on. It loads built files from `dist/`, through `styles()` and `scripts()` on Novaris and automatically on ClassicPress.
-- `dist/`, built by a GitHub Action that also compiles every pull request.
-- `platform()`, which returns the platform of the provider in use: `novaris`, `backdrop`, or `plain`.
-- `.app-main > article` and `.entry__*`: posts and pages, in a box that matches the widgets.
-- `.app-nav--bottom`: moves the phone menu button to the bottom left, with the menu above it.
-- `$content-padding`, `$sidebar-gap`, and `$entry-padding` settings.
-- Submenu buttons in `js/app-nav.js`, which open submenus on touch screens.
-- A Copy button for code blocks in post content, in `js/code-copy.js`.
-- Styles for forms, inline code, code blocks, and quote citations, plus `.gallery`.
-- `l-plus` spacing size and `$font-family-meta`.
+## [0.0.1] - 11.05.2026
+
+The first release. Chassis is the shared structure for Novaris and ClassicPress themes: it owns how things are built, and each theme decides how they look.
+
+### Turning Chassis on
+
+- The service provider is what turns Chassis on. Without it, the CSS and JavaScript don't load.
+- `Providers\Novaris` copies the built files to `public/assets/chassis`, and themes print them with `styles()` and `scripts()`. It logs a warning if it can't copy them, and removes old copies.
+- `Providers\Backdrop` loads the CSS, the ClassicPress add-on, and the JavaScript itself.
+- `platform()` returns `novaris`, `backdrop`, or `plain`, so the registered provider decides the platform.
 - `button` and `badge` template tags on Novaris.
-- `platforms/classicpress`: an optional add-on for ClassicPress, with captions, sticky posts, threaded comments, the comment form, the search form, the calendar widget, `the_posts_pagination()`, `entry-*` classes, and the `[gallery]` shortcode.
+- `Techkodeninja\Chassis\Chassis` with `badge()`, `button()`, `classes()`, `path()`, `scssPath()`, `jsPath()`, and `distPath()` helpers.
 
-### Changed
-- The default `content-text` and `link-hover` color is now `#5c7079`, which meets the 4.5:1 contrast guideline on white.
-- Grouped the colors by where they appear and renamed them: `background` to `page-background`, `surface` to `content-background`, `surface-alt` to `content-alt`, `border` to `content-border`, `rule` to `content-divider`, `heading` to `content-heading`, `text` to `content-text`, `muted` to `content-muted`, `header` to `header-background`, `on-header` to `header-text`, `footer` to `footer-background`, `on-footer` to `footer-text`, `primary` to `accent`, and `on-primary` to `accent-text`.
-- Renamed the package from `luthemes/ui` to `techkodeninja/chassis`. The namespace is now `Techkodeninja\Chassis`, the `UI` class is now `Chassis`, and the container key is now `chassis`.
+### Design
 
-### Fixed
-- `--border-dotted` and `--border-solid` no longer use `--color-black`, which was almost invisible on dark themes. They use `--color-border`.
-- The docs used `@use '07.components'`, which stops the build. They now use `@forward`.
+Themes change Chassis with CSS custom properties, which load after it.
+
+- Colors grouped by where they appear: Global, Header, Content, Widget, and Footer. Widget colors follow the content colors unless a theme sets them.
+- Settings for spacing, widths, fonts, heading sizes, corners, shadows, box borders, header and menu padding, content padding, the sidebar gap, buttons, badges, pagination, and post boxes.
+
+### Styles
+
+SCSS in numbered ITCSS layers, with BEM class names.
+
+- **Settings and tools:** breakpoints, colors, fonts, sizes, and spacing, plus `up()`, `down()`, `color()`, `space()`, and `width()`, with build errors for unknown names.
+- **Elements:** a reset, body text, headings, links, tables, forms, inline code, code blocks, and quotes.
+- **Objects:** `.container`, `.section`, `.grid`, and `.gallery`.
+- **Layouts:** `.app`, `.app-header` with `--full`, `.app-nav` with `--bottom`, `.app-content` with `--sidebar-left` and `--sidebar-right`, `.app-main`, `.app-sidebar`, and `.app-footer`.
+- **Components:** `.card`, `.badge`, `.button`, `.section-header`, `.pagination`, `.widget`, `.social-menu`, `.entry__*`, and `.code-copy`.
+- **Utilities:** `.screen-reader-text`, `.skip-link`, editor alignments, and text and visibility helpers.
+- **ClassicPress add-on:** captions, sticky posts, threaded comments, the comment form, the search form, the calendar widget, `the_posts_pagination()`, `entry-*` classes, and the `[gallery]` shortcode.
+
+### JavaScript
+
+- `js/app-nav.js`: the mobile menu, with `aria-expanded`, Escape, click-outside, and resize handling, plus submenu buttons for touch screens.
+- `js/code-copy.js`: a Copy button for code blocks in post content.
+
+### Build and docs
+
+- `dist/` holds the compiled files. A GitHub Action compiles every pull request and commits `dist/` on `develop`.
+- `docs/build-a-theme.md`: a complete ClassicPress theme, step by step.
+
+### Known limits
+
+- Breakpoints are fixed, because media queries can't read custom properties.
+- `Providers\Backdrop` and the ClassicPress add-on haven't been tested on a live ClassicPress site yet.
+- `docs/build-a-theme.md` hasn't been followed from start to finish yet.
