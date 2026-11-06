@@ -475,6 +475,23 @@
 				],
 				"description": "A CSS value."
 			}
+		},
+		"menu": {
+			"type": "object",
+			"description": "The primary menu on phones.",
+			"additionalProperties": false,
+			"properties": {
+				"toggle": {
+					"enum": [
+						"top-right",
+						"top-left",
+						"bottom-left",
+						"bottom-right"
+					],
+					"default": "top-right",
+					"description": "Where the Menu button sits on phones. `top-right` and `top-left` are in the header, and the menu opens below it. `bottom-left` and `bottom-right` float over the page, and the menu opens above the button."
+				}
+			}
 		}
 	}
 }
