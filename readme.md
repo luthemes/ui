@@ -46,56 +46,27 @@ Until the package is on Packagist, add the repository to your `composer.json` fi
 ]
 ```
 
-Run `composer install` **before** `npm run build`, so Sass can find the files.
+Then [turn Chassis on](#turning-chassis-on) with its service provider.
 
 ## Styles
 
-Composer puts the SCSS in `vendor/techkodeninja/chassis/scss`. Tell Sass to look in `vendor`. With Vite:
-
-```js
-// vite.config.js
-export default defineConfig( {
-	css: {
-		preprocessorOptions: {
-			scss: { loadPaths: [ 'vendor' ] },
-		},
-	},
-} );
-```
-
-Load it **first** in your main stylesheet, then your own styles:
+Chassis loads its own compiled CSS through the service provider, so a theme doesn't compile it. A theme's stylesheet loads after Chassis and changes it with custom properties:
 
 ```scss
 // resources/scss/screen.scss
-@use 'techkodeninja/chassis/scss';
-@forward '07.components';   // your theme's own partials
+:root {
+	--color-header-background: #1d3557;
+	--color-accent: #e63946;
+	--font-family-body: 'Merriweather', serif;
+	--radius: 0.5rem;
+}
 ```
 
-### Change the settings
-
-Pass overrides with `with ( … )`. You only list what you change; everything else keeps its default.
-
-```scss
-@use 'techkodeninja/chassis/scss' with (
-	$colors: (
-		header-background:  #1d3557,
-		footer-background:  #1d3557,
-		accent: #e63946,
-	),
-	$breakpoints: ( medium: 782px ),
-	$font-family-body: ( 'Merriweather', serif )
-);
-```
-
-Colors, spacing, and widths also become CSS custom properties, so you can change them later in plain CSS (for example from a Customizer setting):
-
-```css
-:root { --color-header-background: #264653; }
-```
+You only list what you change, and everything else keeps its default. Breakpoints are fixed, because media queries can't read custom properties.
 
 ### Use the tools in your own partials
 
-Load just the tools: they output no CSS, so this is safe in any partial.
+Sass can read the package from `vendor`. Add `loadPaths: [ 'vendor' ]` to your Sass options, run `composer install` before you build, and load just the tools. They output no CSS, so this is safe in any partial.
 
 ```scss
 // resources/scss/07.components/01.entry/_index.scss
@@ -115,6 +86,8 @@ Load just the tools: they output no CSS, so this is safe in any partial.
 
 ## Settings reference
 
+These are the package's Sass settings, used to build `dist/`. A theme sets the matching custom property instead.
+
 | Setting | Defaults | Custom properties |
 |---|---|---|
 | `$breakpoints` | `small` 40rem (640px), `medium` 48rem (768px), `large` 64rem (1024px), `wide` 80rem (1280px) | none (media queries can't use custom properties) |
@@ -130,40 +103,40 @@ Load just the tools: they output no CSS, so this is safe in any partial.
 Colors are grouped by where they appear. Copy this block as a starting point, and keep only the ones you change. Everything else keeps its default.
 
 ```scss
-$colors: (
+:root {
 	// Global
-	page-background: #ffffff,  // behind everything
-	link:            #000000,  // links
-	link-hover:      #677d89,  // links on hover
-	accent:          #000000,  // buttons and badges
-	accent-text:     #ffffff,  // text on buttons and badges
+	--color-page-background: #ffffff;  // behind everything
+	--color-link:            #000000;  // links
+	--color-link-hover:      #677d89;  // links on hover
+	--color-accent:          #000000;  // buttons and badges
+	--color-accent-text:     #ffffff;  // text on buttons and badges
 
 	// Header
-	header-background: #000000,  // the top bar
-	header-text:       #ffffff,  // site title, tagline, menu links
+	--color-header-background: #000000;  // the top bar
+	--color-header-text:       #ffffff;  // site title, tagline, menu links
 
 	// Content
-	content-background: #ffffff,  // post boxes and cards
-	content-border:     #000000,  // borders around those boxes
-	content-heading:    #000000,  // post titles, h1 to h6
-	content-text:       #677d89,  // paragraphs
-	content-muted:      #555555,  // captions, quieter text
-	content-divider:    #cccccc,  // lines between things
-	content-alt:        #f5f5f5,  // muted boxes, code blocks
+	--color-content-background: #ffffff;  // post boxes and cards
+	--color-content-border:     #000000;  // borders around those boxes
+	--color-content-heading:    #000000;  // post titles, h1 to h6
+	--color-content-text:       #677d89;  // paragraphs
+	--color-content-muted:      #555555;  // captions, quieter text
+	--color-content-divider:    #cccccc;  // lines between things
+	--color-content-alt:        #f5f5f5;  // muted boxes, code blocks
 
 	// Widget: these follow the content colors unless you set them
-	widget-background: #ffffff,  // sidebar boxes
-	widget-border:     #000000,  // borders around them
-	widget-title:      #000000,  // "Categories", "Archives"
-	widget-text:       #677d89,  // text inside them
+	--color-widget-background: #ffffff;  // sidebar boxes
+	--color-widget-border:     #000000;  // borders around them
+	--color-widget-title:      #000000;  // "Categories", "Archives"
+	--color-widget-text:       #677d89;  // text inside them
 
 	// Footer
-	footer-background: #000000,  // the bottom bar
-	footer-text:       #ffffff,  // footer text and links
-),
+	--color-footer-background: #000000;  // the bottom bar
+	--color-footer-text:       #ffffff;  // footer text and links
+}
 ```
 
-Each color becomes a custom property, so `content-text` is also `--color-content-text`. `black` and `white` are available too.
+`--color-black` and `--color-white` are available too.
 
 ### Design settings
 
@@ -188,15 +161,17 @@ These control the look of the shared pieces, so each theme can have its own desi
 | `$entry-padding` | `var( --space-l )` | `--entry-padding` (inside post boxes) |
 
 ```scss
-@use 'techkodeninja/chassis/scss' with (
-	$colors: ( page-background: #0f1117, content-text: #d7dae0, content-border: #2d3446 ),
-	$radius: 0.5rem,
-	$box-border-style: solid,
-	$header-padding: var( --space-s )
-);
+:root {
+	--color-page-background: #0f1117;
+	--color-content-text: #d7dae0;
+	--color-content-border: #2d3446;
+	--radius: 0.5rem;
+	--border-box: var( --border-width ) solid var( --color-content-border );
+	--header-padding: var( --space-s );
+}
 ```
 
-Dark themes should set `content-border`, because it defaults to black.
+Dark themes should set `--color-content-border`, because it defaults to black.
 
 ## Layouts: the page skeleton
 
@@ -290,12 +265,7 @@ The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from
 
 ## Platforms
 
-The core works on Novaris and ClassicPress. ClassicPress prints some markup that themes can't rename, so that lives in an add-on. Load it after the package:
-
-```scss
-@use 'techkodeninja/chassis/scss' with ( … );
-@use 'techkodeninja/chassis/scss/platforms/classicpress';
-```
+The core works on Novaris and ClassicPress. ClassicPress prints some markup that themes can't rename, so that lives in an add-on, `dist/chassis-classicpress.css`. The Backdrop provider loads it for you.
 
 It covers captions, sticky posts, threaded comments and the comment form, the search form, the calendar widget, and `the_posts_pagination()`. It uses the same settings as the core, so a theme's colors and shapes apply here too. Novaris sites don't need it.
 
@@ -311,16 +281,7 @@ It covers captions, sticky posts, threaded comments and the comment form, the se
 
 ## JavaScript
 
-The mobile menu needs `js/app-nav.js`. Import it into your own script and your build bundles it:
-
-```js
-// resources/js/app.js
-import { appNav } from '../../vendor/techkodeninja/chassis/js/app-nav.js';
-
-appNav();
-```
-
-It toggles `.app-nav--open` and `aria-expanded`, closes on Escape (returning focus to the button), on a click outside, and when the screen widens past the mobile breakpoint.
+`dist/chassis.js` runs the mobile menu, and the service provider loads it. It toggles `.app-nav--open` and `aria-expanded`, closes on Escape (returning focus to the button), on a click outside, and when the screen widens past the mobile breakpoint.
 
 ## Turning Chassis on
 
@@ -334,14 +295,14 @@ Chassis doesn't load until a site registers its service provider. Nothing else t
 ],
 ```
 
-Then print the files in the theme's views, with `styles()` before the theme's own stylesheet:
+Then print the files in the theme's views, with `styles()` before the theme's own stylesheet. Check for Chassis first, so the site still loads without it:
 
 ```php
-<?= app( 'chassis' )->styles() ?>   // in the head
-<?= app( 'chassis' )->scripts() ?>  // at the end of the page
+<?= app( 'chassis' ) ? app( 'chassis' )->styles() : '' ?>   // in the head
+<?= app( 'chassis' ) ? app( 'chassis' )->scripts() : '' ?>  // at the end of the page
 ```
 
-The provider copies the built files into `public/assets/chassis`, because browsers can't reach `vendor`. Without the provider, these calls fail, so a missing provider is obvious straight away.
+The provider copies the built files into `public/assets/chassis`, because browsers can't reach `vendor`. If it can't write there, it logs a warning and prints nothing.
 
 **ClassicPress.** Register `Providers\Backdrop` in the theme's `app/framework.php`. It loads the CSS, the ClassicPress add-on, and the JavaScript for you.
 

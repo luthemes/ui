@@ -2,7 +2,7 @@
 
 This guide builds **Starter**, a small ClassicPress theme, using every part of Chassis. By the end you'll know which parts come from the package, which parts belong to your theme, and how they connect.
 
-It uses plain ClassicPress functions (no framework), so you can see exactly what the package does. [Step 10](#10-optional-use-backdrop-and-the-php-helpers) adds Backdrop at the end.
+It's built on [Backdrop](https://github.com/backdrop-dev/framework), because Chassis loads through a service provider.
 
 ## What you'll build
 
@@ -12,23 +12,21 @@ starter/
 ├── package.json           Vite + Sass
 ├── vite.config.js         compiles resources/ into public/
 ├── style.css              theme header (ClassicPress needs it)
-├── functions.php          loads the compiled CSS and JS, registers menu + sidebar
+├── functions.php          registers Chassis, the menu, and the sidebar
 ├── header.php             .app, .app-header, .app-nav
 ├── index.php              .app-content, the post loop
 ├── sidebar.php            .app-sidebar
 ├── footer.php             .app-footer
 └── resources/
-    ├── js/
-    │   └── app.js         turns on the mobile menu
     └── scss/
-        ├── screen.scss    loads the package, then your styles
+        ├── screen.scss    your design, then your styles
         └── 07.components/
             ├── _index.scss
             └── 01.entry/
                 └── _index.scss
 ```
 
-The build writes `public/css/screen.css` and `public/js/app.js`. Those are what the site loads.
+The build writes `public/css/screen.css`. Those are what the site loads.
 
 ## 1. Create the theme folder and `style.css`
 
@@ -59,6 +57,7 @@ In `wp-content/themes/`, make a folder called `starter` and add `style.css`. Cla
 	],
 	"require": {
 		"php": ">=7.4",
+		"backdrop-dev/framework": "dev-develop",
 		"techkodeninja/chassis": "dev-develop"
 	}
 }
@@ -112,7 +111,6 @@ export default defineConfig( {
 		emptyOutDir: true,
 		rollupOptions: {
 			input: {
-				app:    'resources/js/app.js',
 				screen: 'resources/scss/screen.scss',
 			},
 			output: {
@@ -133,40 +131,27 @@ The one line that connects Vite to the package is `loadPaths: [ 'vendor' ]`.
 
 ## 4. Write the stylesheet
 
-`resources/scss/screen.scss` is short on purpose. It loads the package with your theme's settings, then your own partials.
+Chassis loads its own CSS, so `resources/scss/screen.scss` only holds your design and your own styles. It loads after Chassis, so these values replace the defaults. Only list what you change.
 
 ```scss
 ////
 /// Starter: main stylesheet.
 ////
 
-// 1. The package, with this theme's settings. Only list what you change.
-@use 'techkodeninja/chassis/scss' with (
-	$colors: (
-		header-background:     #1d3557,
-		footer-background:     #1d3557,
-		accent:    #e63946,
-		link:       #1d3557,
-		link-hover: #e63946,
-		content-heading:    #1d3557,
-	),
-	$font-family-heading: ( Georgia, serif )
-);
-
-// 2. This theme's own styles.
+// This theme's own styles.
 @forward '07.components';
+
+// This theme's design.
+:root {
+	--color-header-background: #1d3557;
+	--color-footer-background: #1d3557;
+	--color-accent: #e63946;
+	--color-link: #1d3557;
+	--color-link-hover: #e63946;
+	--color-content-heading: #1d3557;
+	--font-family-heading: Georgia, serif;
+}
 ```
-
-What you just got from the package, in order:
-
-1. **settings**: your colors merged over the defaults.
-2. **tools**: nothing printed yet.
-3. **generic**: `:root { --color-header-background: #1d3557; … }` and the reset.
-4. **elements**: body text, headings, links, tables.
-5. **objects**: `.container`, `.section`, `.grid`.
-6. **layouts**: `.app`, `.app-header`, `.app-nav`, `.app-content`, `.app-footer`.
-7. **components**: `.card`, `.badge`, `.button`, `.section-header`.
-8. **utilities**: `.screen-reader-text`, `.hide-mobile`…
 
 Now add something that's only yours. Number your folders the same way the package does (`07.components` is the components layer). `resources/scss/07.components/_index.scss`:
 
@@ -208,35 +193,34 @@ Now add something that's only yours. Number your folders the same way the packag
 
 Notice the split: the **package** gives you `.card`, the grid, and the breakpoints. The **theme** decides what a post title looks like.
 
-## 5. Turn on the mobile menu
-
-`resources/js/app.js`:
-
-```js
-import { appNav } from '../../vendor/techkodeninja/chassis/js/app-nav.js';
-
-appNav();
-```
-
-Vite bundles the package's menu script into `public/js/app.js`.
-
-## 6. Build
+## 5. Build
 
 ```bash
 npm run build
 ```
 
-You should see `public/css/screen.css` and `public/js/app.js` (Vite may also write a near-empty `js/screen.js` for the stylesheet entry; ignore it). Open the CSS and find your `--color-header-background: #1d3557` near the top.
+You should see `public/css/screen.css`. Open it and find your `--color-header-background: #1d3557` near the top.
 
 If the build says it can't find `techkodeninja/chassis/scss`, run `composer install` first. If it says `Unknown breakpoint` or `Unknown color`, there's a typo in a name, and the error lists the valid ones.
 
-## 7. Load the files and register the menu: `functions.php`
+## 6. Check what Chassis gives you
+
+`vendor/techkodeninja/chassis/dist/` holds the CSS and JavaScript that Chassis loads. You don't touch these files. The next step turns them on.
+
+## 7. Turn on Chassis and register the menu: `functions.php`
 
 ```php
 <?php
 /**
  * Starter theme setup.
  */
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+// This is what turns Chassis on. It loads the CSS and the menu script.
+$theme = new Backdrop\Core\Application();
+$theme->provider( Techkodeninja\Chassis\Providers\Backdrop::class );
+$theme->boot();
 
 add_action( 'after_setup_theme', function () {
 	add_theme_support( 'title-tag' );
@@ -254,24 +238,17 @@ add_action( 'widgets_init', function () {
 		'name'          => __( 'Primary Sidebar', 'starter' ),
 		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget__title">',
+		'before_title'  => '<h2 class="widget-title">',
 		'after_title'   => '</h2>',
 	] );
 } );
 
 add_action( 'wp_enqueue_scripts', function () {
 	$css = 'public/css/screen.css';
-	$js  = 'public/js/app.js';
 
 	// filemtime() changes the version on every build, so browsers re-download.
-	wp_enqueue_style( 'starter', get_theme_file_uri( $css ), [], filemtime( get_theme_file_path( $css ) ) );
-	wp_enqueue_script( 'starter', get_theme_file_uri( $js ), [], filemtime( get_theme_file_path( $js ) ), true );
+	wp_enqueue_style( 'starter', get_theme_file_uri( $css ), [ 'chassis' ], filemtime( get_theme_file_path( $css ) ) );
 } );
-
-// Vite outputs an ES module, so load it as one.
-add_filter( 'script_loader_tag', function ( $tag, $handle ) {
-	return 'starter' === $handle ? str_replace( '<script ', '<script type="module" ', $tag ) : $tag;
-}, 10, 2 );
 ```
 
 Each widget gets the package's `widget` class, so the sidebar is styled with no extra CSS.
@@ -414,26 +391,12 @@ Then make the browser narrow:
 
 Each one is a one-line change. Rebuild with `npm run build` after each, or keep `npm run watch` running.
 
-- **Move every breakpoint at once.** Add `$breakpoints: ( medium: 900px )` to the `with ( … )` in `screen.scss`. The menu, grid, and `ui.up( medium )` in your `01.entry` all switch at 900px together. This is the point of sharing breakpoints.
 - **Sidebar on the left.** In `index.php`, change `app-content--sidebar-right` to `app-content--sidebar-left`.
 - **No sidebar.** Remove the `--sidebar-right` class and `get_sidebar()`.
 - **Recolor without rebuilding.** Add `:root { --color-header-background: #2a9d8f; }` to the Customizer's *Additional CSS*. The header changes immediately. Colors are custom properties, so they can change at run time.
 - **Break it on purpose.** Write `@include ui.up( tablet )` in `01.entry`. The build fails with `Unknown breakpoint 'tablet'` and lists the real names.
 
-## 10. Optional: use Backdrop and the PHP helpers
-
-If the theme is built on [Backdrop](https://github.com/backdrop-dev/framework) like the other Luthemes themes, register the package's provider, and the helpers are available anywhere:
-
-```bash
-composer require backdrop-dev/framework
-```
-
-```php
-// app/framework.php (or functions.php)
-$theme = new Backdrop\Core\Application();
-$theme->provider( Techkodeninja\Chassis\Providers\Backdrop::class );
-$theme->boot();
-```
+## 10. Optional: use the PHP helpers
 
 ```php
 <?php $ui = Backdrop\App::resolve( 'chassis' ); ?>
@@ -442,18 +405,18 @@ $theme->boot();
 <?= $ui->button( 'Read more', get_permalink(), [ 'primary' ] ); ?>
 ```
 
-They print the same markup you'd write by hand (`<span class="badge">…`), escaped. When you use them, ship the `vendor/` folder with the theme. The styles-only theme above doesn't need it: only `public/` is loaded at run time.
+They print the same markup you'd write by hand (`<span class="badge">…`), escaped.
 
 ## What to ship
 
-For a theme that only uses the styles and menu script, the ClassicPress site needs:
+The ClassicPress site needs:
 
 ```
-style.css  functions.php  header.php  index.php  sidebar.php  footer.php  public/
+style.css  functions.php  header.php  index.php  sidebar.php  footer.php  public/  vendor/
 ```
 
-Leave out `node_modules/`, `resources/`, and the build files if you like (keeping `resources/` is friendly to people who want to rebuild). Add `vendor/` only if the theme calls the PHP helpers.
+`vendor/` has to stay, because that's where the provider and Chassis's CSS live. Leave out `node_modules/`, `resources/`, and the build files if you like.
 
 ## The same package on a Novaris site
 
-The SCSS and JS steps (2–6) are identical. Only the PHP side differs: register `Techkodeninja\Chassis\Providers\Novaris::class` in `config/app.php`, and use the same class names in your views (`resources/views/header/default.php` and so on). luthemes.com is a working example.
+Only the PHP side differs. Register `Techkodeninja\Chassis\Providers\Novaris::class` in `config/app.php`, print `styles()` and `scripts()` in the header and footer, and use the same class names in your views. [Nocturne](https://github.com/novaris-dev/nocturne) is a working example.

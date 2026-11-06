@@ -2,13 +2,9 @@
 /// Colors
 ///
 /// Every color the package uses. Each one becomes a CSS custom property in
-/// 03.generics/01.tokens (`text` → `--color-content-text`), so you can change colors two
-/// ways:
+/// 03.generics/01.tokens (`content-text` → `--color-content-text`), and themes
+/// change them in plain CSS, which loads after Chassis:
 ///
-///   // 1. At build time, when loading the package:
-///   @use 'techkodeninja/chassis/scss' with ( $colors: ( header-background: #1d3557 ) );
-///
-///   // 2. At run time, in plain CSS (handy for a Customizer setting):
 ///   :root { --color-header-background: #1d3557; }
 ///
 /// @group Settings
