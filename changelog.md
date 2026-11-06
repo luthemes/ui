@@ -2,6 +2,12 @@
 
 All notable changes to Chassis will be documented in this file.
 
+## [0.0.7] - 11.06.2026
+
+### Docs
+
+- [Build a theme from scratch](docs/build-a-theme.md) now sets the design in `chassis.json`, with no Sass needed. It adds a step that checks it loads, a sample of the HTML a theme prints with the BEM naming explained, and experiments for the Menu button. Sass is an optional step for a theme's own styles.
+
 ## [0.0.6] - 11.06.2026
 
 ### Added
