@@ -213,6 +213,8 @@ class Chassis
 	 * - `design.radius` → `--radius`, for any other setting
 	 * - `menu.toggle` → where the Menu button sits on phones: `bottom-left`
 	 *   (the default), `bottom-right`, `top-right`, or `top-left`
+	 * - `menu.design.background` → `--menu-toggle-background`, and the same
+	 *   for `text` (`--menu-toggle-color`), `border`, and `padding`
 	 *
 	 * Returns an empty string when there's nothing to set.
 	 */
@@ -245,7 +247,8 @@ class Chassis
 			$properties[ "width-{$name}" ] = $value;
 		}
 
-		$toggle = $this->group( $design, 'menu' )['toggle'] ?? null;
+		$menu   = $this->group( $design, 'menu' );
+		$toggle = $menu['toggle'] ?? null;
 
 		if ( null !== $toggle ) {
 			if ( is_string( $toggle ) && isset( self::MENU_TOGGLE[ $toggle ] ) ) {
@@ -253,6 +256,13 @@ class Chassis
 			} else {
 				trigger_error( sprintf( 'Chassis skipped menu.toggle in chassis.json: use %s.', implode( ', ', array_keys( self::MENU_TOGGLE ) ) ), E_USER_WARNING );
 			}
+		}
+
+		// The button's look, after the position so it wins over the presets.
+		foreach ( $this->group( $menu, 'design' ) as $name => $value ) {
+			$name = 'text' === $name ? 'color' : $name;
+
+			$properties[ "menu-toggle-{$name}" ] = 'padding' === $name && is_string( $value ) ? $this->spaceValue( $value ) : $value;
 		}
 
 		// Last, so a theme's own settings win over the `menu.toggle` presets.

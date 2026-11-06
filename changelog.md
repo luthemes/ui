@@ -7,11 +7,11 @@ All notable changes to Chassis will be documented in this file.
 ### Changed
 
 - The Menu button now sits at the bottom left on phones by default, when `chassis.json` has no `menu.toggle`. Set `"menu": { "toggle": "top-right" }` for the old place, or use the new `.app-nav--top` class.
-- Settings in `design` now win over the `menu.toggle` presets, so `"design": { "menu-toggle-border": "…" }` works with every position.
+- Settings in `design` now win over the `menu.toggle` presets.
 
 ### Added
 
-- `--menu-toggle-color` sets the Menu button's text color. With `--menu-toggle-background`, `--menu-toggle-border`, and `--menu-toggle-padding`, a theme can restyle the button from `design` in `chassis.json`.
+- `menu.design` in `chassis.json` sets how the Menu button looks: `background`, `text`, `border`, and `padding`. These become `--menu-toggle-background`, `--menu-toggle-color`, `--menu-toggle-border`, and `--menu-toggle-padding`, and win over the look that comes with `menu.toggle`.
 - `.app-nav--top` for themes without `chassis.json`.
 
 ## [0.0.4] - 11.06.2026

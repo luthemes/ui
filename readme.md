@@ -215,18 +215,21 @@ Dark themes should set `--color-content-border`, because it defaults to black.
 | `.app-main`, `.app-sidebar` | The two columns |
 | `.app-footer` (`__inner`, `__credit`) | Footer band |
 
-The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from ClassicPress's `wp_nav_menu()` and Novaris's menu works once the container has `.app-nav` and the list has `.app-nav__menu`. In Novaris, pass those as `container_class` and `menu_class`. The button can be `.app-nav__toggle` or the `.menu-toggle` that Novaris prints. On phones the button floats at the bottom left of the screen, with a solid background, and the menu opens above it. Set `menu.toggle` in [`chassis.json`](#set-the-design-with-chassisjson) to move it to `bottom-right`, or into the header with `top-right` or `top-left`, where it's an outlined button and the menu opens below the header. To change how the button looks, set these in `design`; they win over the position:
+The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from ClassicPress's `wp_nav_menu()` and Novaris's menu works once the container has `.app-nav` and the list has `.app-nav__menu`. In Novaris, pass those as `container_class` and `menu_class`. The button can be `.app-nav__toggle` or the `.menu-toggle` that Novaris prints. On phones the button floats at the bottom left of the screen, with a solid background, and the menu opens above it. Set `menu.toggle` in [`chassis.json`](#set-the-design-with-chassisjson) to move it to `bottom-right`, or into the header with `top-right` or `top-left`, where it's an outlined button and the menu opens below the header. Set how the button looks in `menu.design`. These win over the look that comes with each position:
 
 ```json
-"design": {
-	"menu-toggle-background": "#7c9cff",
-	"menu-toggle-color": "#0b0d12",
-	"menu-toggle-border": "0",
-	"menu-toggle-padding": "var( --space-s ) var( --space-l )"
+"menu": {
+	"toggle": "bottom-left",
+	"design": {
+		"background": "#7c9cff",
+		"text": "#0b0d12",
+		"border": "0",
+		"padding": "s l"
+	}
 }
 ```
 
- Themes without `chassis.json` can use the `.app-nav--top` or `.app-nav--bottom` class instead, and a class wins over `chassis.json`. The current page is underlined, marked by `aria-current="page"`, `.current-menu-item`, or `.menu-items__item--current`.
+Themes without `chassis.json` can use the `.app-nav--top` or `.app-nav--bottom` class instead, and a class wins over `chassis.json`. The current page is underlined, marked by `aria-current="page"`, `.current-menu-item`, or `.menu-items__item--current`.
 
 ## Objects
 
@@ -343,6 +346,7 @@ A theme sets its design in a `chassis.json` file in its root folder, next to `th
 | `width.wide` | `--width-wide` |
 | `design.radius` | `--radius`, for any other setting in the [settings reference](#settings-reference) |
 | `menu.toggle` | Where the Menu button sits on phones: `bottom-left` (the default), `bottom-right`, `top-right`, or `top-left` |
+| `menu.design` | How the Menu button looks: `background`, `text`, `border`, and `padding` (size names work, e.g. `s l`) |
 
 The `$schema` line gives editors autocomplete and catches typos. A child theme's `chassis.json` overrides its parent's, setting by setting. Values that aren't plain CSS (with `{`, `}`, `;`, `<`, or `>`) are skipped with a warning.
 
