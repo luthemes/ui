@@ -2,6 +2,17 @@
 
 All notable changes to Chassis will be documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- `menu.toggle` in `chassis.json` sets where the Menu button sits on phones: `top-right` (the default), `top-left`, `bottom-left`, or `bottom-right`.
+- The build keeps `dist/` from each pull request as a download for 7 days.
+
+### Changed
+
+- The phone menu's position comes from custom properties (`--menu-toggle-*`, `--menu-panel-*`). `.app-nav--bottom` works as before.
+
 ## [0.0.3] - 11.06.2026
 
 ### Added

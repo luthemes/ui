@@ -35,6 +35,12 @@
 		justify-content: space-between;
 		padding-bottom: var( --header-padding );
 		padding-top: var( --header-padding );
+
+		// Phones: `menu.toggle: top-left` in `chassis.json` puts the Menu
+		// button first, with the site title right after it.
+		@include ui.down( medium ) {
+			justify-content: var( --menu-header-justify, space-between );
+		}
 	}
 
 	&--full &__inner {

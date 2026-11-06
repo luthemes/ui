@@ -95,14 +95,13 @@ $_current: '[aria-current="page"], .current-menu-item > a, .current_page_item > 
 	// Phones: a closed menu is hidden; an open one drops down below the
 	// header as a full-width panel. Submenus show indented.
 	@include ui.down( medium ) {
+		// `top-left` moves the button before the site title.
+		order: var( --menu-toggle-order, 0 );
+
 		&__menu {
 			background: var( --color-header-background );
 			display: none;
-			left: 0;
 			padding: var( --space-s ) var( --space-l ) var( --space-l );
-			position: absolute;
-			right: 0;
-			top: 100%;
 			z-index: 100;
 
 			li > a {
@@ -128,26 +127,42 @@ $_current: '[aria-current="page"], .current-menu-item > a, .current_page_item > 
 			display: block;
 		}
 
-		// `.app-nav--bottom`: the button sits at the bottom left of the screen,
-		// and the menu opens above it.
-		&--bottom &__toggle,
-		&--bottom .menu-toggle {
-			background: var( --color-header-background );
-			border: 0;
-			bottom: var( --space-l );
-			color: var( --color-header-text );
-			left: var( --space-l );
-			padding: var( --space-s ) var( --space-l );
-			position: fixed;
+		// Where the Menu button sits. `chassis.json` sets these with
+		// `menu.toggle` (`top-right`, `top-left`, `bottom-left`,
+		// `bottom-right`). The defaults put it at the top right of the header,
+		// with the menu opening below the header.
+		&__toggle,
+		.menu-toggle {
+			background: var( --menu-toggle-background, transparent );
+			border: var( --menu-toggle-border, var( --border-width ) solid currentColor );
+			bottom: var( --menu-toggle-bottom, auto );
+			left: var( --menu-toggle-left, auto );
+			padding: var( --menu-toggle-padding, var( --space-xs ) var( --space-m ) );
+			position: var( --menu-toggle-position, static );
+			right: var( --menu-toggle-right, auto );
 			z-index: 101;
 		}
 
-		&--bottom &__menu {
-			bottom: 4.25rem;
-			left: var( --space-l );
-			position: fixed;
-			right: var( --space-l );
-			top: auto;
+		&__menu {
+			bottom: var( --menu-panel-bottom, auto );
+			left: var( --menu-panel-inset, 0 );
+			position: var( --menu-panel-position, absolute );
+			right: var( --menu-panel-inset, 0 );
+			top: var( --menu-panel-top, 100% );
+		}
+
+		// `.app-nav--bottom` in the markup does the same as `bottom-left`.
+		&--bottom {
+			--menu-toggle-background: var( --color-header-background );
+			--menu-toggle-border: 0;
+			--menu-toggle-bottom: var( --space-l );
+			--menu-toggle-left: var( --space-l );
+			--menu-toggle-padding: var( --space-s ) var( --space-l );
+			--menu-toggle-position: fixed;
+			--menu-panel-bottom: 4.25rem;
+			--menu-panel-inset: var( --space-l );
+			--menu-panel-position: fixed;
+			--menu-panel-top: auto;
 		}
 	}
 
