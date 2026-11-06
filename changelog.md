@@ -2,7 +2,13 @@
 
 All notable changes to Chassis will be documented in this file.
 
-## [Unreleased]
+## [0.0.10] - 11.06.2026
+
+### Fixed
+
+- On ClassicPress, each file's `?ver=` is now a short hash of the file instead of the Chassis version, so browsers load the new CSS and JavaScript after every update. Before, a release that didn't change the version number (like 0.0.9) kept the old `?ver=` and browsers could keep the old files.
+
+## [0.0.9] - 11.06.2026
 
 ### Fixed
 

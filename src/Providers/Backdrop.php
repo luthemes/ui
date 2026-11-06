@@ -58,7 +58,7 @@ class Backdrop extends ServiceProvider
 			$url = $chassis->assetUrl( $file );
 
 			if ( $url ) {
-				wp_enqueue_style( $handle, $url, 'chassis' === $handle ? [] : [ 'chassis' ], Chassis::VERSION );
+				wp_enqueue_style( $handle, $url, 'chassis' === $handle ? [] : [ 'chassis' ], $this->version( $chassis, $file ) );
 			}
 		}
 
@@ -69,8 +69,20 @@ class Backdrop extends ServiceProvider
 		$url = $chassis->assetUrl( 'chassis.js' );
 
 		if ( $url ) {
-			wp_enqueue_script( 'chassis', $url, [], Chassis::VERSION, true );
+			wp_enqueue_script( 'chassis', $url, [], $this->version( $chassis, 'chassis.js' ), true );
 		}
+	}
+
+	/**
+	 * Returns a version for a file's URL (`?ver=…`) that changes whenever the
+	 * file does, so browsers never keep an old copy after an update. It's a
+	 * short hash of the file, like the names the Novaris provider uses.
+	 */
+	protected function version( Chassis $chassis, string $file ): string
+	{
+		$path = $chassis->distPath( $file );
+
+		return is_file( $path ) ? substr( md5_file( $path ), 0, 8 ) : Chassis::VERSION;
 	}
 
 	/**
