@@ -51,6 +51,42 @@ class Chassis
 	const SPACE_NAMES = [ 'xs', 's', 'm', 'l', 'l-plus', 'xl' ];
 
 	/**
+	 * Where the Menu button sits on phones, for `menu.toggle` in
+	 * `chassis.json`. `top-right` is the default, so it sets nothing.
+	 */
+	const MENU_TOGGLE = [
+		'top-right'    => [],
+		'top-left'     => [
+			'menu-toggle-order'   => '-1',
+			'menu-header-justify' => 'flex-start',
+		],
+		'bottom-left'  => [
+			'menu-toggle-background' => 'var( --color-header-background )',
+			'menu-toggle-border'     => '0',
+			'menu-toggle-bottom'     => 'var( --space-l )',
+			'menu-toggle-left'       => 'var( --space-l )',
+			'menu-toggle-padding'    => 'var( --space-s ) var( --space-l )',
+			'menu-toggle-position'   => 'fixed',
+			'menu-panel-bottom'      => '4.25rem',
+			'menu-panel-inset'       => 'var( --space-l )',
+			'menu-panel-position'    => 'fixed',
+			'menu-panel-top'         => 'auto',
+		],
+		'bottom-right' => [
+			'menu-toggle-background' => 'var( --color-header-background )',
+			'menu-toggle-border'     => '0',
+			'menu-toggle-bottom'     => 'var( --space-l )',
+			'menu-toggle-right'      => 'var( --space-l )',
+			'menu-toggle-padding'    => 'var( --space-s ) var( --space-l )',
+			'menu-toggle-position'   => 'fixed',
+			'menu-panel-bottom'      => '4.25rem',
+			'menu-panel-inset'       => 'var( --space-l )',
+			'menu-panel-position'    => 'fixed',
+			'menu-panel-top'         => 'auto',
+		],
+	];
+
+	/**
 	 * Sets the platform and how to reach the files in `dist/`. The service
 	 * providers pass these in, and `plain` means no provider is in use.
 	 */
@@ -173,6 +209,8 @@ class Chassis
 	 *   `l` or `xs m` become `var( --space-l )` and so on
 	 * - `width.wide` → `--width-wide`
 	 * - `design.radius` → `--radius`, for any other setting
+	 * - `menu.toggle` → where the Menu button sits on phones: `top-right`
+	 *   (the default), `top-left`, `bottom-left`, or `bottom-right`
 	 *
 	 * Returns an empty string when there's nothing to set.
 	 */
@@ -207,6 +245,16 @@ class Chassis
 
 		foreach ( $this->group( $design, 'design' ) as $name => $value ) {
 			$properties[ $name ] = $value;
+		}
+
+		$toggle = $this->group( $design, 'menu' )['toggle'] ?? null;
+
+		if ( null !== $toggle ) {
+			if ( is_string( $toggle ) && isset( self::MENU_TOGGLE[ $toggle ] ) ) {
+				$properties = array_merge( $properties, self::MENU_TOGGLE[ $toggle ] );
+			} else {
+				trigger_error( sprintf( 'Chassis skipped menu.toggle in chassis.json: use %s.', implode( ', ', array_keys( self::MENU_TOGGLE ) ) ), E_USER_WARNING );
+			}
 		}
 
 		$css = '';
