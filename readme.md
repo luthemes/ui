@@ -38,14 +38,6 @@ The numbers are the load order, the same convention as [novaris-dev/novaris](htt
 composer require techkodeninja/chassis
 ```
 
-Until the package is on Packagist, add the repository to your `composer.json` first:
-
-```json
-"repositories": [
-	{ "type": "vcs", "url": "https://github.com/techkodeninja/chassis" }
-]
-```
-
 Then [turn Chassis on](#turning-chassis-on) with its service provider.
 
 ## Styles

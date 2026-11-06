@@ -52,13 +52,10 @@ In `wp-content/themes/`, make a folder called `starter` and add `style.css`. Cla
 {
 	"name": "you/starter",
 	"type": "wordpress-theme",
-	"repositories": [
-		{ "type": "vcs", "url": "https://github.com/techkodeninja/chassis" }
-	],
 	"require": {
 		"php": ">=7.4",
 		"backdrop-dev/framework": "dev-develop",
-		"techkodeninja/chassis": "dev-develop"
+		"techkodeninja/chassis": "~0.0.1"
 	}
 }
 ```
@@ -69,7 +66,6 @@ composer install
 
 You now have `vendor/techkodeninja/chassis/` with `scss/`, `js/`, and `src/` inside. Look around: every SCSS file starts with a comment explaining what it does.
 
-> The repository entry and `dev-develop` are only needed until the package is on Packagist and tagged. Then it becomes `"techkodeninja/chassis": "~0.0.1"`.
 
 ## 3. Set up Vite
 
