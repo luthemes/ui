@@ -136,6 +136,7 @@ $_current: '[aria-current="page"], .current-menu-item > a, .current_page_item > 
 			background: var( --menu-toggle-background, var( --color-header-background ) );
 			border: var( --menu-toggle-border, 0 );
 			bottom: var( --menu-toggle-bottom, var( --space-l ) );
+			color: var( --menu-toggle-color, inherit );
 			left: var( --menu-toggle-left, var( --space-l ) );
 			padding: var( --menu-toggle-padding, var( --space-s ) var( --space-l ) );
 			position: var( --menu-toggle-position, fixed );

@@ -466,6 +466,34 @@
 						"number"
 					],
 					"description": "Site title size."
+				},
+				"menu-toggle-background": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Phone Menu button background."
+				},
+				"menu-toggle-color": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Phone Menu button text color."
+				},
+				"menu-toggle-border": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Phone Menu button border, e.g. `0` or `var( --border-width ) solid currentColor`."
+				},
+				"menu-toggle-padding": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Phone Menu button padding."
 				}
 			},
 			"additionalProperties": {

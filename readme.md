@@ -215,7 +215,18 @@ Dark themes should set `--color-content-border`, because it defaults to black.
 | `.app-main`, `.app-sidebar` | The two columns |
 | `.app-footer` (`__inner`, `__credit`) | Footer band |
 
-The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from ClassicPress's `wp_nav_menu()` and Novaris's menu works once the container has `.app-nav` and the list has `.app-nav__menu`. In Novaris, pass those as `container_class` and `menu_class`. The button can be `.app-nav__toggle` or the `.menu-toggle` that Novaris prints. On phones the button floats at the bottom left of the screen, with a solid background, and the menu opens above it. Set `menu.toggle` in [`chassis.json`](#set-the-design-with-chassisjson) to move it to `bottom-right`, or into the header with `top-right` or `top-left`, where it's an outlined button and the menu opens below the header. To change how the button looks, set `--menu-toggle-border`, `--menu-toggle-background`, or `--menu-toggle-padding` in `design`; those win over the position. Themes without `chassis.json` can use the `.app-nav--top` or `.app-nav--bottom` class instead, and a class wins over `chassis.json`. The current page is underlined, marked by `aria-current="page"`, `.current-menu-item`, or `.menu-items__item--current`.
+The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from ClassicPress's `wp_nav_menu()` and Novaris's menu works once the container has `.app-nav` and the list has `.app-nav__menu`. In Novaris, pass those as `container_class` and `menu_class`. The button can be `.app-nav__toggle` or the `.menu-toggle` that Novaris prints. On phones the button floats at the bottom left of the screen, with a solid background, and the menu opens above it. Set `menu.toggle` in [`chassis.json`](#set-the-design-with-chassisjson) to move it to `bottom-right`, or into the header with `top-right` or `top-left`, where it's an outlined button and the menu opens below the header. To change how the button looks, set these in `design`; they win over the position:
+
+```json
+"design": {
+	"menu-toggle-background": "#7c9cff",
+	"menu-toggle-color": "#0b0d12",
+	"menu-toggle-border": "0",
+	"menu-toggle-padding": "var( --space-s ) var( --space-l )"
+}
+```
+
+ Themes without `chassis.json` can use the `.app-nav--top` or `.app-nav--bottom` class instead, and a class wins over `chassis.json`. The current page is underlined, marked by `aria-current="page"`, `.current-menu-item`, or `.menu-items__item--current`.
 
 ## Objects
 
