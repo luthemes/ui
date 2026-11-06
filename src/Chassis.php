@@ -21,7 +21,7 @@ class Chassis
 	/**
 	 * Package version.
 	 */
-	const VERSION = '0.0.3';
+	const VERSION = '0.0.5';
 
 	/**
 	 * The platform this was created for: `novaris`, `backdrop`, or `plain`.
@@ -52,37 +52,39 @@ class Chassis
 
 	/**
 	 * Where the Menu button sits on phones, for `menu.toggle` in
-	 * `chassis.json`. `top-right` is the default, so it sets nothing.
+	 * `chassis.json`. `bottom-left` is the default, so it sets nothing.
 	 */
 	const MENU_TOGGLE = [
-		'top-right'    => [],
-		'top-left'     => [
-			'menu-toggle-order'   => '-1',
-			'menu-header-justify' => 'flex-start',
-		],
-		'bottom-left'  => [
-			'menu-toggle-background' => 'var( --color-header-background )',
-			'menu-toggle-border'     => '0',
-			'menu-toggle-bottom'     => 'var( --space-l )',
-			'menu-toggle-left'       => 'var( --space-l )',
-			'menu-toggle-padding'    => 'var( --space-s ) var( --space-l )',
-			'menu-toggle-position'   => 'fixed',
-			'menu-panel-bottom'      => '4.25rem',
-			'menu-panel-inset'       => 'var( --space-l )',
-			'menu-panel-position'    => 'fixed',
-			'menu-panel-top'         => 'auto',
-		],
+		'bottom-left'  => [],
 		'bottom-right' => [
-			'menu-toggle-background' => 'var( --color-header-background )',
-			'menu-toggle-border'     => '0',
-			'menu-toggle-bottom'     => 'var( --space-l )',
-			'menu-toggle-right'      => 'var( --space-l )',
-			'menu-toggle-padding'    => 'var( --space-s ) var( --space-l )',
-			'menu-toggle-position'   => 'fixed',
-			'menu-panel-bottom'      => '4.25rem',
-			'menu-panel-inset'       => 'var( --space-l )',
-			'menu-panel-position'    => 'fixed',
-			'menu-panel-top'         => 'auto',
+			'menu-toggle-left'  => 'auto',
+			'menu-toggle-right' => 'var( --space-l )',
+		],
+		'top-right'    => [
+			'menu-toggle-background' => 'transparent',
+			'menu-toggle-border'     => 'var( --border-width ) solid currentColor',
+			'menu-toggle-bottom'     => 'auto',
+			'menu-toggle-left'       => 'auto',
+			'menu-toggle-padding'    => 'var( --space-xs ) var( --space-m )',
+			'menu-toggle-position'   => 'static',
+			'menu-panel-bottom'      => 'auto',
+			'menu-panel-inset'       => '0',
+			'menu-panel-position'    => 'absolute',
+			'menu-panel-top'         => '100%',
+		],
+		'top-left'     => [
+			'menu-toggle-background' => 'transparent',
+			'menu-toggle-border'     => 'var( --border-width ) solid currentColor',
+			'menu-toggle-bottom'     => 'auto',
+			'menu-toggle-left'       => 'auto',
+			'menu-toggle-padding'    => 'var( --space-xs ) var( --space-m )',
+			'menu-toggle-position'   => 'static',
+			'menu-panel-bottom'      => 'auto',
+			'menu-panel-inset'       => '0',
+			'menu-panel-position'    => 'absolute',
+			'menu-panel-top'         => '100%',
+			'menu-toggle-order'      => '-1',
+			'menu-header-justify'    => 'flex-start',
 		],
 	];
 
@@ -209,8 +211,10 @@ class Chassis
 	 *   `l` or `xs m` become `var( --space-l )` and so on
 	 * - `width.wide` → `--width-wide`
 	 * - `design.radius` → `--radius`, for any other setting
-	 * - `menu.toggle` → where the Menu button sits on phones: `top-right`
-	 *   (the default), `top-left`, `bottom-left`, or `bottom-right`
+	 * - `menu.toggle` → where the Menu button sits on phones: `bottom-left`
+	 *   (the default), `bottom-right`, `top-right`, or `top-left`
+	 * - `menu.design.background` → `--menu-toggle-background`, and the same
+	 *   for `text` (`--menu-toggle-color`), `border`, and `padding`
 	 *
 	 * Returns an empty string when there's nothing to set.
 	 */
@@ -243,11 +247,8 @@ class Chassis
 			$properties[ "width-{$name}" ] = $value;
 		}
 
-		foreach ( $this->group( $design, 'design' ) as $name => $value ) {
-			$properties[ $name ] = $value;
-		}
-
-		$toggle = $this->group( $design, 'menu' )['toggle'] ?? null;
+		$menu   = $this->group( $design, 'menu' );
+		$toggle = $menu['toggle'] ?? null;
 
 		if ( null !== $toggle ) {
 			if ( is_string( $toggle ) && isset( self::MENU_TOGGLE[ $toggle ] ) ) {
@@ -255,6 +256,18 @@ class Chassis
 			} else {
 				trigger_error( sprintf( 'Chassis skipped menu.toggle in chassis.json: use %s.', implode( ', ', array_keys( self::MENU_TOGGLE ) ) ), E_USER_WARNING );
 			}
+		}
+
+		// The button's look, after the position so it wins over the presets.
+		foreach ( $this->group( $menu, 'design' ) as $name => $value ) {
+			$name = 'text' === $name ? 'color' : $name;
+
+			$properties[ "menu-toggle-{$name}" ] = 'padding' === $name && is_string( $value ) ? $this->spaceValue( $value ) : $value;
+		}
+
+		// Last, so a theme's own settings win over the `menu.toggle` presets.
+		foreach ( $this->group( $design, 'design' ) as $name => $value ) {
+			$properties[ $name ] = $value;
 		}
 
 		$css = '';

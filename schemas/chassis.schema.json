@@ -483,13 +483,48 @@
 			"properties": {
 				"toggle": {
 					"enum": [
-						"top-right",
-						"top-left",
 						"bottom-left",
-						"bottom-right"
+						"bottom-right",
+						"top-right",
+						"top-left"
 					],
-					"default": "top-right",
-					"description": "Where the Menu button sits on phones. `top-right` and `top-left` are in the header, and the menu opens below it. `bottom-left` and `bottom-right` float over the page, and the menu opens above the button."
+					"default": "bottom-left",
+					"description": "Where the Menu button sits on phones. `bottom-left` (the default) and `bottom-right` float over the page, and the menu opens above the button. `top-right` and `top-left` are in the header, and the menu opens below it."
+				},
+				"design": {
+					"type": "object",
+					"description": "How the Menu button looks. These win over the look that comes with `toggle`.",
+					"additionalProperties": false,
+					"properties": {
+						"background": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Background color."
+						},
+						"text": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Text color."
+						},
+						"border": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Border, e.g. `0` or `var( --border-width ) solid currentColor`."
+						},
+						"padding": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Padding. Size names work, e.g. `s l`."
+						}
+					}
 				}
 			}
 		}

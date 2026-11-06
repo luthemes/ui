@@ -128,30 +128,47 @@ $_current: '[aria-current="page"], .current-menu-item > a, .current_page_item > 
 		}
 
 		// Where the Menu button sits. `chassis.json` sets these with
-		// `menu.toggle` (`top-right`, `top-left`, `bottom-left`,
-		// `bottom-right`). The defaults put it at the top right of the header,
-		// with the menu opening below the header.
+		// `menu.toggle` (`bottom-left`, `bottom-right`, `top-right`,
+		// `top-left`). The defaults float it at the bottom left of the screen,
+		// with the menu opening above it.
 		&__toggle,
 		.menu-toggle {
-			background: var( --menu-toggle-background, transparent );
-			border: var( --menu-toggle-border, var( --border-width ) solid currentColor );
-			bottom: var( --menu-toggle-bottom, auto );
-			left: var( --menu-toggle-left, auto );
-			padding: var( --menu-toggle-padding, var( --space-xs ) var( --space-m ) );
-			position: var( --menu-toggle-position, static );
+			background: var( --menu-toggle-background, var( --color-header-background ) );
+			border: var( --menu-toggle-border, 0 );
+			bottom: var( --menu-toggle-bottom, var( --space-l ) );
+			color: var( --menu-toggle-color, inherit );
+			left: var( --menu-toggle-left, var( --space-l ) );
+			padding: var( --menu-toggle-padding, var( --space-s ) var( --space-l ) );
+			position: var( --menu-toggle-position, fixed );
 			right: var( --menu-toggle-right, auto );
 			z-index: 101;
 		}
 
 		&__menu {
-			bottom: var( --menu-panel-bottom, auto );
-			left: var( --menu-panel-inset, 0 );
-			position: var( --menu-panel-position, absolute );
-			right: var( --menu-panel-inset, 0 );
-			top: var( --menu-panel-top, 100% );
+			bottom: var( --menu-panel-bottom, 4.25rem );
+			left: var( --menu-panel-inset, var( --space-l ) );
+			position: var( --menu-panel-position, fixed );
+			right: var( --menu-panel-inset, var( --space-l ) );
+			top: var( --menu-panel-top, auto );
 		}
 
-		// `.app-nav--bottom` in the markup does the same as `bottom-left`.
+		// Classes for themes without `chassis.json`. A class wins over
+		// `chassis.json`. `.app-nav--top` puts the button at the top right of
+		// the header, with the menu opening below it; `.app-nav--bottom` is the
+		// default, bottom left.
+		&--top {
+			--menu-toggle-background: transparent;
+			--menu-toggle-border: var( --border-width ) solid currentColor;
+			--menu-toggle-bottom: auto;
+			--menu-toggle-left: auto;
+			--menu-toggle-padding: var( --space-xs ) var( --space-m );
+			--menu-toggle-position: static;
+			--menu-panel-bottom: auto;
+			--menu-panel-inset: 0;
+			--menu-panel-position: absolute;
+			--menu-panel-top: 100%;
+		}
+
 		&--bottom {
 			--menu-toggle-background: var( --color-header-background );
 			--menu-toggle-border: 0;
