@@ -2,7 +2,9 @@
 
 All notable changes to Chassis will be documented in this file.
 
-## Unreleased
+## [0.0.2] - 11.05.2026
+
+### Fixed
 
 - `.social-menu` now works with text links as well as icons, for Novaris's `$engine->social()`.
 
