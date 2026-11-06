@@ -299,9 +299,41 @@ Then print the files in the theme's views, with `styles()` before the theme's ow
 
 The provider copies the built files into `public/assets/chassis`, because browsers can't reach `vendor`. If it can't write there, it logs a warning and prints nothing.
 
-**ClassicPress.** Register `Providers\Backdrop` in the theme's `app/framework.php`. It loads the CSS, the ClassicPress add-on, and the JavaScript for you.
+**ClassicPress.** Register `Providers\Backdrop` in the theme's `app/framework.php`. It loads the CSS, the ClassicPress add-on, the theme's `chassis.json`, and the JavaScript for you.
 
-A theme sets its design in its own stylesheet, which loads after Chassis:
+### Set the design with `chassis.json`
+
+A theme sets its design in a `chassis.json` file in its root folder, next to `theme.json`. It needs no Sass and no build step: `styles()` turns it into custom properties and prints them right after the stylesheet. Keep only the settings you change; everything else keeps its default.
+
+```json
+{
+	"$schema": "https://raw.githubusercontent.com/techkodeninja/chassis/develop/schemas/chassis.schema.json",
+	"color": {
+		"global":  { "page-background": "#0f1117", "link": "#9db4ff", "accent": "#7c9cff" },
+		"header":  { "background": "#0b0d12", "text": "#ffffff" },
+		"content": { "background": "#161a23", "border": "#2d3446", "text": "#d7dae0" },
+		"widget":  { "background": "#161a23" },
+		"footer":  { "background": "#0b0d12", "text": "#ffffff" }
+	},
+	"font": { "body": "'Merriweather', serif", "heading": "'Fira Sans', sans-serif" },
+	"spacing": { "header-padding": "s", "nav-link-padding": "xs m", "content-padding": "l" },
+	"width": { "wide": "75rem", "sidebar": "20rem" },
+	"design": { "radius": "0.5rem" }
+}
+```
+
+| In `chassis.json` | Becomes |
+|---|---|
+| `color.global.link` | `--color-link` |
+| `color.header.text` (and `content`, `widget`, `footer`) | `--color-header-text` |
+| `font.body` | `--font-family-body` |
+| `spacing.content-padding` | `--content-padding`. The size names `xs`, `s`, `m`, `l`, `l-plus`, and `xl` become `var( --space-… )`, and `xs m` gives two values. Plain CSS such as `1rem` works too. |
+| `width.wide` | `--width-wide` |
+| `design.radius` | `--radius`, for any other setting in the [settings reference](#settings-reference) |
+
+The `$schema` line gives editors autocomplete and catches typos. A child theme's `chassis.json` overrides its parent's, setting by setting. Values that aren't plain CSS (with `{`, `}`, `;`, `<`, or `>`) are skipped with a warning.
+
+A theme can still set custom properties in its own stylesheet instead, which loads after Chassis:
 
 ```scss
 :root {

@@ -21,7 +21,7 @@ class Chassis
 	/**
 	 * Package version.
 	 */
-	const VERSION = '0.0.2';
+	const VERSION = '0.0.3';
 
 	/**
 	 * The platform this was created for: `novaris`, `backdrop`, or `plain`.
@@ -36,6 +36,19 @@ class Chassis
 	 * @var callable|null
 	 */
 	protected $asset;
+
+	/**
+	 * `chassis.json` files to read, parent theme first. Later files override
+	 * earlier ones.
+	 *
+	 * @var string[]
+	 */
+	protected $designFiles = [];
+
+	/**
+	 * Spacing names that `chassis.json` can use instead of CSS values.
+	 */
+	const SPACE_NAMES = [ 'xs', 's', 'm', 'l', 'l-plus', 'xl' ];
 
 	/**
 	 * Sets the platform and how to reach the files in `dist/`. The service
@@ -102,7 +115,150 @@ class Chassis
 	{
 		$url = $this->assetUrl( 'chassis.css' );
 
-		return $url ? sprintf( '<link rel="stylesheet" href="%s">', $this->escape( $url ) ) : '';
+		if ( ! $url ) {
+			return '';
+		}
+
+		$html   = sprintf( '<link rel="stylesheet" href="%s">', $this->escape( $url ) );
+		$design = $this->designCss();
+
+		return $design ? $html . "\n" . sprintf( '<style id="chassis-design">%s</style>', $design ) : $html;
+	}
+
+	/**
+	 * Sets the `chassis.json` files to read, parent theme first. Missing files
+	 * are skipped. The service providers call this with the theme's files.
+	 *
+	 * @param string[] $files Paths to `chassis.json` files.
+	 */
+	public function designFiles( array $files ): self
+	{
+		$this->designFiles = array_values( array_filter( $files, 'is_string' ) );
+
+		return $this;
+	}
+
+	/**
+	 * Returns the merged settings from the `chassis.json` files.
+	 */
+	public function design(): array
+	{
+		$design = [];
+
+		foreach ( array_unique( $this->designFiles ) as $file ) {
+			if ( '' === $file || ! is_file( $file ) ) {
+				continue;
+			}
+
+			$data = json_decode( (string) file_get_contents( $file ), true );
+
+			if ( ! is_array( $data ) ) {
+				trigger_error( sprintf( 'Chassis could not read %s: %s', $file, json_last_error_msg() ), E_USER_WARNING );
+				continue;
+			}
+
+			$design = array_replace_recursive( $design, $data );
+		}
+
+		return $design;
+	}
+
+	/**
+	 * Turns the `chassis.json` settings into custom properties:
+	 *
+	 * - `color.global.link` → `--color-link`
+	 * - `color.header.text` → `--color-header-text` (any other group works the same)
+	 * - `font.body` → `--font-family-body`
+	 * - `spacing.content-padding` → `--content-padding`; size names such as
+	 *   `l` or `xs m` become `var( --space-l )` and so on
+	 * - `width.wide` → `--width-wide`
+	 * - `design.radius` → `--radius`, for any other setting
+	 *
+	 * Returns an empty string when there's nothing to set.
+	 */
+	public function designCss( ?array $design = null ): string
+	{
+		$design     = $design ?? $this->design();
+		$properties = [];
+
+		foreach ( $this->group( $design, 'color' ) as $group => $colors ) {
+			if ( ! is_array( $colors ) ) {
+				continue;
+			}
+
+			$prefix = 'global' === $group ? 'color-' : "color-{$group}-";
+
+			foreach ( $colors as $name => $value ) {
+				$properties[ $prefix . $name ] = $value;
+			}
+		}
+
+		foreach ( $this->group( $design, 'font' ) as $name => $value ) {
+			$properties[ "font-family-{$name}" ] = $value;
+		}
+
+		foreach ( $this->group( $design, 'spacing' ) as $name => $value ) {
+			$properties[ $name ] = is_string( $value ) ? $this->spaceValue( $value ) : $value;
+		}
+
+		foreach ( $this->group( $design, 'width' ) as $name => $value ) {
+			$properties[ "width-{$name}" ] = $value;
+		}
+
+		foreach ( $this->group( $design, 'design' ) as $name => $value ) {
+			$properties[ $name ] = $value;
+		}
+
+		$css = '';
+
+		foreach ( $properties as $name => $value ) {
+			$name = (string) $name;
+
+			if ( ! preg_match( '/^[a-z0-9]+(-[a-z0-9]+)*$/', $name ) ) {
+				trigger_error( sprintf( 'Chassis skipped the setting "%s" in chassis.json: names use lowercase letters, numbers, and dashes.', $name ), E_USER_WARNING );
+				continue;
+			}
+
+			if ( ! is_string( $value ) && ! is_int( $value ) && ! is_float( $value ) ) {
+				continue;
+			}
+
+			$value = trim( (string) $value );
+
+			if ( '' === $value || preg_match( '/[{}<>;\\\\]|\/\*/', $value ) ) {
+				trigger_error( sprintf( 'Chassis skipped the setting "%s" in chassis.json: its value isn\'t a plain CSS value.', $name ), E_USER_WARNING );
+				continue;
+			}
+
+			$css .= "--{$name}:{$value};";
+		}
+
+		return $css ? ":root{{$css}}" : '';
+	}
+
+	/**
+	 * Returns one top-level group from the settings, or an empty array.
+	 */
+	protected function group( array $design, string $key ): array
+	{
+		return isset( $design[ $key ] ) && is_array( $design[ $key ] ) ? $design[ $key ] : [];
+	}
+
+	/**
+	 * Turns spacing size names into custom properties: `xs m` becomes
+	 * `var( --space-xs ) var( --space-m )`. Other values are kept as they are.
+	 */
+	protected function spaceValue( string $value ): string
+	{
+		$parts = preg_split( '/\s+/', trim( $value ) );
+
+		foreach ( $parts as &$part ) {
+			if ( in_array( $part, self::SPACE_NAMES, true ) ) {
+				$part = "var( --space-{$part} )";
+			}
+		}
+
+		return implode( ' ', $parts );
 	}
 
 	/**

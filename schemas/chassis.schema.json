@@ -1,0 +1,480 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/techkodeninja/chassis/develop/schemas/chassis.schema.json",
+	"title": "chassis.json",
+	"description": "A theme's design settings for Chassis. Each one becomes a CSS custom property, and anything left out keeps the Chassis default.",
+	"type": "object",
+	"additionalProperties": false,
+	"properties": {
+		"$schema": {
+			"type": "string"
+		},
+		"color": {
+			"type": "object",
+			"description": "Colors grouped by where they appear. `global.link` becomes `--color-link`; `header.text` becomes `--color-header-text`.",
+			"propertyNames": {
+				"pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+			},
+			"properties": {
+				"global": {
+					"type": "object",
+					"description": "Colors used everywhere.",
+					"propertyNames": {
+						"pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+					},
+					"properties": {
+						"page-background": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Behind everything."
+						},
+						"link": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Links."
+						},
+						"link-hover": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Links on hover."
+						},
+						"accent": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Buttons and badges."
+						},
+						"accent-text": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Text on buttons and badges."
+						}
+					},
+					"additionalProperties": {
+						"type": [
+							"string",
+							"number"
+						],
+						"description": "A CSS value."
+					}
+				},
+				"header": {
+					"type": "object",
+					"description": "The top bar.",
+					"propertyNames": {
+						"pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+					},
+					"properties": {
+						"background": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "The top bar."
+						},
+						"text": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Site title, tagline, menu links."
+						}
+					},
+					"additionalProperties": {
+						"type": [
+							"string",
+							"number"
+						],
+						"description": "A CSS value."
+					}
+				},
+				"content": {
+					"type": "object",
+					"description": "Post boxes and cards.",
+					"propertyNames": {
+						"pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+					},
+					"properties": {
+						"background": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Post boxes and cards."
+						},
+						"border": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Borders around those boxes."
+						},
+						"heading": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Post titles, h1 to h6."
+						},
+						"text": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Paragraphs."
+						},
+						"muted": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Captions, quieter text."
+						},
+						"divider": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Lines between things."
+						},
+						"alt": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Muted boxes, code blocks."
+						}
+					},
+					"additionalProperties": {
+						"type": [
+							"string",
+							"number"
+						],
+						"description": "A CSS value."
+					}
+				},
+				"widget": {
+					"type": "object",
+					"description": "Sidebar boxes. These follow the content colors unless set.",
+					"propertyNames": {
+						"pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+					},
+					"properties": {
+						"background": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Sidebar boxes."
+						},
+						"border": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Borders around them."
+						},
+						"title": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Widget titles."
+						},
+						"text": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Text inside them."
+						}
+					},
+					"additionalProperties": {
+						"type": [
+							"string",
+							"number"
+						],
+						"description": "A CSS value."
+					}
+				},
+				"footer": {
+					"type": "object",
+					"description": "The bottom bar.",
+					"propertyNames": {
+						"pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+					},
+					"properties": {
+						"background": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "The bottom bar."
+						},
+						"text": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Footer text and links."
+						}
+					},
+					"additionalProperties": {
+						"type": [
+							"string",
+							"number"
+						],
+						"description": "A CSS value."
+					}
+				}
+			},
+			"additionalProperties": {
+				"type": "object",
+				"propertyNames": {
+					"pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+				},
+				"additionalProperties": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "A CSS value."
+				}
+			}
+		},
+		"font": {
+			"type": "object",
+			"description": "Font stacks. `body` becomes `--font-family-body`.",
+			"propertyNames": {
+				"pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+			},
+			"properties": {
+				"body": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Body text."
+				},
+				"heading": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Headings."
+				},
+				"code": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Code."
+				},
+				"meta": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Dates and small labels."
+				}
+			},
+			"additionalProperties": {
+				"type": [
+					"string",
+					"number"
+				],
+				"description": "A CSS value."
+			}
+		},
+		"spacing": {
+			"type": "object",
+			"description": "Padding and gaps. `content-padding` becomes `--content-padding`. Size names (xs, s, m, l, l-plus, xl) become the Chassis spacing scale, and `xs m` works for two values.",
+			"propertyNames": {
+				"pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+			},
+			"properties": {
+				"header-padding": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Inside the header."
+				},
+				"nav-link-padding": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Around menu links."
+				},
+				"content-padding": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Above and below the content."
+				},
+				"sidebar-gap": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Between the content and sidebar."
+				},
+				"entry-padding": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Inside post boxes."
+				},
+				"button-padding": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Inside buttons."
+				},
+				"pagination-padding": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Inside pagination links."
+				}
+			},
+			"additionalProperties": {
+				"type": [
+					"string",
+					"number"
+				],
+				"description": "A CSS value."
+			}
+		},
+		"width": {
+			"type": "object",
+			"description": "Widths. `wide` becomes `--width-wide`.",
+			"propertyNames": {
+				"pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+			},
+			"properties": {
+				"wide": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "The widest container."
+				},
+				"medium": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "The medium container."
+				},
+				"narrow": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "The narrow container."
+				},
+				"sidebar": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "The sidebar."
+				}
+			},
+			"additionalProperties": {
+				"type": [
+					"string",
+					"number"
+				],
+				"description": "A CSS value."
+			}
+		},
+		"design": {
+			"type": "object",
+			"description": "Any other Chassis setting, by its custom property name without the dashes. `radius` becomes `--radius`.",
+			"propertyNames": {
+				"pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+			},
+			"properties": {
+				"radius": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Corners on cards, buttons, and badges."
+				},
+				"shadow": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Shadow on cards."
+				},
+				"border-box": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Border around boxes."
+				},
+				"border-box-bottom": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Bottom border of boxes."
+				},
+				"font-size-base": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Body text size."
+				},
+				"line-height-base": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Body line height."
+				},
+				"font-weight-heading": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Heading weight."
+				},
+				"header-title-size": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Site title size."
+				}
+			},
+			"additionalProperties": {
+				"type": [
+					"string",
+					"number"
+				],
+				"description": "A CSS value."
+			}
+		}
+	}
+}

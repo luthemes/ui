@@ -12,6 +12,9 @@
  *     <?= app( 'chassis' )->styles() ?>   // in the head
  *     <?= app( 'chassis' )->scripts() ?>  // at the end of the page
  *
+ * The theme's `chassis.json` sets its colors, fonts, and spacing, and
+ * `styles()` prints them after the stylesheet.
+ *
  * Requires novaris-dev/framework, which the site already has.
  *
  * @package Techkodeninja\Chassis
@@ -31,7 +34,9 @@ class Novaris extends ServiceProvider
 	public function register(): void
 	{
 		$this->app->singleton( Chassis::class, function() {
-			return new Chassis( 'novaris', [ $this, 'publish' ] );
+			$chassis = new Chassis( 'novaris', [ $this, 'publish' ] );
+
+			return $chassis->designFiles( $this->designFiles() );
 		} );
 		$this->app->alias( Chassis::class, 'chassis' );
 	}
@@ -45,6 +50,22 @@ class Novaris extends ServiceProvider
 
 		$tags->add( 'badge', Badge::class );
 		$tags->add( 'button', Button::class );
+	}
+
+	/**
+	 * Returns the theme's `chassis.json` files, the parent theme's first so
+	 * the active theme overrides it.
+	 *
+	 * @return string[]
+	 */
+	protected function designFiles(): array
+	{
+		$parent = function_exists( 'parent_theme_path' ) ? parent_theme_path() : '';
+
+		return array_filter( [
+			$parent ? $parent . '/chassis.json' : '',
+			theme_path( 'chassis.json' ),
+		] );
 	}
 
 	/**
