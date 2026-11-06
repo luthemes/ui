@@ -2,7 +2,19 @@
 
 All notable changes to Chassis will be documented in this file.
 
-## [Unreleased]
+## [0.1.0] - 11.06.2026
+
+Moving to 0.1 marks the end of the 0.0.x series. Themes that require `~0.0.x` need `^0.1` to get this and later updates:
+
+```json
+"techkodeninja/chassis": "^0.1"
+```
+
+### Fixed
+
+- On ClassicPress, each file's `?ver=` is now a short hash of the file instead of the Chassis version, so browsers load the new CSS and JavaScript after every update. Before, a release that didn't change the version number (like 0.0.9) kept the old `?ver=` and browsers could keep the old files.
+
+## [0.0.9] - 11.06.2026
 
 ### Fixed
 
