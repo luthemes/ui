@@ -21,6 +21,7 @@ namespace Techkodeninja\Chassis\Providers;
 
 use Techkodeninja\Chassis\Chassis;
 use Novaris\Core\ServiceProvider;
+use Techkodeninja\Chassis\Tags\{Badge, Button};
 
 class Novaris extends ServiceProvider
 {
@@ -36,25 +37,71 @@ class Novaris extends ServiceProvider
 	}
 
 	/**
+	 * Adds the template tags, so views can use `$engine->button()`.
+	 */
+	public function boot(): void
+	{
+		$tags = $this->app->make( 'template.tags' );
+
+		$tags->add( 'badge', Badge::class );
+		$tags->add( 'button', Button::class );
+	}
+
+	/**
 	 * Copies a built file into `public/assets/chassis`, because browsers can't
 	 * reach `vendor`, and returns its URL. The name includes a hash of the
-	 * contents, so a new version of the file gets a new URL.
+	 * contents, so a new version of the file gets a new URL. Returns an empty
+	 * string if the file can't be copied.
 	 */
 	public function publish( string $file ): string
 	{
 		$source = $this->app->make( Chassis::class )->distPath( $file );
 		$info   = pathinfo( $file );
 		$name   = sprintf( '%s-%s.%s', $info['filename'], substr( md5_file( $source ), 0, 8 ), $info['extension'] );
-		$target = public_path( 'assets/chassis/' . $name );
+		$folder = public_path( 'assets/chassis' );
+		$target = $folder . '/' . $name;
 
 		if ( ! is_file( $target ) ) {
-			if ( ! is_dir( dirname( $target ) ) ) {
-				mkdir( dirname( $target ), 0755, true );
+			if ( ! $this->copy( $source, $folder, $target ) ) {
+				return '';
 			}
 
-			copy( $source, $target );
+			$this->removeOldCopies( $folder, $info['filename'], $info['extension'], $name );
 		}
 
 		return public_url( 'assets/chassis/' . $name );
+	}
+
+	/**
+	 * Copies a file, and logs a warning if that fails, so a missing stylesheet
+	 * has a clear cause.
+	 */
+	protected function copy( string $source, string $folder, string $target ): bool
+	{
+		if ( ( is_dir( $folder ) || @mkdir( $folder, 0755, true ) ) && @copy( $source, $target ) ) {
+			return true;
+		}
+
+		trigger_error(
+			sprintf( 'Chassis could not copy its files to %s. Check that the folder is writable.', $folder ),
+			E_USER_WARNING
+		);
+
+		return false;
+	}
+
+	/**
+	 * Removes earlier versions of a file. The pattern is exact, so `chassis.css`
+	 * doesn't match `chassis-classicpress.css`.
+	 */
+	protected function removeOldCopies( string $folder, string $filename, string $extension, string $keep ): void
+	{
+		$pattern = sprintf( '/^%s-[0-9a-f]{8}\.%s$/', preg_quote( $filename, '/' ), preg_quote( $extension, '/' ) );
+
+		foreach ( scandir( $folder ) ?: [] as $file ) {
+			if ( $file !== $keep && preg_match( $pattern, $file ) ) {
+				@unlink( $folder . '/' . $file );
+			}
+		}
 	}
 }

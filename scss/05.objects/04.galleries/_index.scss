@@ -1,0 +1,38 @@
+////
+/// Galleries
+///
+/// A grid of images that all share the same shape.
+///
+///   <div class="gallery gallery--3">
+///     <img src="…" alt="…">
+///   </div>
+///
+/// @group Objects
+////
+
+@use '../../02.tools' as ui;
+
+.gallery {
+	display: grid;
+	gap: var( --space-s );
+	grid-template-columns: repeat( 2, minmax( 0, 1fr ) );
+	margin-bottom: var( --space-l );
+
+	img {
+		aspect-ratio: 1;
+		display: block;
+		height: auto;
+		object-fit: cover;
+		width: 100%;
+	}
+
+	@include ui.up( medium ) {
+		&--3 {
+			grid-template-columns: repeat( 3, minmax( 0, 1fr ) );
+		}
+
+		&--4 {
+			grid-template-columns: repeat( 4, minmax( 0, 1fr ) );
+		}
+	}
+}
