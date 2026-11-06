@@ -1,0 +1,27 @@
+////
+/// Forms
+///
+/// Text fields, menus, and labels. Buttons use `.button`, so they're left alone.
+///
+/// @group Elements
+////
+
+label {
+	display: inline-block;
+	margin-bottom: var( --space-xs );
+}
+
+input:not( [type='button'], [type='checkbox'], [type='file'], [type='radio'], [type='reset'], [type='submit'] ),
+select,
+textarea {
+	background: var( --color-content-background );
+	border: var( --border-rule );
+	border-radius: var( --radius );
+	color: var( --color-content-text );
+	max-width: 100%;
+	padding: var( --space-s );
+}
+
+textarea {
+	width: 100%;
+}

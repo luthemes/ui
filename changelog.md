@@ -28,9 +28,15 @@
 - `.app-main > article` and `.entry__*`: posts and pages, in a box that matches the widgets.
 - `.app-nav--bottom`: moves the phone menu button to the bottom left, with the menu above it.
 - `$content-padding`, `$sidebar-gap`, and `$entry-padding` settings.
-- `platforms/classicpress`: an optional add-on for ClassicPress, with captions, sticky posts, threaded comments, the comment form, the search form, the calendar widget, and `the_posts_pagination()`.
+- Submenu buttons in `js/app-nav.js`, which open submenus on touch screens.
+- A Copy button for code blocks in post content, in `js/code-copy.js`.
+- Styles for forms, inline code, code blocks, and quote citations, plus `.gallery`.
+- `l-plus` spacing size and `$font-family-meta`.
+- `button` and `badge` template tags on Novaris.
+- `platforms/classicpress`: an optional add-on for ClassicPress, with captions, sticky posts, threaded comments, the comment form, the search form, the calendar widget, `the_posts_pagination()`, `entry-*` classes, and the `[gallery]` shortcode.
 
 ### Changed
+- The default `content-text` and `link-hover` color is now `#5c7079`, which meets the 4.5:1 contrast guideline on white.
 - Grouped the colors by where they appear and renamed them: `background` to `page-background`, `surface` to `content-background`, `surface-alt` to `content-alt`, `border` to `content-border`, `rule` to `content-divider`, `heading` to `content-heading`, `text` to `content-text`, `muted` to `content-muted`, `header` to `header-background`, `on-header` to `header-text`, `footer` to `footer-background`, `on-footer` to `footer-text`, `primary` to `accent`, and `on-primary` to `accent-text`.
 - Renamed the package from `luthemes/ui` to `techkodeninja/chassis`. The namespace is now `Techkodeninja\Chassis`, the `UI` class is now `Chassis`, and the container key is now `chassis`.
 

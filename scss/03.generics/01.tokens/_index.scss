@@ -33,6 +33,7 @@
 	--font-family-body:    #{ meta.inspect( type.$font-family-body ) };
 	--font-family-heading: #{ meta.inspect( type.$font-family-heading ) };
 	--font-family-code:    #{ meta.inspect( type.$font-family-code ) };
+	--font-family-meta:    #{ type.$font-family-meta };
 	--font-size-base:      #{ type.$font-size-base };
 	--line-height-base:    #{ type.$line-height-base };
 	--line-height-heading: #{ type.$line-height-heading };

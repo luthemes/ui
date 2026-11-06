@@ -21,6 +21,7 @@ namespace Techkodeninja\Chassis\Providers;
 
 use Techkodeninja\Chassis\Chassis;
 use Novaris\Core\ServiceProvider;
+use Techkodeninja\Chassis\Tags\{Badge, Button};
 
 class Novaris extends ServiceProvider
 {
@@ -33,6 +34,17 @@ class Novaris extends ServiceProvider
 			return new Chassis( 'novaris', [ $this, 'publish' ] );
 		} );
 		$this->app->alias( Chassis::class, 'chassis' );
+	}
+
+	/**
+	 * Adds the template tags, so views can use `$engine->button()`.
+	 */
+	public function boot(): void
+	{
+		$tags = $this->app->make( 'template.tags' );
+
+		$tags->add( 'badge', Badge::class );
+		$tags->add( 'button', Button::class );
 	}
 
 	/**

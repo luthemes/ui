@@ -56,7 +56,19 @@ $_current: '[aria-current="page"], .current-menu-item > a, .current_page_item > 
 		}
 
 		li {
+			align-items: center;
+			display: flex;
+			flex-wrap: wrap;
 			position: relative;
+		}
+
+		// The button `js/app-nav.js` adds next to links with a submenu.
+		.app-nav__submenu-toggle {
+			background: transparent;
+			border: 0;
+			color: var( --color-header-text );
+			cursor: pointer;
+			padding: var( --space-xs );
 		}
 
 		a {
@@ -93,9 +105,23 @@ $_current: '[aria-current="page"], .current-menu-item > a, .current_page_item > 
 			top: 100%;
 			z-index: 100;
 
+			li > a {
+				flex: 1;
+			}
+
 			ul {
+				flex-basis: 100%;
 				padding-left: var( --space-l );
 			}
+		}
+
+		// With the script running, submenus stay closed until they're opened.
+		&--ready &__menu ul {
+			display: none;
+		}
+
+		&--ready &__menu &__item--open > ul {
+			display: block;
 		}
 
 		&--open &__menu {
@@ -117,7 +143,7 @@ $_current: '[aria-current="page"], .current-menu-item > a, .current_page_item > 
 		}
 
 		&--bottom &__menu {
-			bottom: 3.5rem;
+			bottom: 4.25rem;
 			left: var( --space-l );
 			position: fixed;
 			right: var( --space-l );
@@ -153,7 +179,8 @@ $_current: '[aria-current="page"], .current-menu-item > a, .current_page_item > 
 			}
 
 			li:hover > ul,
-			li:focus-within > ul {
+			li:focus-within > ul,
+			li.app-nav__item--open > ul {
 				opacity: 1;
 				transform: translateY( 0 );
 				transition-delay: 0s;

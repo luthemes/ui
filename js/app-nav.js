@@ -9,6 +9,8 @@
  *
  * - The Menu button is `.app-nav__toggle`, or the `.menu-toggle` that Novaris
  *   prints. It toggles `.app-nav--open` and keeps `aria-expanded` in sync.
+ * - Links with a submenu get a button that opens it, which helps on touch
+ *   screens. It toggles `.app-nav__item--open` and keeps `aria-expanded` in sync.
  * - Escape closes the menu and returns focus to the button.
  * - Clicking outside the menu closes it.
  * - Widening the screen past the mobile breakpoint resets it to closed.
@@ -35,18 +37,69 @@ export function appNav( root = document ) {
 
 		const isOpen = () => nav.classList.contains( 'app-nav--open' );
 
+		const closeSubmenus = ( except ) => {
+			nav.querySelectorAll( '.app-nav__item--open' ).forEach( ( item ) => {
+				if ( ! except || ! item.contains( except ) ) {
+					item.classList.remove( 'app-nav__item--open' );
+					item.querySelector( ':scope > .app-nav__submenu-toggle' )?.setAttribute( 'aria-expanded', 'false' );
+				}
+			} );
+		};
+
+		nav.querySelectorAll( '.app-nav__menu li' ).forEach( ( item ) => {
+			const submenu = item.querySelector( ':scope > ul' );
+			const link = item.querySelector( ':scope > a' );
+
+			if ( ! submenu || ! link ) {
+				return;
+			}
+
+			const button = document.createElement( 'button' );
+
+			button.type = 'button';
+			button.className = 'app-nav__submenu-toggle';
+			button.textContent = '▾';
+			button.setAttribute( 'aria-expanded', 'false' );
+			button.setAttribute( 'aria-label', `Submenu for ${ link.textContent.trim() }` );
+
+			button.addEventListener( 'click', () => {
+				const open = ! item.classList.contains( 'app-nav__item--open' );
+
+				closeSubmenus( item );
+				item.classList.toggle( 'app-nav__item--open', open );
+				button.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
+			} );
+
+			link.after( button );
+		} );
+
+		nav.classList.add( 'app-nav--ready' );
+
 		toggle.addEventListener( 'click', () => setOpen( ! isOpen() ) );
 
 		nav.addEventListener( 'keydown', ( event ) => {
-			if ( 'Escape' === event.key && isOpen() ) {
+			if ( 'Escape' !== event.key ) {
+				return;
+			}
+
+			const openItem = event.target.closest( '.app-nav__item--open' );
+
+			if ( openItem ) {
+				closeSubmenus();
+				openItem.querySelector( ':scope > .app-nav__submenu-toggle' )?.focus();
+			} else if ( isOpen() ) {
 				setOpen( false );
 				toggle.focus();
 			}
 		} );
 
 		document.addEventListener( 'click', ( event ) => {
-			if ( isOpen() && ! nav.contains( event.target ) ) {
-				setOpen( false );
+			if ( ! nav.contains( event.target ) ) {
+				closeSubmenus();
+
+				if ( isOpen() ) {
+					setOpen( false );
+				}
 			}
 		} );
 

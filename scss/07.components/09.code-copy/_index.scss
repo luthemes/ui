@@ -1,0 +1,21 @@
+////
+/// Code copy
+///
+/// The Copy button that `js/code-copy.js` adds to code blocks in post content.
+///
+/// @group Components
+////
+
+.code-copy {
+	background: var( --color-content-background );
+	border: var( --border-rule );
+	border-radius: var( --radius );
+	color: var( --color-content-text );
+	cursor: pointer;
+	font-family: var( --font-family-body );
+	font-size: 0.75rem;
+	padding: var( --space-xs ) var( --space-s );
+	position: absolute;
+	right: var( --space-s );
+	top: var( --space-s );
+}

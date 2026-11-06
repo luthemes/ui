@@ -92,9 +92,10 @@ These are the package's Sass settings, used to build `dist/`. A theme sets the m
 |---|---|---|
 | `$breakpoints` | `small` 40rem (640px), `medium` 48rem (768px), `large` 64rem (1024px), `wide` 80rem (1280px) | none (media queries can't use custom properties) |
 | `$colors` | See [Colors](#colors) | `--color-*` |
-| `$spacing` | `xs` .25rem, `s` .5rem, `m` .75rem, `l` 1.125rem, `xl` 2.5rem | `--space-*` |
+| `$spacing` | `xs` .25rem, `s` .5rem, `m` .75rem, `l` 1.125rem, `l-plus` 1.5rem, `xl` 2.5rem | `--space-*` |
 | `$widths` | `wide` 80rem, `medium` 64rem, `narrow` 50rem, `sidebar` 18rem | `--width-*` |
 | `$font-family-body`, `$font-family-heading`, `$font-family-code` | system fonts | `--font-family-*` |
+| `$font-family-meta` | the body font | `--font-family-meta` (dates and small labels) |
 | `$font-size-base`, `$line-height-base`, `$line-height-heading` | 1rem, 1.7, 1.25 | same names |
 | `$border-width` | 0.063rem | `--border-width`, `--border-dotted`, `--border-solid`, `--border-rule` |
 
@@ -107,7 +108,7 @@ Colors are grouped by where they appear. Copy this block as a starting point, an
 	// Global
 	--color-page-background: #ffffff;  // behind everything
 	--color-link:            #000000;  // links
-	--color-link-hover:      #677d89;  // links on hover
+	--color-link-hover:      #5c7079;  // links on hover
 	--color-accent:          #000000;  // buttons and badges
 	--color-accent-text:     #ffffff;  // text on buttons and badges
 
@@ -119,7 +120,7 @@ Colors are grouped by where they appear. Copy this block as a starting point, an
 	--color-content-background: #ffffff;  // post boxes and cards
 	--color-content-border:     #000000;  // borders around those boxes
 	--color-content-heading:    #000000;  // post titles, h1 to h6
-	--color-content-text:       #677d89;  // paragraphs
+	--color-content-text:       #5c7079;  // paragraphs
 	--color-content-muted:      #555555;  // captions, quieter text
 	--color-content-divider:    #cccccc;  // lines between things
 	--color-content-alt:        #f5f5f5;  // muted boxes, code blocks
@@ -128,7 +129,7 @@ Colors are grouped by where they appear. Copy this block as a starting point, an
 	--color-widget-background: #ffffff;  // sidebar boxes
 	--color-widget-border:     #000000;  // borders around them
 	--color-widget-title:      #000000;  // "Categories", "Archives"
-	--color-widget-text:       #677d89;  // text inside them
+	--color-widget-text:       #5c7079;  // text inside them
 
 	// Footer
 	--color-footer-background: #000000;  // the bottom bar
@@ -231,6 +232,7 @@ The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from
 | `.container` · `--medium` · `--narrow` | Centered, max-width, side padding |
 | `.section` · `--muted` | Full-width band with vertical padding; `--muted` is light gray |
 | `.grid` · `--2` · `--3` · `--4` | One column on phones; 2 or 3 columns from `medium`; `--4` is 2 then 4 from `large`. Works on lists |
+| `.gallery` · `--3` · `--4` | A grid of images that share the same shape. Two columns on phones |
 
 ## Components
 
@@ -242,6 +244,7 @@ The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from
 | `.section-header` (`__title`, `__description`) | Centered heading block |
 | `.pagination` (`__items`, `__item`, `__anchor`) | Numbered page links. Novaris's default `pagination-items` classes work too |
 | `.widget`, `.widget-title` | Sidebar boxes, as printed by Novaris and ClassicPress |
+| `.code-copy` | The Copy button added to code blocks in post content |
 | `.app-main > article`, `.entry__header`, `__metadata`, `__title`, `__title-anchor`, `__thumbnail`, `__content`, `__more-link`, `__terms` | Posts and pages, in a box that matches the widgets |
 | `.social-menu` | A row of icon links |
 
@@ -267,7 +270,7 @@ The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from
 
 The core works on Novaris and ClassicPress. ClassicPress prints some markup that themes can't rename, so that lives in an add-on, `dist/chassis-classicpress.css`. The Backdrop provider loads it for you.
 
-It covers captions, sticky posts, threaded comments and the comment form, the search form, the calendar widget, and `the_posts_pagination()`. It uses the same settings as the core, so a theme's colors and shapes apply here too. Novaris sites don't need it.
+It covers captions, sticky posts, threaded comments and the comment form, the search form, the calendar widget, `the_posts_pagination()`, `entry-*` classes, and the `[gallery]` shortcode. It uses the same settings as the core, so a theme's colors and shapes apply here too. Novaris sites don't need it.
 
 ## Utilities
 
@@ -281,7 +284,7 @@ It covers captions, sticky posts, threaded comments and the comment form, the se
 
 ## JavaScript
 
-`dist/chassis.js` runs the mobile menu, and the service provider loads it. It toggles `.app-nav--open` and `aria-expanded`, closes on Escape (returning focus to the button), on a click outside, and when the screen widens past the mobile breakpoint.
+`dist/chassis.js` runs the mobile menu and the Copy button on code blocks, and the service provider loads it. The menu toggles `.app-nav--open` and `aria-expanded`, closes on Escape (returning focus to the button), on a click outside, and when the screen widens past the mobile breakpoint. Links with a submenu get a button that opens it, which helps on touch screens.
 
 ## Turning Chassis on
 
@@ -336,6 +339,8 @@ The helpers are for sites, not distributed themes. An exported theme doesn't inc
 ```php
 <?= app( 'chassis' )->button( 'Download', $url, [ 'primary' ] ); ?>
 ```
+
+The provider also adds template tags, so Novaris views can use `$engine->button( 'Download', $url, [ 'primary' ] )` and `$engine->badge( 'Featured' )`.
 
 ### ClassicPress (Backdrop)
 

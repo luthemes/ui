@@ -1,0 +1,55 @@
+////
+/// Entries
+///
+/// The `entry-*` classes ClassicPress themes use. These match `.entry__*` in
+/// the core.
+///
+/// @group Platforms
+////
+
+.entry-header {
+	margin-bottom: var( --space-m );
+}
+
+.entry-meta {
+	color: var( --color-content-muted );
+	font-family: var( --font-family-meta );
+	font-size: 0.875rem;
+}
+
+.entry-title {
+	margin-bottom: 0;
+
+	a {
+		color: inherit;
+		text-decoration: none;
+
+		&:hover,
+		&:focus {
+			color: var( --color-link-hover );
+		}
+	}
+}
+
+.post-thumbnail {
+	display: block;
+	margin-bottom: var( --space-l );
+
+	img {
+		display: block;
+		height: auto;
+		width: 100%;
+	}
+}
+
+.entry-content > :last-child {
+	margin-bottom: 0;
+}
+
+.entry-footer {
+	border-top: var( --border-rule );
+	color: var( --color-content-muted );
+	font-size: 0.875rem;
+	margin-top: var( --space-l );
+	padding-top: var( --space-m );
+}
