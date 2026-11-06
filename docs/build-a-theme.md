@@ -568,3 +568,7 @@ Only the PHP side differs:
 - Use the same class names in your views.
 
 [Nocturne](https://github.com/novaris-dev/nocturne) is a working example: its whole design is one `chassis.json`, with no Sass.
+
+## Without Novaris or Backdrop
+
+Chassis works in any PHP project, and in plain HTML. Without a provider, you tell Chassis where its files are and which `chassis.json` to read; in plain HTML, you link the files and write the design as custom properties. See [Without Novaris or Backdrop](../readme.md#without-novaris-or-backdrop) in the readme.

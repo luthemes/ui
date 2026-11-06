@@ -2,6 +2,12 @@
 
 All notable changes to Chassis will be documented in this file.
 
+## [Unreleased]
+
+### Docs
+
+- The readme explains how to use Chassis without Novaris or Backdrop, with PHP or with plain HTML.
+
 ## [0.0.7] - 11.06.2026
 
 ### Docs
