@@ -348,6 +348,16 @@ $theme->provider( Techkodeninja\Chassis\Providers\Backdrop::class );
 
 Each project only loads its own provider, so a ClassicPress theme never needs Novaris and a Novaris site never needs Backdrop.
 
+### Which platform is running
+
+The provider a site registers decides the platform, so nothing has to guess. `platform()` returns `novaris`, `backdrop`, or `plain` when no provider is in use:
+
+```php
+if ( 'novaris' === app( 'chassis' )->platform() ) {
+	// Novaris version
+}
+```
+
 ### ClassicPress without a framework
 
 `Techkodeninja\Chassis\Chassis` has no framework dependency, so a theme can load Composer's autoloader and create it directly:

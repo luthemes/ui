@@ -21,11 +21,13 @@ use Novaris\Core\ServiceProvider;
 class Novaris extends ServiceProvider
 {
 	/**
-	 * Binds the UI helpers to the container.
+	 * Binds the UI helpers to the container, and records the platform.
 	 */
 	public function register(): void
 	{
-		$this->app->singleton( Chassis::class );
+		$this->app->singleton( Chassis::class, function() {
+			return new Chassis( 'novaris' );
+		} );
 		$this->app->alias( Chassis::class, 'chassis' );
 	}
 }

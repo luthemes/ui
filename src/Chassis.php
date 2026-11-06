@@ -24,6 +24,30 @@ class Chassis
 	const VERSION = '0.1.0';
 
 	/**
+	 * The platform this was created for: `novaris`, `backdrop`, or `plain`.
+	 *
+	 * @var string
+	 */
+	protected $platform;
+
+	/**
+	 * Sets the platform. The service providers pass in their own name, and
+	 * `plain` means no provider is in use.
+	 */
+	public function __construct( string $platform = 'plain' )
+	{
+		$this->platform = $platform;
+	}
+
+	/**
+	 * Returns the platform: `novaris`, `backdrop`, or `plain`.
+	 */
+	public function platform(): string
+	{
+		return $this->platform;
+	}
+
+	/**
 	 * Returns the package's root path, with an optional appended path.
 	 */
 	public function path( string $append = '' ): string

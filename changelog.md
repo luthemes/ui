@@ -22,6 +22,7 @@
 - `.app-header--full`, which lets the header row run the full width of the screen.
 - The menu script and styles accept the `.menu-toggle` button that Novaris prints.
 - Components for all platforms: `.pagination`, `.widget` and `.widget-title`, and `.social-menu`, with a `$pagination-padding` setting.
+- `platform()`, which returns the platform of the provider in use: `novaris`, `backdrop`, or `plain`.
 - `platforms/classicpress`: an optional add-on for ClassicPress, with captions, sticky posts, threaded comments, the comment form, the search form, the calendar widget, and `the_posts_pagination()`.
 
 ### Changed
