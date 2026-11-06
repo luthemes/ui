@@ -24,7 +24,7 @@
 	// appears for keyboard users.
 	&:focus,
 	&:active {
-		background: var( --color-background );
+		background: var( --color-page-background );
 		clip: auto;
 		clip-path: none;
 		color: var( --color-link );

@@ -10,7 +10,7 @@
 ///   <div class="card card--muted">…</div>   light gray background
 
 .card {
-	background: var( --color-surface );
+	background: var( --color-content-background );
 	border: var( --border-box );
 	border-bottom: var( --border-box-bottom );
 	border-radius: var( --radius );
@@ -35,6 +35,6 @@
 	}
 
 	&--muted {
-		background: var( --color-surface-alt );
+		background: var( --color-content-alt );
 	}
 }

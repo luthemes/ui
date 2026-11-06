@@ -78,9 +78,9 @@ Pass overrides with `with ( … )`. You only list what you change; everything el
 ```scss
 @use 'techkodeninja/chassis/scss' with (
 	$colors: (
-		header:  #1d3557,
-		footer:  #1d3557,
-		primary: #e63946,
+		header-background:  #1d3557,
+		footer-background:  #1d3557,
+		accent: #e63946,
 	),
 	$breakpoints: ( medium: 782px ),
 	$font-family-body: ( 'Merriweather', serif )
@@ -90,7 +90,7 @@ Pass overrides with `with ( … )`. You only list what you change; everything el
 Colors, spacing, and widths also become CSS custom properties, so you can change them later in plain CSS (for example from a Customizer setting):
 
 ```css
-:root { --color-header: #264653; }
+:root { --color-header-background: #264653; }
 ```
 
 ### Use the tools in your own partials
@@ -118,14 +118,52 @@ Load just the tools: they output no CSS, so this is safe in any partial.
 | Setting | Defaults | Custom properties |
 |---|---|---|
 | `$breakpoints` | `small` 40rem (640px), `medium` 48rem (768px), `large` 64rem (1024px), `wide` 80rem (1280px) | none (media queries can't use custom properties) |
-| `$colors` | `black`, `white`, `text`, `heading`, `muted`, `link`, `link-hover`, `background`, `surface`, `surface-alt`, `rule`, `border`, `primary`, `on-primary`, `header`, `on-header`, `footer`, `on-footer` | `--color-*` |
+| `$colors` | See [Colors](#colors) | `--color-*` |
 | `$spacing` | `xs` .25rem, `s` .5rem, `m` .75rem, `l` 1.125rem, `xl` 2.5rem | `--space-*` |
 | `$widths` | `wide` 80rem, `medium` 64rem, `narrow` 50rem, `sidebar` 18rem | `--width-*` |
 | `$font-family-body`, `$font-family-heading`, `$font-family-code` | system fonts | `--font-family-*` |
 | `$font-size-base`, `$line-height-base`, `$line-height-heading` | 1rem, 1.7, 1.25 | same names |
 | `$border-width` | 0.063rem | `--border-width`, `--border-dotted`, `--border-solid`, `--border-rule` |
 
-`on-*` colors are the text color that sits on that background (`on-header` is the header's text).
+### Colors
+
+Colors are grouped by where they appear. Copy this block as a starting point, and keep only the ones you change. Everything else keeps its default.
+
+```scss
+$colors: (
+	// Global
+	page-background: #ffffff,  // behind everything
+	link:            #000000,  // links
+	link-hover:      #677d89,  // links on hover
+	accent:          #000000,  // buttons and badges
+	accent-text:     #ffffff,  // text on buttons and badges
+
+	// Header
+	header-background: #000000,  // the top bar
+	header-text:       #ffffff,  // site title, tagline, menu links
+
+	// Content
+	content-background: #ffffff,  // post boxes and cards
+	content-border:     #000000,  // borders around those boxes
+	content-heading:    #000000,  // post titles, h1 to h6
+	content-text:       #677d89,  // paragraphs
+	content-muted:      #555555,  // captions, quieter text
+	content-divider:    #cccccc,  // lines between things
+	content-alt:        #f5f5f5,  // muted boxes, code blocks
+
+	// Widget: these follow the content colors unless you set them
+	widget-background: #ffffff,  // sidebar boxes
+	widget-border:     #000000,  // borders around them
+	widget-title:      #000000,  // "Categories", "Archives"
+	widget-text:       #677d89,  // text inside them
+
+	// Footer
+	footer-background: #000000,  // the bottom bar
+	footer-text:       #ffffff,  // footer text and links
+),
+```
+
+Each color becomes a custom property, so `content-text` is also `--color-content-text`. `black` and `white` are available too.
 
 ### Design settings
 
@@ -148,14 +186,14 @@ These control the look of the shared pieces, so each theme can have its own desi
 
 ```scss
 @use 'techkodeninja/chassis/scss' with (
-	$colors: ( background: #0f1117, text: #d7dae0, border: #2d3446 ),
+	$colors: ( page-background: #0f1117, content-text: #d7dae0, content-border: #2d3446 ),
 	$radius: 0.5rem,
 	$box-border-style: solid,
 	$header-padding: var( --space-s )
 );
 ```
 
-Dark themes should set `border`, because it defaults to black.
+Dark themes should set `content-border`, because it defaults to black.
 
 ## Layouts: the page skeleton
 
@@ -221,7 +259,7 @@ The menu is styled by its structure (`li`, `a`, nested `ul`), so the markup from
 | Class | What it does |
 |---|---|
 | `.card` · `--muted` | Dotted box; its last child (a link or button) sits at the bottom |
-| `.badge` · `--large` | Small uppercase label in the `primary` color |
+| `.badge` · `--large` | Small uppercase label in the `accent` color |
 | `.button` · `--primary`, `.buttons` | Outlined / filled button; a wrapping row of buttons |
 | `.section-header` (`__title`, `__description`) | Centered heading block |
 | `.pagination` (`__items`, `__item`, `__anchor`) | Numbered page links. Novaris's default `pagination-items` classes work too |

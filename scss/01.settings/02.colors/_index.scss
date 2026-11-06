@@ -2,14 +2,14 @@
 /// Colors
 ///
 /// Every color the package uses. Each one becomes a CSS custom property in
-/// 03.generics/01.tokens (`text` → `--color-text`), so you can change colors two
+/// 03.generics/01.tokens (`text` → `--color-content-text`), so you can change colors two
 /// ways:
 ///
 ///   // 1. At build time, when loading the package:
-///   @use 'techkodeninja/chassis/scss' with ( $colors: ( header: #1d3557 ) );
+///   @use 'techkodeninja/chassis/scss' with ( $colors: ( header-background: #1d3557 ) );
 ///
 ///   // 2. At run time, in plain CSS (handy for a Customizer setting):
-///   :root { --color-header: #1d3557; }
+///   :root { --color-header-background: #1d3557; }
 ///
 /// @group Settings
 ////
@@ -20,31 +20,35 @@
 $colors: () !default;
 
 $colors: map.merge( (
-	// Basics.
-	black:       #000000,
-	white:       #ffffff,
+	// Global.
+	page-background: #ffffff, // behind everything
+	link:            #000000, // links
+	link-hover:      #677d89, // links on hover
+	accent:          #000000, // buttons and badges
+	accent-text:     #ffffff, // text on buttons and badges
+	black:           #000000,
+	white:           #ffffff,
 
-	// Text.
-	text:        #677d89,
-	heading:     #000000,
-	muted:       #555555,
-	link:        #000000,
-	link-hover:  #677d89,
+	// Header.
+	header-background: #000000, // the top bar
+	header-text:       #ffffff, // site title, tagline, menu links
 
-	// Backgrounds and lines.
-	background:  #ffffff,
-	surface:     #ffffff,
-	surface-alt: #f5f5f5,
-	rule:        #cccccc,
-	border:      #000000,
+	// Content.
+	content-background: #ffffff, // post boxes and cards
+	content-border:     #000000, // borders around those boxes
+	content-heading:    #000000, // post titles, h1 to h6
+	content-text:       #677d89, // paragraphs
+	content-muted:      #555555, // captions, quieter text
+	content-divider:    #cccccc, // lines between things
+	content-alt:        #f5f5f5, // muted boxes, code blocks
 
-	// Brand. `on-*` is the text color that sits on top of that background.
-	primary:     #000000,
-	on-primary:  #ffffff,
+	// Widget. These follow the content colors unless a theme sets them.
+	widget-background: var( --color-content-background ), // sidebar boxes
+	widget-border:     var( --color-content-border ),     // borders around them
+	widget-title:      var( --color-content-heading ),    // "Categories", "Archives"
+	widget-text:       var( --color-content-text ),       // text inside them
 
-	// Site header and footer.
-	header:      #000000,
-	on-header:   #ffffff,
-	footer:      #000000,
-	on-footer:   #ffffff
+	// Footer.
+	footer-background: #000000, // the bottom bar
+	footer-text:       #ffffff  // footer text and links
 ), $colors );

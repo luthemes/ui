@@ -13,11 +13,12 @@
 ////
 
 .widget {
-	background: var( --color-surface );
-	border: var( --border-box );
-	border-bottom: var( --border-box-bottom );
+	background: var( --color-widget-background );
+	border: var( --border-widget );
+	border-bottom: var( --border-widget-bottom );
 	border-radius: var( --radius );
 	box-shadow: var( --shadow );
+	color: var( --color-widget-text );
 	margin-bottom: var( --space-l );
 	padding: var( --space-l );
 
@@ -37,6 +38,7 @@
 }
 
 .widget-title {
+	color: var( --color-widget-title );
 	font-size: var( --font-size-h4 );
 	margin-bottom: var( --space-s );
 }

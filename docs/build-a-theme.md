@@ -143,12 +143,12 @@ The one line that connects Vite to the package is `loadPaths: [ 'vendor' ]`.
 // 1. The package, with this theme's settings. Only list what you change.
 @use 'techkodeninja/chassis/scss' with (
 	$colors: (
-		header:     #1d3557,
-		footer:     #1d3557,
-		primary:    #e63946,
+		header-background:     #1d3557,
+		footer-background:     #1d3557,
+		accent:    #e63946,
 		link:       #1d3557,
 		link-hover: #e63946,
-		heading:    #1d3557,
+		content-heading:    #1d3557,
 	),
 	$font-family-heading: ( Georgia, serif )
 );
@@ -161,7 +161,7 @@ What you just got from the package, in order:
 
 1. **settings**: your colors merged over the defaults.
 2. **tools**: nothing printed yet.
-3. **generic**: `:root { --color-header: #1d3557; … }` and the reset.
+3. **generic**: `:root { --color-header-background: #1d3557; … }` and the reset.
 4. **elements**: body text, headings, links, tables.
 5. **objects**: `.container`, `.section`, `.grid`.
 6. **layouts**: `.app`, `.app-header`, `.app-nav`, `.app-content`, `.app-footer`.
@@ -199,7 +199,7 @@ Now add something that's only yours. Number your folders the same way the packag
 	}
 
 	&__meta {
-		color: ui.color( muted );    // var( --color-muted )
+		color: ui.color( content-muted );    // var( --color-content-muted )
 		font-size: 0.875rem;
 		margin-bottom: ui.space( m ); // var( --space-m )
 	}
@@ -226,7 +226,7 @@ Vite bundles the package's menu script into `public/js/app.js`.
 npm run build
 ```
 
-You should see `public/css/screen.css` and `public/js/app.js` (Vite may also write a near-empty `js/screen.js` for the stylesheet entry; ignore it). Open the CSS and find your `--color-header: #1d3557` near the top.
+You should see `public/css/screen.css` and `public/js/app.js` (Vite may also write a near-empty `js/screen.js` for the stylesheet entry; ignore it). Open the CSS and find your `--color-header-background: #1d3557` near the top.
 
 If the build says it can't find `techkodeninja/chassis/scss`, run `composer install` first. If it says `Unknown breakpoint` or `Unknown color`, there's a typo in a name, and the error lists the valid ones.
 
@@ -417,7 +417,7 @@ Each one is a one-line change. Rebuild with `npm run build` after each, or keep 
 - **Move every breakpoint at once.** Add `$breakpoints: ( medium: 900px )` to the `with ( … )` in `screen.scss`. The menu, grid, and `ui.up( medium )` in your `01.entry` all switch at 900px together. This is the point of sharing breakpoints.
 - **Sidebar on the left.** In `index.php`, change `app-content--sidebar-right` to `app-content--sidebar-left`.
 - **No sidebar.** Remove the `--sidebar-right` class and `get_sidebar()`.
-- **Recolor without rebuilding.** Add `:root { --color-header: #2a9d8f; }` to the Customizer's *Additional CSS*. The header changes immediately. Colors are custom properties, so they can change at run time.
+- **Recolor without rebuilding.** Add `:root { --color-header-background: #2a9d8f; }` to the Customizer's *Additional CSS*. The header changes immediately. Colors are custom properties, so they can change at run time.
 - **Break it on purpose.** Write `@include ui.up( tablet )` in `01.entry`. The build fails with `Unknown breakpoint 'tablet'` and lists the real names.
 
 ## 10. Optional: use Backdrop and the PHP helpers

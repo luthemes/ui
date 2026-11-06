@@ -7,14 +7,14 @@
 ///     </div>
 ///   </footer>
 ///
-/// Colors come from `--color-footer` and `--color-on-footer`.
+/// Colors come from `--color-footer-background` and `--color-footer-text`.
 ///
 /// @group Layouts
 ////
 
 .app-footer {
-	background: var( --color-footer );
-	color: var( --color-on-footer );
+	background: var( --color-footer-background );
+	color: var( --color-footer-text );
 	padding-bottom: var( --space-l );
 	padding-top: var( --space-l );
 	text-align: center;

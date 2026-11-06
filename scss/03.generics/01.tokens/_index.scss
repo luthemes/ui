@@ -44,11 +44,13 @@
 
 	// Borders.
 	--border-width:  #{ sizing.$border-width };
-	--border-dotted: var( --border-width ) dotted var( --color-border );
-	--border-solid:  var( --border-width ) solid var( --color-border );
-	--border-rule:   var( --border-width ) solid var( --color-rule );
-	--border-box:        var( --border-width ) #{ design.$box-border-style } var( --color-border );
-	--border-box-bottom: var( --border-width ) #{ design.$box-border-bottom-style } var( --color-border );
+	--border-dotted: var( --border-width ) dotted var( --color-content-border );
+	--border-solid:  var( --border-width ) solid var( --color-content-border );
+	--border-rule:   var( --border-width ) solid var( --color-content-divider );
+	--border-box:        var( --border-width ) #{ design.$box-border-style } var( --color-content-border );
+	--border-box-bottom: var( --border-width ) #{ design.$box-border-bottom-style } var( --color-content-border );
+	--border-widget:        var( --border-width ) #{ design.$box-border-style } var( --color-widget-border );
+	--border-widget-bottom: var( --border-width ) #{ design.$box-border-bottom-style } var( --color-widget-border );
 
 	// Shapes.
 	--radius: #{ design.$radius };

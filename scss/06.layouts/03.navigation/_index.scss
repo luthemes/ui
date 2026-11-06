@@ -60,7 +60,7 @@ $_current: '[aria-current="page"], .current-menu-item > a, .current_page_item > 
 		}
 
 		a {
-			color: var( --color-on-header );
+			color: var( --color-header-text );
 			display: block;
 			padding: var( --nav-link-padding );
 			text-decoration: none;
@@ -84,7 +84,7 @@ $_current: '[aria-current="page"], .current-menu-item > a, .current_page_item > 
 	// header as a full-width panel. Submenus show indented.
 	@include ui.down( medium ) {
 		&__menu {
-			background: var( --color-header );
+			background: var( --color-header-background );
 			display: none;
 			left: 0;
 			padding: var( --space-s ) var( --space-l ) var( --space-l );
@@ -111,7 +111,7 @@ $_current: '[aria-current="page"], .current-menu-item > a, .current_page_item > 
 			justify-content: flex-end;
 
 			ul {
-				background: var( --color-header );
+				background: var( --color-header-background );
 				left: 0;
 				min-width: 12rem;
 				opacity: 0;

@@ -5,7 +5,7 @@
 /// build-time check that the name exists (a typo fails the build instead of
 /// silently doing nothing):
 ///
-///   color: ui.color( muted );    // var( --color-muted )
+///   color: ui.color( content-muted );    // var( --color-content-muted )
 ///   gap:   ui.space( l );        // var( --space-l )
 ///   max-width: ui.width( narrow );
 ///
