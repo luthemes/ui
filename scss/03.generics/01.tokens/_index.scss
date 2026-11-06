@@ -17,7 +17,8 @@
 
 :root {
 	@each $name, $value in colors.$colors {
-		--color-#{ $name }: #{ $value };
+		// `'' + $name` keeps names like `black` as text, not color values.
+		--color-#{ '' + $name }: #{ $value };
 	}
 
 	@each $name, $value in spacing.$spacing {
