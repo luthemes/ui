@@ -4,33 +4,27 @@ This guide builds **Starter**, a small ClassicPress theme, using every part of C
 
 It's built on [Backdrop](https://github.com/backdrop-dev/framework), because Chassis loads through a service provider.
 
+The short version: Chassis gives you the layout and components, `chassis.json` sets how they look, and your templates use the class names. You don't need Sass or a build step unless you want styles of your own.
+
 ## What you'll build
 
 ```
 starter/
 ├── composer.json          gets techkodeninja/chassis
-├── package.json           Vite + Sass
-├── vite.config.js         compiles resources/ into public/
+├── chassis.json           the design: colors, fonts, spacing, the menu
 ├── style.css              theme header (ClassicPress needs it)
 ├── functions.php          registers Chassis, the menu, and the sidebar
 ├── header.php             .app, .app-header, .app-nav
 ├── index.php              .app-content, the post loop
 ├── sidebar.php            .app-sidebar
-├── footer.php             .app-footer
-└── resources/
-    └── scss/
-        ├── screen.scss    your design, then your styles
-        └── 07.components/
-            ├── _index.scss
-            └── 01.entry/
-                └── _index.scss
+└── footer.php             .app-footer
 ```
 
-The build writes `public/css/screen.css`. Those are what the site loads.
+[Step 9](#9-optional-add-your-own-styles-with-sass) adds `package.json`, `vite.config.js`, and `resources/scss/` if you want your own Sass on top.
 
 ## 1. Create the theme folder and `style.css`
 
-In `wp-content/themes/`, make a folder called `starter` and add `style.css`. ClassicPress reads the theme's name from this comment. The real styles come from `public/css/screen.css`, so this file stays empty otherwise.
+In `wp-content/themes/`, make a folder called `starter` and add `style.css`. ClassicPress reads the theme's name from this comment. Nothing else goes in this file.
 
 ```css
 /*
@@ -55,7 +49,7 @@ In `wp-content/themes/`, make a folder called `starter` and add `style.css`. Cla
 	"require": {
 		"php": ">=7.4",
 		"backdrop-dev/framework": "dev-develop",
-		"techkodeninja/chassis": "~0.0.1"
+		"techkodeninja/chassis": "~0.0.6"
 	}
 }
 ```
@@ -64,146 +58,67 @@ In `wp-content/themes/`, make a folder called `starter` and add `style.css`. Cla
 composer install
 ```
 
-You now have `vendor/techkodeninja/chassis/` with `scss/`, `js/`, and `src/` inside. Look around: every SCSS file starts with a comment explaining what it does.
+You now have `vendor/techkodeninja/chassis/` with `dist/`, `scss/`, `js/`, `schemas/`, and `src/` inside. `dist/` holds the CSS and JavaScript that Chassis loads. You don't touch those files.
 
+## 3. Set the design: `chassis.json`
 
-## 3. Set up Vite
-
-`package.json`:
+Next to `style.css`, add `chassis.json`. Chassis reads it and prints the values right after its own stylesheet, so they replace the defaults. List only what you change; everything else keeps its default.
 
 ```json
 {
-	"private": true,
-	"type": "module",
-	"scripts": {
-		"build": "vite build",
-		"watch": "vite build --watch"
-	},
-	"devDependencies": {
-		"sass": "^1.95.0",
-		"vite": "^7.2.7"
-	}
-}
-```
-
-`vite.config.js`:
-
-```js
-import { defineConfig } from 'vite';
-
-export default defineConfig( {
-	// We write into public/, so turn off Vite's own public folder.
-	publicDir: false,
-
-	css: {
-		preprocessorOptions: {
-			// Lets SCSS find 'techkodeninja/chassis/scss' inside vendor/.
-			scss: { loadPaths: [ 'vendor' ] },
+	"$schema": "https://raw.githubusercontent.com/techkodeninja/chassis/develop/schemas/chassis.schema.json",
+	"color": {
+		"global": {
+			"accent": "#e63946",
+			"link": "#1d3557",
+			"link-hover": "#e63946"
 		},
-	},
-
-	build: {
-		outDir: 'public',
-		emptyOutDir: true,
-		rollupOptions: {
-			input: {
-				screen: 'resources/scss/screen.scss',
-			},
-			output: {
-				// Fixed names (no hashes) keep the PHP simple.
-				entryFileNames: 'js/[name].js',
-				assetFileNames: 'css/[name][extname]',
-			},
+		"header": {
+			"background": "#1d3557"
 		},
-	},
-} );
-```
-
-```bash
-npm install
-```
-
-The one line that connects Vite to the package is `loadPaths: [ 'vendor' ]`.
-
-## 4. Write the stylesheet
-
-Chassis loads its own CSS, so `resources/scss/screen.scss` only holds your design and your own styles. It loads after Chassis, so these values replace the defaults. Only list what you change.
-
-```scss
-////
-/// Starter: main stylesheet.
-////
-
-// This theme's own styles.
-@forward '07.components';
-
-// This theme's design.
-:root {
-	--color-header-background: #1d3557;
-	--color-footer-background: #1d3557;
-	--color-accent: #e63946;
-	--color-link: #1d3557;
-	--color-link-hover: #e63946;
-	--color-content-heading: #1d3557;
-	--font-family-heading: Georgia, serif;
-}
-```
-
-Now add something that's only yours. Number your folders the same way the package does (`07.components` is the components layer). `resources/scss/07.components/_index.scss`:
-
-```scss
-@forward '01.entry';
-```
-
-`resources/scss/07.components/01.entry/_index.scss`:
-
-```scss
-////
-/// Entry: one post in the loop. This is the theme's own look.
-////
-
-// Load only the tools: mixins and functions, no CSS output.
-@use 'techkodeninja/chassis/scss/02.tools' as ui;
-
-.entry {
-	&__title {
-		font-size: 1.5rem;
-
-		a {
-			text-decoration: none;
+		"content": {
+			"heading": "#1d3557"
+		},
+		"footer": {
+			"background": "#1d3557"
 		}
-
-		// Bigger titles from tablets up.
-		@include ui.up( medium ) {
-			font-size: 2rem;
+	},
+	"font": {
+		"heading": "Georgia, serif"
+	},
+	"spacing": {
+		"content-padding": "l",
+		"sidebar-gap": "l"
+	},
+	"width": {
+		"wide": "70rem"
+	},
+	"menu": {
+		"toggle": "bottom-left",
+		"design": {
+			"background": "#e63946",
+			"padding": "s l"
 		}
 	}
-
-	&__meta {
-		color: ui.color( content-muted );    // var( --color-content-muted )
-		font-size: 0.875rem;
-		margin-bottom: ui.space( m ); // var( --space-m )
-	}
 }
 ```
 
-Notice the split: the **package** gives you `.card`, the grid, and the breakpoints. The **theme** decides what a post title looks like.
+What each part does:
 
-## 5. Build
+| Part | Sets | Example |
+|---|---|---|
+| `color` | Colors, grouped by where they appear: `global`, `header`, `content`, `widget`, `footer` | `header.background` becomes `--color-header-background` |
+| `font` | Font stacks for `body`, `heading`, `code`, and `meta` | `heading` becomes `--font-family-heading` |
+| `spacing` | Padding and gaps. Size names `xs` 4px, `s` 8px, `m` 12px, `l` 18px, `l-plus` 24px, `xl` 40px, or plain CSS like `10px` | `"s l"` is 8px top and bottom, 18px left and right |
+| `width` | Container and sidebar widths | `wide` becomes `--width-wide` |
+| `menu.toggle` | Where the Menu button sits on phones: `bottom-left` (the default), `bottom-right`, `top-right`, `top-left` | |
+| `menu.design` | How the button looks: `background`, `text`, `border`, `padding` | `"border": "2px solid #e63946"` |
+| `menu.hide-on-scroll` | `false` keeps the button on screen while scrolling | |
+| `design` | Any other setting, such as `radius` or `shadow` | `"radius": "0.5rem"` |
 
-```bash
-npm run build
-```
+The `$schema` line gives your editor autocomplete and catches typos. If VS Code says the schema location is untrusted, use its Quick Fix to trust `raw.githubusercontent.com`. Every setting is listed in the [readme](../readme.md#set-the-design-with-chassisjson).
 
-You should see `public/css/screen.css`. Open it and find your `--color-header-background: #1d3557` near the top.
-
-If the build says it can't find `techkodeninja/chassis/scss`, run `composer install` first. If it says `Unknown breakpoint` or `Unknown color`, there's a typo in a name, and the error lists the valid ones.
-
-## 6. Check what Chassis gives you
-
-`vendor/techkodeninja/chassis/dist/` holds the CSS and JavaScript that Chassis loads. You don't touch these files. The next step turns them on.
-
-## 7. Turn on Chassis and register the menu: `functions.php`
+## 4. Turn on Chassis and register the menu: `functions.php`
 
 ```php
 <?php
@@ -213,7 +128,8 @@ If the build says it can't find `techkodeninja/chassis/scss`, run `composer inst
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-// This is what turns Chassis on. It loads the CSS and the menu script.
+// This is what turns Chassis on. It loads the CSS, chassis.json, and the
+// menu script.
 $theme = new Backdrop\Core\Application();
 $theme->provider( Techkodeninja\Chassis\Providers\Backdrop::class );
 $theme->boot();
@@ -238,18 +154,22 @@ add_action( 'widgets_init', function () {
 		'after_title'   => '</h2>',
 	] );
 } );
-
-add_action( 'wp_enqueue_scripts', function () {
-	$css = 'public/css/screen.css';
-
-	// filemtime() changes the version on every build, so browsers re-download.
-	wp_enqueue_style( 'starter', get_theme_file_uri( $css ), [ 'chassis' ], filemtime( get_theme_file_path( $css ) ) );
-} );
 ```
 
 Each widget gets the package's `widget` class, so the sidebar is styled with no extra CSS.
 
-## 8. The templates
+## 5. Check that it loads
+
+Open the site and view the page source. In the head you should see:
+
+```html
+<link rel='stylesheet' id='chassis-css' href='…/vendor/techkodeninja/chassis/dist/chassis.css' … />
+<style id='chassis-inline-css'>:root{--color-accent:#e63946;--color-link:#1d3557;…}</style>
+```
+
+The `<style>` block is your `chassis.json`. If it's missing, check that the file is valid JSON. Chassis logs a warning for anything it skips.
+
+## 6. The templates
 
 ### `header.php`: `.app`, `.app-header`, `.app-nav`
 
@@ -295,6 +215,8 @@ Each widget gets the package's `widget` class, so the sidebar is styled with no 
 
 `wp_nav_menu()` prints `<ul id="app-nav-menu" class="app-nav__menu">` with plain `<li>` and nested `<ul class="sub-menu">`. The package styles the menu by that structure, so nothing else is needed. The current page gets `.current-menu-item`, which the package underlines.
 
+On phones, the **Menu** button floats at the bottom left and hides while you scroll down. Both come from `menu` in `chassis.json`, not from the markup.
+
 ### `index.php`: `.app-content`, cards in a grid
 
 ```php
@@ -338,7 +260,7 @@ Each widget gets the package's `widget` class, so the sidebar is styled with no 
 
 Each class on an article comes from a different place:
 - `card` comes from the package: the dotted box, with the button pinned to the bottom.
-- `entry` comes from your theme: the title and date styles in `01.entry`.
+- `entry` is yours. It does nothing until you style it in [step 9](#9-optional-add-your-own-styles-with-sass).
 - `grid grid--2` comes from the package: one column on phones, two from 768px.
 
 ### `sidebar.php`: `.app-sidebar`
@@ -369,7 +291,7 @@ Each class on an article comes from a different place:
 </html>
 ```
 
-## 9. Activate and try it
+## 7. Activate and try it
 
 1. Activate **Starter** in *Appearance → Themes*.
 2. Create a menu in *Appearance → Menus*, add a few pages and a submenu, and assign it to **Primary**.
@@ -383,14 +305,143 @@ Then make the browser narrow:
 | under 768px | Menu collapses behind the **Menu** button; posts go to one column | `06.layouts/03.navigation` and `05.objects/03.grids`, `medium` |
 | under 1024px | Sidebar moves below the posts | `06.layouts/04.content`, `up( large )` |
 
-### Experiments
+## 8. Experiments
 
-Each one is a one-line change. Rebuild with `npm run build` after each, or keep `npm run watch` running.
+Each one is a one-line change. For `chassis.json`, save and refresh; there's nothing to build.
 
+- **Recolor.** Change `header.background` in `chassis.json`. The header changes on the next refresh.
+- **Move the Menu button.** Set `menu.toggle` to `top-right`. On phones the button moves into the header, and the menu opens below it.
+- **Keep the button on screen.** Add `"hide-on-scroll": false` under `menu`.
+- **Rounder corners.** Add `"design": { "radius": "0.5rem" }`. Cards, buttons, and badges all change.
 - **Sidebar on the left.** In `index.php`, change `app-content--sidebar-right` to `app-content--sidebar-left`.
 - **No sidebar.** Remove the `--sidebar-right` class and `get_sidebar()`.
-- **Recolor without rebuilding.** Add `:root { --color-header-background: #2a9d8f; }` to the Customizer's *Additional CSS*. The header changes immediately. Colors are custom properties, so they can change at run time.
-- **Break it on purpose.** Write `@include ui.up( tablet )` in `01.entry`. The build fails with `Unknown breakpoint 'tablet'` and lists the real names.
+- **Break it on purpose.** Set `menu.toggle` to `middle`. Chassis skips it, logs a warning that lists the real values, and the button stays at the default.
+
+## 9. Optional: add your own styles with Sass
+
+`chassis.json` covers the settings Chassis has. For anything else, like how a post title looks, add your own stylesheet. It loads after Chassis.
+
+`package.json`:
+
+```json
+{
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "vite build",
+		"watch": "vite build --watch"
+	},
+	"devDependencies": {
+		"sass": "^1.95.0",
+		"vite": "^7.2.7"
+	}
+}
+```
+
+`vite.config.js`:
+
+```js
+import { defineConfig } from 'vite';
+
+export default defineConfig( {
+	// We write into public/, so turn off Vite's own public folder.
+	publicDir: false,
+
+	css: {
+		preprocessorOptions: {
+			// Lets SCSS find 'techkodeninja/chassis/scss' inside vendor/.
+			scss: { loadPaths: [ 'vendor' ] },
+		},
+	},
+
+	build: {
+		outDir: 'public',
+		emptyOutDir: true,
+		rollupOptions: {
+			input: {
+				screen: 'resources/scss/screen.scss',
+			},
+			output: {
+				// Fixed names (no hashes) keep the PHP simple.
+				assetFileNames: 'css/[name][extname]',
+			},
+		},
+	},
+} );
+```
+
+```bash
+npm install
+```
+
+`resources/scss/screen.scss` holds only your own styles. Your design stays in `chassis.json`.
+
+```scss
+////
+/// Starter: the theme's own styles. The design is in chassis.json.
+////
+
+@forward '07.components';
+```
+
+Number your folders the same way the package does (`07.components` is the components layer). `resources/scss/07.components/_index.scss`:
+
+```scss
+@forward '01.entry';
+```
+
+`resources/scss/07.components/01.entry/_index.scss`:
+
+```scss
+////
+/// Entry: one post in the loop. This is the theme's own look.
+////
+
+// Load only the tools: mixins and functions, no CSS output.
+@use 'techkodeninja/chassis/scss/02.tools' as ui;
+
+.entry {
+	&__title {
+		font-size: 1.5rem;
+
+		a {
+			text-decoration: none;
+		}
+
+		// Bigger titles from tablets up.
+		@include ui.up( medium ) {
+			font-size: 2rem;
+		}
+	}
+
+	&__meta {
+		color: ui.color( content-muted );    // var( --color-content-muted )
+		font-size: 0.875rem;
+		margin-bottom: ui.space( m ); // var( --space-m )
+	}
+}
+```
+
+Notice the split: the **package** gives you `.card`, the grid, and the breakpoints. `chassis.json` gives them your colors. The **theme** decides what a post title looks like. The tools print no CSS of their own; `ui.color()` and `ui.space()` turn into `var( --… )`, so they pick up your `chassis.json` values.
+
+Load the stylesheet in `functions.php`, after Chassis:
+
+```php
+add_action( 'wp_enqueue_scripts', function () {
+	$css = 'public/css/screen.css';
+
+	// filemtime() changes the version on every build, so browsers re-download.
+	wp_enqueue_style( 'starter', get_theme_file_uri( $css ), [ 'chassis' ], filemtime( get_theme_file_path( $css ) ) );
+} );
+```
+
+Then build:
+
+```bash
+npm run build
+```
+
+If the build says it can't find `techkodeninja/chassis/scss`, run `composer install` first. If it says `Unknown breakpoint` or `Unknown color`, there's a typo in a name, and the error lists the valid ones.
 
 ## 10. Optional: use the PHP helpers
 
@@ -408,11 +459,18 @@ They print the same markup you'd write by hand (`<span class="badge">…`), esca
 The ClassicPress site needs:
 
 ```
-style.css  functions.php  header.php  index.php  sidebar.php  footer.php  public/  vendor/
+style.css  chassis.json  functions.php  header.php  index.php  sidebar.php  footer.php  vendor/
 ```
 
-`vendor/` has to stay, because that's where the provider and Chassis's CSS live. Leave out `node_modules/`, `resources/`, and the build files if you like.
+Add `public/` if you did step 9. `vendor/` has to stay, because that's where the provider and Chassis's CSS live. Leave out `node_modules/`, `resources/`, and the build files.
 
 ## The same package on a Novaris site
 
-Only the PHP side differs. Register `Techkodeninja\Chassis\Providers\Novaris::class` in `config/app.php`, print `styles()` and `scripts()` in the header and footer, and use the same class names in your views. [Nocturne](https://github.com/novaris-dev/nocturne) is a working example.
+Only the PHP side differs:
+
+- Register `Techkodeninja\Chassis\Providers\Novaris::class` in `config/app.php`.
+- Print `styles()` in the head and `scripts()` at the end of the page. `styles()` includes your `chassis.json`.
+- Put `chassis.json` in the theme's root, next to `theme.json`. A child theme's `chassis.json` overrides its parent's, setting by setting.
+- Use the same class names in your views.
+
+[Nocturne](https://github.com/novaris-dev/nocturne) is a working example: its whole design is one `chassis.json`, with no Sass.
