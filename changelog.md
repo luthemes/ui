@@ -4,9 +4,14 @@ All notable changes to Chassis will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- `Chassis::standalone( $folder, $url, $chassisJson )` turns Chassis on in any PHP site without Novaris or Backdrop. It copies the built files to a public folder and reads `chassis.json`, the same as the providers.
+- `Techkodeninja\Chassis\Publisher` copies the built files with hashed names. The Novaris provider now uses it too, and works the same as before.
+
 ### Docs
 
-- The readme explains how to use Chassis without Novaris or Backdrop, with PHP or with plain HTML.
+- The readme explains how to use Chassis without Novaris or Backdrop: with `standalone()` in PHP, or from the jsDelivr CDN in plain HTML.
 
 ## [0.0.7] - 11.06.2026
 

@@ -101,6 +101,24 @@ class Chassis
 	}
 
 	/**
+	 * Sets up Chassis for a site without Novaris or Backdrop. It copies the
+	 * built files into a folder the browser can reach, and reads the design
+	 * from `chassis.json`:
+	 *
+	 *     $chassis = Chassis::standalone( __DIR__ . '/public/chassis', '/chassis', __DIR__ . '/chassis.json' );
+	 *
+	 * @param string          $folder Folder the browser can reach. It's created if needed.
+	 * @param string          $url    That folder's URL.
+	 * @param string|string[] $design `chassis.json` files, parent first. Missing files are skipped.
+	 */
+	public static function standalone( string $folder, string $url, $design = [] ): self
+	{
+		$chassis = new static( 'plain', new Publisher( $folder, $url ) );
+
+		return $chassis->designFiles( (array) $design );
+	}
+
+	/**
 	 * Returns the platform: `novaris`, `backdrop`, or `plain`.
 	 */
 	public function platform(): string

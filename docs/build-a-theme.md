@@ -571,4 +571,10 @@ Only the PHP side differs:
 
 ## Without Novaris or Backdrop
 
-Chassis works in any PHP project, and in plain HTML. Without a provider, you tell Chassis where its files are and which `chassis.json` to read; in plain HTML, you link the files and write the design as custom properties. See [Without Novaris or Backdrop](../readme.md#without-novaris-or-backdrop) in the readme.
+Any PHP site can turn Chassis on with one line:
+
+```php
+$chassis = Techkodeninja\Chassis\Chassis::standalone( __DIR__ . '/public/chassis', '/chassis', __DIR__ . '/chassis.json' );
+```
+
+Then print `$chassis->styles()` and `$chassis->scripts()`, and use the same templates. A plain HTML page can load the files from a CDN instead. See [Without Novaris or Backdrop](../readme.md#without-novaris-or-backdrop) in the readme.

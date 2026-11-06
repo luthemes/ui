@@ -296,7 +296,7 @@ It covers captions, sticky posts, threaded comments and the comment form, the se
 
 ## Turning Chassis on
 
-Chassis doesn't load until a site registers its service provider. Nothing else turns it on. Sites that use neither Novaris nor Backdrop can [set it up by hand](#without-novaris-or-backdrop).
+Chassis doesn't load until a site registers its service provider. Nothing else turns it on. Other PHP sites use [`Chassis::standalone()`](#without-novaris-or-backdrop), and plain HTML pages can load it from a CDN.
 
 **Novaris.** Register the provider in `config/app.php`:
 
@@ -412,36 +412,32 @@ if ( 'novaris' === app( 'chassis' )->platform() ) {
 
 ### Without Novaris or Backdrop
 
-Chassis doesn't need either framework. The providers only connect it to one, so any PHP site or theme, or a plain HTML page, can use it.
+Chassis doesn't need either framework. Any PHP site can use it with one line, and a plain HTML page can load it from a CDN.
 
-**With PHP.** Load Composer's autoloader and create `Chassis` yourself. A provider normally does two things for you, and here you do them:
-
-- **Say where the built files are.** The second argument turns a file in `dist/` into a URL. Without it, `styles()` and `scripts()` print nothing.
-- **Say which `chassis.json` to read**, with `designFiles()`. List a parent theme's file first if there is one, so the child's overrides it.
+**Any PHP site.** Install it with `composer require techkodeninja/chassis`, then:
 
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
-$chassis = new Techkodeninja\Chassis\Chassis(
-	'plain',
-	fn( $file ) => '/vendor/techkodeninja/chassis/dist/' . $file
+$chassis = Techkodeninja\Chassis\Chassis::standalone(
+	__DIR__ . '/public/chassis',  // a folder the browser can reach
+	'/chassis',                   // its URL
+	__DIR__ . '/chassis.json'     // your design (optional)
 );
-$chassis->designFiles( [ __DIR__ . '/chassis.json' ] );
 ```
 
 ```php
 <?= $chassis->styles() ?>   // in the head: chassis.css, then your chassis.json
 <?= $chassis->scripts() ?>  // at the end of the page
-<?= $chassis->button( 'Download', $url, [ 'primary' ] ) ?>
 ```
 
-The browser has to be able to reach the URL you give. If `vendor` isn't public, copy `dist/` somewhere that is, and point the URL there. `platform()` returns `plain`.
+That's the same setup the providers do. Chassis copies its CSS and JavaScript into the folder the first time they're needed, with a hash in each name so browsers pick up new versions. It removes old copies, and logs a warning if the folder isn't writable. Pass several `chassis.json` files, parent first, and later ones override earlier ones. The helpers work too: `$chassis->button( 'Download', $url, [ 'primary' ] )`.
 
-**Without PHP.** Copy `chassis.css` and `chassis.js` from `dist/` into your site and link them. `chassis.json` needs PHP to be read, so write your design as custom properties instead, after the stylesheet:
+**Plain HTML, no PHP.** Load the files from jsDelivr. Use the version you want in the URL:
 
 ```html
 <head>
-	<link rel="stylesheet" href="/chassis/chassis.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/techkodeninja/chassis@0.0.7/dist/chassis.css">
 	<style>
 		:root {
 			--color-accent: #e63946;
@@ -451,13 +447,15 @@ The browser has to be able to reach the URL you give. If `vendor` isn't public, 
 </head>
 <body>
 	…
-	<script src="/chassis/chassis.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/techkodeninja/chassis@0.0.7/dist/chassis.js"></script>
 </body>
 ```
 
-Every `chassis.json` setting has a custom property. See [Set the design with `chassis.json`](#set-the-design-with-chassisjson) for how they map. The menu script, hide on scroll, and the code Copy button all work.
+To host the files yourself instead, download a release from [GitHub](https://github.com/techkodeninja/chassis/releases) and copy `dist/chassis.css` and `dist/chassis.js` into your site. Reading `chassis.json` needs PHP, so write the design as custom properties after the stylesheet. Every `chassis.json` setting has one (see [how they map](#set-the-design-with-chassisjson)). The menu script, hide on scroll, and the code Copy button all work.
 
-**What you don't get without a provider:** copying the files to `public/` (Novaris), loading them through `wp_enqueue_*` (ClassicPress), finding the theme's `chassis.json` for you, and the Novaris template tags (`$engine->button()`).
+**Either way**, the HTML uses the same class names as on Novaris and ClassicPress. The [build-a-theme guide](docs/build-a-theme.md#the-html-it-prints) shows a full page.
+
+**What you don't get without a provider:** loading through `wp_enqueue_*` (ClassicPress), finding the theme's `chassis.json` for you, and the Novaris template tags (`$engine->button()`).
 
 ### Helpers
 
