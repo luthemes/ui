@@ -2,6 +2,18 @@
 
 All notable changes to Chassis will be documented in this file.
 
+## [0.0.3] - 11.06.2026
+
+### Added
+
+- `chassis.json`: a theme sets its colors, fonts, spacing, and widths in one file, with no Sass. `styles()` prints them after the stylesheet. A child theme's file overrides its parent's. See [Set the design with `chassis.json`](readme.md#set-the-design-with-chassisjson).
+- `schemas/chassis.schema.json`, for autocomplete and typo checks in editors.
+- `designFiles()`, `design()`, and `designCss()` on `Chassis`.
+
+### Fixed
+
+- `Providers\Backdrop` now loads the CSS, the ClassicPress add-on, and the JavaScript, as the docs said it did.
+
 ## [0.0.2] - 11.05.2026
 
 ### Fixed

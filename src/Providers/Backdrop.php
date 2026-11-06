@@ -6,7 +6,8 @@
  *
  *     $theme->provider( Techkodeninja\Chassis\Providers\Backdrop::class );
  *
- * This is what turns Chassis on. It loads the CSS and JavaScript for you, and
+ * This is what turns Chassis on. It loads the CSS and JavaScript for you, adds
+ * the theme's `chassis.json` settings after the CSS, and
  * `Backdrop\App::resolve( 'chassis' )` gives you the helpers.
  *
  * Requires backdrop-dev/framework, which the theme already has.
@@ -27,8 +28,67 @@ class Backdrop extends ServiceProvider
 	public function register(): void
 	{
 		$this->app->singleton( Chassis::class, function() {
-			return new Chassis( 'backdrop' );
+			$chassis = new Chassis( 'backdrop', [ $this, 'url' ] );
+
+			return $chassis->designFiles( array_unique( [
+				get_template_directory() . '/chassis.json',
+				get_stylesheet_directory() . '/chassis.json',
+			] ) );
 		} );
 		$this->app->alias( Chassis::class, 'chassis' );
+	}
+
+	/**
+	 * Loads the CSS and JavaScript on the front end.
+	 */
+	public function boot(): void
+	{
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue' ], 5 );
+	}
+
+	/**
+	 * Adds the stylesheets, the `chassis.json` settings, and the script. They
+	 * load early, so the theme's own stylesheet comes after them.
+	 */
+	public function enqueue(): void
+	{
+		$chassis = $this->app->resolve( Chassis::class );
+
+		foreach ( [ 'chassis' => 'chassis.css', 'chassis-classicpress' => 'chassis-classicpress.css' ] as $handle => $file ) {
+			$url = $chassis->assetUrl( $file );
+
+			if ( $url ) {
+				wp_enqueue_style( $handle, $url, 'chassis' === $handle ? [] : [ 'chassis' ], Chassis::VERSION );
+			}
+		}
+
+		if ( wp_style_is( 'chassis', 'enqueued' ) && ( $design = $chassis->designCss() ) ) {
+			wp_add_inline_style( 'chassis', $design );
+		}
+
+		$url = $chassis->assetUrl( 'chassis.js' );
+
+		if ( $url ) {
+			wp_enqueue_script( 'chassis', $url, [], Chassis::VERSION, true );
+		}
+	}
+
+	/**
+	 * Returns the URL of a file in `dist/`. The package sits inside the theme's
+	 * `vendor` folder, so its URL comes from the theme's URL.
+	 */
+	public function url( string $file ): string
+	{
+		$path = wp_normalize_path( $this->app->resolve( Chassis::class )->distPath( $file ) );
+
+		foreach ( [ get_stylesheet_directory() => get_stylesheet_directory_uri(), get_template_directory() => get_template_directory_uri() ] as $dir => $uri ) {
+			$dir = trailingslashit( wp_normalize_path( $dir ) );
+
+			if ( 0 === strpos( $path, $dir ) ) {
+				return trailingslashit( $uri ) . substr( $path, strlen( $dir ) );
+			}
+		}
+
+		return '';
 	}
 }
