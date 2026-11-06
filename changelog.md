@@ -2,6 +2,10 @@
 
 All notable changes to Chassis will be documented in this file.
 
+## Unreleased
+
+- `.social-menu` now works with text links as well as icons, for Novaris's `$engine->social()`.
+
 ## [0.0.1] - 11.05.2026
 
 The first release. Chassis is the shared structure for Novaris and ClassicPress themes: it owns how things are built, and each theme decides how they look.
