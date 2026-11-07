@@ -18,7 +18,7 @@
 	border-bottom: var( --border-comments-bottom );
 	border-radius: var( --radius );
 	box-shadow: var( --comments-shadow );
-	margin-top: var( --space-xl );
+	margin-top: var( --comments-gap );
 	padding: var( --comments-padding );
 
 	> :first-child {
