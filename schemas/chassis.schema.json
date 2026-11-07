@@ -387,6 +387,13 @@
 						"number"
 					],
 					"description": "Inside the comments box. 0 by default, so there's no box."
+				},
+				"comments-meta-gap": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Between a comment's author and date and its text. m by default."
 				}
 			},
 			"additionalProperties": {

@@ -91,6 +91,11 @@
 	color: var( --color-content-muted );
 }
 
+// The space between a comment's author and date and its text.
+.comment-meta {
+	margin-bottom: var( --comments-meta-gap );
+}
+
 .comment-moderation {
 	color: var( --color-content-muted );
 	font-style: italic;
