@@ -123,6 +123,10 @@ Colors are grouped by where they appear. Copy this block as a starting point, an
 	--color-widget-title:      #000000;  // "Categories", "Archives"
 	--color-widget-text:       #5c7079;  // text inside them
 
+	// Comments: transparent unless you set them, so there's no box
+	--color-comments-background: transparent;  // behind the comments and the form
+	--color-comments-border:     transparent;  // the border around them
+
 	// Footer
 	--color-footer-background: #000000;  // the bottom bar
 	--color-footer-text:       #ffffff;  // footer text and links
@@ -152,6 +156,7 @@ These control the look of the shared pieces, so each theme can have its own desi
 | `$content-padding` | `var( --space-xl )` | `--content-padding` (above and below the content) |
 | `$sidebar-gap` | `var( --space-xl )` | `--sidebar-gap` (between the content and sidebar) |
 | `$entry-padding` | `var( --space-l )` | `--entry-padding` (inside post boxes) |
+| `$comments-padding`, `$comments-shadow` | `0`, `none` | `--comments-padding`, `--comments-shadow` (the comments box, ClassicPress) |
 
 ```scss
 :root {
@@ -278,7 +283,7 @@ Themes without `chassis.json` can use the `.app-nav--top` or `.app-nav--bottom` 
 
 The core works on Novaris and ClassicPress. ClassicPress prints some markup that themes can't rename, so that lives in an add-on, `dist/chassis-classicpress.css`. The Backdrop provider loads it for you.
 
-It covers captions, sticky posts, threaded comments and the comment form (in a box like a post's), the search form, the calendar widget, `the_posts_pagination()`, `entry-*` classes, and the `[gallery]` shortcode. It uses the same settings as the core, so a theme's colors and shapes apply here too. Novaris sites don't need it.
+It covers captions, sticky posts, threaded comments and the comment form (in a box when the theme sets one, see below), the search form, the calendar widget, `the_posts_pagination()`, `entry-*` classes, and the `[gallery]` shortcode. It uses the same settings as the core, so a theme's colors and shapes apply here too. Novaris sites don't need it.
 
 ## Utilities
 
@@ -350,6 +355,18 @@ A theme sets its design in a `chassis.json` file in its root folder, next to `th
 | `menu.toggle` | Where the Menu button sits on phones: `bottom-left` (the default), `bottom-right`, `top-right`, or `top-left` |
 | `menu.design` | How the Menu button looks: `background`, `text`, `border`, and `padding` (size names work, e.g. `s l`) |
 | `menu.hide-on-scroll` | `false` keeps the Menu button on screen while scrolling. It hides on the way down by default. |
+
+**Comments in a box (ClassicPress).** The comments and the comment form sit on the page by default. To put them in a box like a post's, set its colors and padding:
+
+```json
+{
+	"color":   { "comments": { "background": "#161a23", "border": "#2d3446" } },
+	"spacing": { "comments-padding": "l" },
+	"design":  { "comments-shadow": "none" }
+}
+```
+
+The box uses the post boxes' border style and `design.radius`. `design.comments-shadow` is optional.
 
 The `$schema` line gives editors autocomplete and catches typos. A child theme's `chassis.json` overrides its parent's, setting by setting. Values that aren't plain CSS (with `{`, `}`, `;`, `<`, or `>`) are skipped with a warning.
 

@@ -47,3 +47,7 @@ $pagination-padding: var( --space-xs ) var( --space-m ) !default;
 
 // Entries.
 $entry-padding: var( --space-l ) !default; // inside post boxes
+
+// Comments. `0` and `none` keep them out of a box; see `color.comments`.
+$comments-padding: 0 !default;    // inside the comments box
+$comments-shadow:  none !default; // under the comments box
