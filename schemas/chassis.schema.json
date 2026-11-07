@@ -404,9 +404,53 @@
 				"description": "A CSS value."
 			}
 		},
+		"layout": {
+			"type": "object",
+			"description": "Page and sidebar widths. `wide` (the page's maximum width) becomes `--width-wide`.",
+			"propertyNames": {
+				"pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+			},
+			"properties": {
+				"wide": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "The page's maximum width: header, content and footer."
+				},
+				"medium": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "The medium container."
+				},
+				"narrow": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "The narrow container."
+				},
+				"sidebar": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "The sidebar, on large screens."
+				}
+			},
+			"additionalProperties": {
+				"type": [
+					"string",
+					"number"
+				],
+				"description": "A CSS value."
+			}
+		},
 		"width": {
 			"type": "object",
-			"description": "Widths. `wide` becomes `--width-wide`.",
+			"description": "The older name for `layout`. Still works; use `layout` in new themes.",
 			"propertyNames": {
 				"pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
 			},
@@ -446,7 +490,8 @@
 					"number"
 				],
 				"description": "A CSS value."
-			}
+			},
+			"deprecated": true
 		},
 		"design": {
 			"type": "object",

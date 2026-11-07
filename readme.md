@@ -339,7 +339,7 @@ A theme sets its design in a `chassis.json` file in its root folder, next to `th
 	},
 	"font": { "body": "'Merriweather', serif", "heading": "'Fira Sans', sans-serif" },
 	"spacing": { "header-padding": "s", "nav-link-padding": "xs m", "content-padding": "l" },
-	"width": { "wide": "75rem", "sidebar": "20rem" },
+	"layout":  { "wide": "75rem", "sidebar": "20rem" },
 	"design": { "radius": "0.5rem" },
 	"menu": { "toggle": "bottom-left" }
 }
@@ -351,7 +351,7 @@ A theme sets its design in a `chassis.json` file in its root folder, next to `th
 | `color.header.text` (and `content`, `widget`, `footer`) | `--color-header-text` |
 | `font.body` | `--font-family-body` |
 | `spacing.content-padding` | `--content-padding`. The size names `xs`, `s`, `m`, `l`, `l-plus`, and `xl` become `var( --space-… )`, and `xs m` gives two values. Plain CSS such as `1rem` works too. |
-| `width.wide` | `--width-wide` |
+| `layout.wide` | `--width-wide`. `width` is the older name for `layout` and still works. |
 | `design.radius` | `--radius`, for any other setting in the [settings reference](#settings-reference) |
 | `menu.toggle` | Where the Menu button sits on phones: `bottom-left` (the default), `bottom-right`, `top-right`, or `top-left` |
 | `menu.design` | How the Menu button looks: `background`, `text`, `border`, and `padding` (size names work, e.g. `s l`) |

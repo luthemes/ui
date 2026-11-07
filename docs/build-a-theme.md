@@ -90,7 +90,7 @@ Next to `style.css`, add `chassis.json`. Chassis reads it and prints the values 
 		"content-padding": "l",
 		"sidebar-gap": "l"
 	},
-	"width": {
+	"layout": {
 		"wide": "70rem"
 	},
 	"menu": {
@@ -110,7 +110,7 @@ What each part does:
 | `color` | Colors, grouped by where they appear: `global`, `header`, `content`, `widget`, `footer` | `header.background` becomes `--color-header-background` |
 | `font` | Font stacks for `body`, `heading`, `code`, and `meta` | `heading` becomes `--font-family-heading` |
 | `spacing` | Padding and gaps. Size names `xs` 4px, `s` 8px, `m` 12px, `l` 18px, `l-plus` 24px, `xl` 40px, or plain CSS like `10px` | `"s l"` is 8px top and bottom, 18px left and right |
-| `width` | Container and sidebar widths | `wide` becomes `--width-wide` |
+| `layout` | The page's maximum width (`wide`) and the sidebar's width (`sidebar`). `width` is the older name and still works | `wide` becomes `--width-wide` |
 | `menu.toggle` | Where the Menu button sits on phones: `bottom-left` (the default), `bottom-right`, `top-right`, `top-left` | |
 | `menu.design` | How the button looks: `background`, `text`, `border`, `padding` | `"border": "2px solid #e63946"` |
 | `menu.hide-on-scroll` | `false` keeps the button on screen while scrolling | |
