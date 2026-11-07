@@ -9,14 +9,6 @@
 		"$schema": {
 			"type": "string"
 		},
-		"version": {
-			"type": "integer",
-			"enum": [
-				1,
-				2
-			],
-			"description": "The file's shape. 2 uses `settings` and `styles`; files without it, or with 1, use `color`, `spacing`, `layout`, `design` and `menu`. Both work."
-		},
 		"settings": {
 			"type": "object",
 			"description": "What the design is made from: the palette, fonts, spacing scale, widths and shapes. `styles` applies them.",

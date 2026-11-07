@@ -2,11 +2,17 @@
 
 All notable changes to Chassis will be documented in this file.
 
+## [Unreleased]
+
+### Changed
+
+- The `settings` and `styles` shape no longer has a version number: the schema drops `version`, and the docs call it by its groups instead of "version 2". Chassis never needed it, since it reads `settings` and `styles` wherever they are. Remove `"version": 2` from a `chassis.json` that has it, or the editor flags it.
+
 ## [0.1.6] - 11.06.2026
 
 ### Added
 
-- A second `chassis.json` shape, `"version": 2`, with friendlier names. `settings` defines the `palette`, `font`s, `spacing` scale, `layout` widths and `shape`s; `styles` applies them to the whole site, to `elements` (links, headings, buttons), and to each part of the page by a friendly name (`header`, `primary-menu`, `menu-button`, `content`, `post`, `widget`, `comments`, `pagination`, `badge`, `footer`). Every part uses the same keys (`color`, `border`, `spacing`, `typography`), with its pieces and `:hover` states nested inside. Palette colors are used as `@name` and become `--palette-{name}`. It covers everything the first shape can set and produces the same custom properties, so a theme looks the same after switching. The first shape still works; where both set the same thing, version 2 wins. Unknown settings and palette names are skipped with a warning, and the schema flags them in editors.
+- A second `chassis.json` shape with friendlier names, `settings` and `styles`. `settings` defines the `palette`, `font`s, `spacing` scale, `layout` widths and `shape`s; `styles` applies them to the whole site, to `elements` (links, headings, buttons), and to each part of the page by a friendly name (`header`, `primary-menu`, `menu-button`, `content`, `post`, `widget`, `comments`, `pagination`, `badge`, `footer`). Every part uses the same keys (`color`, `border`, `spacing`, `typography`), with its pieces and `:hover` states nested inside. Palette colors are used as `@name` and become `--palette-{name}`. It covers everything the first shape can set and produces the same custom properties, so a theme looks the same after switching. The first shape still works; where both set the same thing, `settings` and `styles` win. Unknown settings and palette names are skipped with a warning, and the schema flags them in editors.
 
 ## [0.1.5] - 11.06.2026
 

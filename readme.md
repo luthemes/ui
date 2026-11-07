@@ -370,9 +370,9 @@ A theme sets its design in a `chassis.json` file in its root folder, next to `th
 
 The box uses the post boxes' border style and `design.radius`. `design.comments-shadow` is optional.
 
-#### Version 2: `settings` and `styles`
+#### `settings` and `styles`
 
-`chassis.json` has a second shape, with friendlier names. Add `"version": 2`, then:
+Instead of `color`, `spacing`, `layout`, `design` and `menu`, `chassis.json` can use two groups with friendlier names:
 
 - **`settings`** defines what the design is made from: the `palette`, `font`s, the `spacing` scale, `layout` widths and `shape`s.
 - **`styles`** applies it: the whole site first, then `elements` (links, headings, buttons) that appear anywhere, then each part of the page.
@@ -380,7 +380,6 @@ The box uses the post boxes' border style and `design.radius`. `design.comments-
 ```json
 {
 	"$schema": "https://raw.githubusercontent.com/techkodeninja/chassis/develop/schemas/chassis.schema.json",
-	"version": 2,
 	"settings": {
 		"palette": { "night": "#0b0d12", "ink": "#0f1117", "slate": "#161a23", "line": "#2d3446", "snow": "#ffffff", "mist": "#d7dae0", "blue": "#7c9cff", "sky": "#9db4ff", "ice": "#c7d4ff" },
 		"font":    { "body": "'Merriweather', serif", "heading": "'Fira Sans', sans-serif" },
@@ -422,9 +421,9 @@ How it reads:
 | `badge` | `.badge` | Badges |
 | `footer` | `.app-footer` | The bottom bar |
 
-The schema lists every setting, with the custom property it sets, so an editor autocompletes them and flags typos. Chassis also skips an unknown setting with a warning. `settings.custom` sets any other custom property by its own name, like `design` in the first shape.
+The schema lists every setting, with the custom property it sets, so an editor autocompletes them and flags typos. Chassis also skips an unknown setting with a warning. `settings.custom` sets any other custom property by its own name, like `design` in the older shape.
 
-Both shapes work, in the same file or across a parent and child theme. Where both set the same thing, version 2 wins. Version 2 covers everything the first shape can set; new settings will be added to version 2 only.
+Both shapes work, in the same file or across a parent and child theme. Where both set the same thing, `settings` and `styles` win. They cover everything the older shape can set, and new settings will be added to them only.
 
 The `$schema` line gives editors autocomplete and catches typos. A child theme's `chassis.json` overrides its parent's, setting by setting. Values that aren't plain CSS (with `{`, `}`, `;`, `<`, or `>`) are skipped with a warning.
 
