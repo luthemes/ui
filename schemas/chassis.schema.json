@@ -9,6 +9,1081 @@
 		"$schema": {
 			"type": "string"
 		},
+		"version": {
+			"type": "integer",
+			"enum": [
+				1,
+				2
+			],
+			"description": "The file's shape. 2 uses `settings` and `styles`; files without it, or with 1, use `color`, `spacing`, `layout`, `design` and `menu`. Both work."
+		},
+		"settings": {
+			"type": "object",
+			"description": "What the design is made from: the palette, fonts, spacing scale, widths and shapes. `styles` applies them.",
+			"properties": {
+				"palette": {
+					"type": "object",
+					"description": "Named colors, used elsewhere as `@name`. `slate` becomes `--palette-slate`.",
+					"properties": {},
+					"additionalProperties": {
+						"type": [
+							"string",
+							"number"
+						],
+						"description": "A CSS value."
+					},
+					"propertyNames": {
+						"pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+					}
+				},
+				"font": {
+					"type": "object",
+					"description": "Font stacks.",
+					"properties": {
+						"body": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Body text. `--font-family-body`."
+						},
+						"heading": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Headings. `--font-family-heading`."
+						},
+						"code": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Code. `--font-family-code`."
+						},
+						"meta": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Dates and small labels. `--font-family-meta`."
+						}
+					},
+					"additionalProperties": false
+				},
+				"spacing": {
+					"type": "object",
+					"description": "The spacing scale the size names use. `l` becomes `--space-l`.",
+					"properties": {
+						"xs": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "The `xs` size. `--space-xs`."
+						},
+						"s": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "The `s` size. `--space-s`."
+						},
+						"m": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "The `m` size. `--space-m`."
+						},
+						"l": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "The `l` size. `--space-l`."
+						},
+						"l-plus": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "The `l-plus` size. `--space-l-plus`."
+						},
+						"xl": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "The `xl` size. `--space-xl`."
+						}
+					},
+					"additionalProperties": false
+				},
+				"layout": {
+					"type": "object",
+					"description": "Widths.",
+					"properties": {
+						"width": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "The page's maximum width: header, content and footer. `--width-wide`."
+						},
+						"medium": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "The `container--medium` width. `--width-medium`."
+						},
+						"narrow": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "The `container--narrow` width. `--width-narrow`."
+						},
+						"sidebar": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "The sidebar, on large screens. `--width-sidebar`."
+						}
+					},
+					"additionalProperties": false
+				},
+				"shape": {
+					"type": "object",
+					"description": "Shapes shared by boxes, buttons and badges.",
+					"properties": {
+						"radius": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Corners. `--radius`."
+						},
+						"shadow": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Shadow on boxes. `--shadow`."
+						},
+						"border-width": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Border width. `--border-width`."
+						}
+					},
+					"additionalProperties": false
+				},
+				"custom": {
+					"type": "object",
+					"description": "Any other custom property, by its own name: `my-gap` sets `--my-gap`.",
+					"properties": {},
+					"additionalProperties": {
+						"type": [
+							"string",
+							"number"
+						],
+						"description": "A CSS value."
+					},
+					"propertyNames": {
+						"pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+					}
+				}
+			},
+			"additionalProperties": false
+		},
+		"styles": {
+			"type": "object",
+			"description": "Where the design is applied: the whole site, then `elements`, then each part of the page. Each part names its BEM block; nested names are its BEM elements.",
+			"properties": {
+				"color": {
+					"type": "object",
+					"description": "Colors.",
+					"properties": {
+						"background": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "The page background. `--color-page-background`. A color, or a palette color like `@slate`."
+						},
+						"text": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Body text. `--color-content-text`. A color, or a palette color like `@slate`."
+						},
+						"muted": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Quieter text: captions, dates. `--color-content-muted`. A color, or a palette color like `@slate`."
+						},
+						"divider": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Lines between things. `--color-content-divider`. A color, or a palette color like `@slate`."
+						},
+						"alt": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Muted boxes, code blocks. `--color-content-alt`. A color, or a palette color like `@slate`."
+						},
+						"accent": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Buttons, badges, the current page number. `--color-accent`. A color, or a palette color like `@slate`."
+						},
+						"accent-text": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Text on the accent color. `--color-accent-text`. A color, or a palette color like `@slate`."
+						}
+					},
+					"additionalProperties": false
+				},
+				"typography": {
+					"type": "object",
+					"description": "Body text.",
+					"properties": {
+						"size": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "`--font-size-base`."
+						},
+						"line-height": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "`--line-height-base`."
+						}
+					},
+					"additionalProperties": false
+				},
+				"elements": {
+					"type": "object",
+					"description": "Things that appear anywhere on the page.",
+					"properties": {
+						"link": {
+							"type": "object",
+							"description": "Links.",
+							"properties": {
+								"color": {
+									"type": "object",
+									"description": "Colors.",
+									"properties": {
+										"text": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "`--color-link`. A color, or a palette color like `@slate`."
+										}
+									},
+									"additionalProperties": false
+								},
+								":hover": {
+									"type": "object",
+									"description": "Links on hover.",
+									"properties": {
+										"color": {
+											"type": "object",
+											"description": "Colors.",
+											"properties": {
+												"text": {
+													"type": [
+														"string",
+														"number"
+													],
+													"description": "`--color-link-hover`. A color, or a palette color like `@slate`."
+												}
+											},
+											"additionalProperties": false
+										}
+									},
+									"additionalProperties": false
+								}
+							},
+							"additionalProperties": false
+						},
+						"heading": {
+							"type": "object",
+							"description": "Headings, h1 to h6.",
+							"properties": {
+								"color": {
+									"type": "object",
+									"description": "Colors.",
+									"properties": {
+										"text": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "`--color-content-heading`. A color, or a palette color like `@slate`."
+										}
+									},
+									"additionalProperties": false
+								},
+								"typography": {
+									"type": "object",
+									"description": "Typography.",
+									"properties": {
+										"weight": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "`--font-weight-heading`."
+										},
+										"line-height": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "`--line-height-heading`."
+										}
+									},
+									"additionalProperties": false
+								}
+							},
+							"additionalProperties": false
+						},
+						"h1": {
+							"type": "object",
+							"description": "`h1` headings.",
+							"properties": {
+								"typography": {
+									"type": "object",
+									"description": "Typography.",
+									"properties": {
+										"size": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "`--font-size-h1`."
+										}
+									},
+									"additionalProperties": false
+								}
+							},
+							"additionalProperties": false
+						},
+						"h2": {
+							"type": "object",
+							"description": "`h2` headings.",
+							"properties": {
+								"typography": {
+									"type": "object",
+									"description": "Typography.",
+									"properties": {
+										"size": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "`--font-size-h2`."
+										}
+									},
+									"additionalProperties": false
+								}
+							},
+							"additionalProperties": false
+						},
+						"h3": {
+							"type": "object",
+							"description": "`h3` headings.",
+							"properties": {
+								"typography": {
+									"type": "object",
+									"description": "Typography.",
+									"properties": {
+										"size": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "`--font-size-h3`."
+										}
+									},
+									"additionalProperties": false
+								}
+							},
+							"additionalProperties": false
+						},
+						"h4": {
+							"type": "object",
+							"description": "`h4` headings.",
+							"properties": {
+								"typography": {
+									"type": "object",
+									"description": "Typography.",
+									"properties": {
+										"size": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "`--font-size-h4`."
+										}
+									},
+									"additionalProperties": false
+								}
+							},
+							"additionalProperties": false
+						},
+						"h5": {
+							"type": "object",
+							"description": "`h5` headings.",
+							"properties": {
+								"typography": {
+									"type": "object",
+									"description": "Typography.",
+									"properties": {
+										"size": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "`--font-size-h5`."
+										}
+									},
+									"additionalProperties": false
+								}
+							},
+							"additionalProperties": false
+						},
+						"h6": {
+							"type": "object",
+							"description": "`h6` headings.",
+							"properties": {
+								"typography": {
+									"type": "object",
+									"description": "Typography.",
+									"properties": {
+										"size": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "`--font-size-h6`."
+										}
+									},
+									"additionalProperties": false
+								}
+							},
+							"additionalProperties": false
+						},
+						"button": {
+							"type": "object",
+							"description": "Buttons. `.button`.",
+							"properties": {
+								"spacing": {
+									"type": "object",
+									"description": "Spacing.",
+									"properties": {
+										"padding": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "`--button-padding`. Size names (`xs`, `s`, `m`, `l`, `l-plus`, `xl`) or CSS, e.g. `xs m`."
+										}
+									},
+									"additionalProperties": false
+								},
+								"border": {
+									"type": "object",
+									"description": "Border.",
+									"properties": {
+										"width": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "`--button-border-width`."
+										}
+									},
+									"additionalProperties": false
+								}
+							},
+							"additionalProperties": false
+						}
+					},
+					"additionalProperties": false
+				},
+				"header": {
+					"type": "object",
+					"description": "The top bar. BEM block `.app-header`.",
+					"properties": {
+						"color": {
+							"type": "object",
+							"description": "Colors.",
+							"properties": {
+								"background": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "`--color-header-background`. A color, or a palette color like `@slate`."
+								},
+								"text": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "Site title, tagline, menu links. `--color-header-text`. A color, or a palette color like `@slate`."
+								}
+							},
+							"additionalProperties": false
+						},
+						"spacing": {
+							"type": "object",
+							"description": "Spacing.",
+							"properties": {
+								"padding": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "`--header-padding`. Size names (`xs`, `s`, `m`, `l`, `l-plus`, `xl`) or CSS, e.g. `xs m`."
+								}
+							},
+							"additionalProperties": false
+						},
+						"title": {
+							"type": "object",
+							"description": "The site title, `.app-header__title`.",
+							"properties": {
+								"typography": {
+									"type": "object",
+									"description": "Typography.",
+									"properties": {
+										"size": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "`--header-title-size`."
+										},
+										"size-large": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "From medium screens up. `--header-title-size-large`."
+										}
+									},
+									"additionalProperties": false
+								}
+							},
+							"additionalProperties": false
+						},
+						"tagline": {
+							"type": "object",
+							"description": "The tagline, `.app-header__tagline`.",
+							"properties": {
+								"typography": {
+									"type": "object",
+									"description": "Typography.",
+									"properties": {
+										"size": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "`--header-tagline-size`."
+										}
+									},
+									"additionalProperties": false
+								}
+							},
+							"additionalProperties": false
+						}
+					},
+					"additionalProperties": false
+				},
+				"primary-menu": {
+					"type": "object",
+					"description": "The main menu in the header. BEM block `.app-nav`.",
+					"properties": {
+						"link": {
+							"type": "object",
+							"description": "Its links.",
+							"properties": {
+								"spacing": {
+									"type": "object",
+									"description": "Spacing.",
+									"properties": {
+										"padding": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "Around each link. `--nav-link-padding`. Size names (`xs`, `s`, `m`, `l`, `l-plus`, `xl`) or CSS, e.g. `xs m`."
+										}
+									},
+									"additionalProperties": false
+								}
+							},
+							"additionalProperties": false
+						}
+					},
+					"additionalProperties": false
+				},
+				"menu-button": {
+					"type": "object",
+					"description": "The button that opens the primary menu on phones. BEM element `.app-nav__toggle`.",
+					"properties": {
+						"position": {
+							"type": "string",
+							"enum": [
+								"bottom-left",
+								"bottom-right",
+								"top-right",
+								"top-left"
+							],
+							"description": "Where it sits on phones. `bottom-left` is the default."
+						},
+						"hide-on-scroll": {
+							"type": "boolean",
+							"description": "`false` keeps it on screen while scrolling. It hides on the way down by default."
+						},
+						"color": {
+							"type": "object",
+							"description": "Colors.",
+							"properties": {
+								"background": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "`--menu-toggle-background`. A color, or a palette color like `@slate`."
+								},
+								"text": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "`--menu-toggle-color`. A color, or a palette color like `@slate`."
+								}
+							},
+							"additionalProperties": false
+						},
+						"border": {
+							"description": "Plain CSS (`2px solid red`), or its parts. `--menu-toggle-border`.",
+							"oneOf": [
+								{
+									"type": "string"
+								},
+								{
+									"type": "object",
+									"description": "Its parts.",
+									"properties": {
+										"color": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "Default `currentColor`. A color, or a palette color like `@slate`."
+										},
+										"width": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "Default `var( --border-width )`."
+										},
+										"style": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "Default `solid`."
+										}
+									},
+									"additionalProperties": false
+								}
+							]
+						},
+						"spacing": {
+							"type": "object",
+							"description": "Spacing.",
+							"properties": {
+								"padding": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "`--menu-toggle-padding`. Size names (`xs`, `s`, `m`, `l`, `l-plus`, `xl`) or CSS, e.g. `xs m`."
+								}
+							},
+							"additionalProperties": false
+						}
+					},
+					"additionalProperties": false
+				},
+				"content": {
+					"type": "object",
+					"description": "The content area, posts and sidebar. BEM block `.app-content`.",
+					"properties": {
+						"spacing": {
+							"type": "object",
+							"description": "Spacing.",
+							"properties": {
+								"padding": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "Above and below. `--content-padding`. Size names (`xs`, `s`, `m`, `l`, `l-plus`, `xl`) or CSS, e.g. `xs m`."
+								},
+								"gap": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "Between the posts and the sidebar. `--sidebar-gap`. Size names (`xs`, `s`, `m`, `l`, `l-plus`, `xl`) or CSS, e.g. `xs m`."
+								}
+							},
+							"additionalProperties": false
+						}
+					},
+					"additionalProperties": false
+				},
+				"post": {
+					"type": "object",
+					"description": "Each post's box. BEM block `.entry`.",
+					"properties": {
+						"color": {
+							"type": "object",
+							"description": "Colors.",
+							"properties": {
+								"background": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "Also the default for widgets. `--color-content-background`. A color, or a palette color like `@slate`."
+								}
+							},
+							"additionalProperties": false
+						},
+						"border": {
+							"type": "object",
+							"description": "Border.",
+							"properties": {
+								"color": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "Also the default for widgets. `--color-content-border`. A color, or a palette color like `@slate`."
+								},
+								"style": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "e.g. `dotted`, `solid`. `--border-box`."
+								},
+								"bottom-style": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "The bottom edge. `--border-box-bottom`."
+								}
+							},
+							"additionalProperties": false
+						},
+						"spacing": {
+							"type": "object",
+							"description": "Spacing.",
+							"properties": {
+								"padding": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "`--entry-padding`. Size names (`xs`, `s`, `m`, `l`, `l-plus`, `xl`) or CSS, e.g. `xs m`."
+								}
+							},
+							"additionalProperties": false
+						}
+					},
+					"additionalProperties": false
+				},
+				"widget": {
+					"type": "object",
+					"description": "Sidebar and footer widgets. BEM block `.widget`. Follows `post` unless set.",
+					"properties": {
+						"color": {
+							"type": "object",
+							"description": "Colors.",
+							"properties": {
+								"background": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "`--color-widget-background`. A color, or a palette color like `@slate`."
+								},
+								"text": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "`--color-widget-text`. A color, or a palette color like `@slate`."
+								}
+							},
+							"additionalProperties": false
+						},
+						"border": {
+							"type": "object",
+							"description": "Border.",
+							"properties": {
+								"color": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "`--color-widget-border`. A color, or a palette color like `@slate`."
+								}
+							},
+							"additionalProperties": false
+						},
+						"title": {
+							"type": "object",
+							"description": "Widget titles, `.widget-title`.",
+							"properties": {
+								"color": {
+									"type": "object",
+									"description": "Colors.",
+									"properties": {
+										"text": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "`--color-widget-title`. A color, or a palette color like `@slate`."
+										}
+									},
+									"additionalProperties": false
+								}
+							},
+							"additionalProperties": false
+						}
+					},
+					"additionalProperties": false
+				},
+				"comments": {
+					"type": "object",
+					"description": "The comments and the comment form, ClassicPress only. Block `.comments-area`. No box unless `color` and `spacing.padding` are set.",
+					"properties": {
+						"color": {
+							"type": "object",
+							"description": "Colors.",
+							"properties": {
+								"background": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "`--color-comments-background`. A color, or a palette color like `@slate`."
+								}
+							},
+							"additionalProperties": false
+						},
+						"border": {
+							"type": "object",
+							"description": "Border.",
+							"properties": {
+								"color": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "`--color-comments-border`. A color, or a palette color like `@slate`."
+								}
+							},
+							"additionalProperties": false
+						},
+						"spacing": {
+							"type": "object",
+							"description": "Spacing.",
+							"properties": {
+								"padding": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "`--comments-padding`. Size names (`xs`, `s`, `m`, `l`, `l-plus`, `xl`) or CSS, e.g. `xs m`."
+								},
+								"margin": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "Between the post and the comments. `--comments-gap`. Size names (`xs`, `s`, `m`, `l`, `l-plus`, `xl`) or CSS, e.g. `xs m`."
+								}
+							},
+							"additionalProperties": false
+						},
+						"shadow": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "`--comments-shadow`."
+						},
+						"meta": {
+							"type": "object",
+							"description": "A comment's author and date, `.comment-meta`.",
+							"properties": {
+								"spacing": {
+									"type": "object",
+									"description": "Spacing.",
+									"properties": {
+										"margin": {
+											"type": [
+												"string",
+												"number"
+											],
+											"description": "Space below it. `--comments-meta-gap`. Size names (`xs`, `s`, `m`, `l`, `l-plus`, `xl`) or CSS, e.g. `xs m`."
+										}
+									},
+									"additionalProperties": false
+								}
+							},
+							"additionalProperties": false
+						}
+					},
+					"additionalProperties": false
+				},
+				"pagination": {
+					"type": "object",
+					"description": "Page numbers. BEM block `.pagination`.",
+					"properties": {
+						"spacing": {
+							"type": "object",
+							"description": "Spacing.",
+							"properties": {
+								"padding": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "Inside each number. `--pagination-padding`. Size names (`xs`, `s`, `m`, `l`, `l-plus`, `xl`) or CSS, e.g. `xs m`."
+								}
+							},
+							"additionalProperties": false
+						}
+					},
+					"additionalProperties": false
+				},
+				"badge": {
+					"type": "object",
+					"description": "Badges. BEM block `.badge`.",
+					"properties": {
+						"typography": {
+							"type": "object",
+							"description": "Typography.",
+							"properties": {
+								"size": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "`--badge-font-size`."
+								},
+								"letter-spacing": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "`--badge-letter-spacing`."
+								},
+								"transform": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "`--badge-text-transform`."
+								}
+							},
+							"additionalProperties": false
+						},
+						"spacing": {
+							"type": "object",
+							"description": "Spacing.",
+							"properties": {
+								"padding": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "`--badge-padding`. Size names (`xs`, `s`, `m`, `l`, `l-plus`, `xl`) or CSS, e.g. `xs m`."
+								}
+							},
+							"additionalProperties": false
+						}
+					},
+					"additionalProperties": false
+				},
+				"footer": {
+					"type": "object",
+					"description": "The bottom bar. BEM block `.app-footer`.",
+					"properties": {
+						"color": {
+							"type": "object",
+							"description": "Colors.",
+							"properties": {
+								"background": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "`--color-footer-background`. A color, or a palette color like `@slate`."
+								},
+								"text": {
+									"type": [
+										"string",
+										"number"
+									],
+									"description": "`--color-footer-text`. A color, or a palette color like `@slate`."
+								}
+							},
+							"additionalProperties": false
+						}
+					},
+					"additionalProperties": false
+				}
+			},
+			"additionalProperties": false
+		},
 		"color": {
 			"type": "object",
 			"description": "Colors grouped by where they appear. `global.link` becomes `--color-link`; `header.text` becomes `--color-header-text`.",

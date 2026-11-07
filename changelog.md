@@ -6,6 +6,12 @@ All notable changes to Chassis will be documented in this file.
 
 ### Added
 
+- A second `chassis.json` shape, `"version": 2`, with friendlier names. `settings` defines the `palette`, `font`s, `spacing` scale, `layout` widths and `shape`s; `styles` applies them to the whole site, to `elements` (links, headings, buttons), and to each part of the page by a friendly name (`header`, `primary-menu`, `menu-button`, `content`, `post`, `widget`, `comments`, `pagination`, `badge`, `footer`). Every part uses the same keys (`color`, `border`, `spacing`, `typography`), with its pieces and `:hover` states nested inside. Palette colors are used as `@name` and become `--palette-{name}`. It covers everything the first shape can set and produces the same custom properties, so a theme looks the same after switching. The first shape still works; where both set the same thing, version 2 wins. Unknown settings and palette names are skipped with a warning, and the schema flags them in editors.
+
+## [0.1.5] - 11.06.2026
+
+### Added
+
 - On ClassicPress, the space between a post and its comments is a setting, `--comments-gap` (`var( --space-xl )` by default), which `chassis.json` sets with `spacing.comments-gap`. A theme that boxes its comments can set it to `l` to match the space between posts.
 
 ## [0.1.4] - 11.06.2026

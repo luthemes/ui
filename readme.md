@@ -370,6 +370,62 @@ A theme sets its design in a `chassis.json` file in its root folder, next to `th
 
 The box uses the post boxes' border style and `design.radius`. `design.comments-shadow` is optional.
 
+#### Version 2: `settings` and `styles`
+
+`chassis.json` has a second shape, with friendlier names. Add `"version": 2`, then:
+
+- **`settings`** defines what the design is made from: the `palette`, `font`s, the `spacing` scale, `layout` widths and `shape`s.
+- **`styles`** applies it: the whole site first, then `elements` (links, headings, buttons) that appear anywhere, then each part of the page.
+
+```json
+{
+	"$schema": "https://raw.githubusercontent.com/techkodeninja/chassis/develop/schemas/chassis.schema.json",
+	"version": 2,
+	"settings": {
+		"palette": { "night": "#0b0d12", "ink": "#0f1117", "slate": "#161a23", "line": "#2d3446", "snow": "#ffffff", "mist": "#d7dae0", "blue": "#7c9cff", "sky": "#9db4ff", "ice": "#c7d4ff" },
+		"font":    { "body": "'Merriweather', serif", "heading": "'Fira Sans', sans-serif" },
+		"layout":  { "width": "75rem", "sidebar": "20rem" }
+	},
+	"styles": {
+		"color": { "background": "@ink", "text": "@mist", "accent": "@blue", "accent-text": "@night" },
+		"elements": {
+			"link":    { "color": { "text": "@sky" }, ":hover": { "color": { "text": "@ice" } } },
+			"heading": { "color": { "text": "@snow" } }
+		},
+		"header":       { "color": { "background": "@night", "text": "@snow" }, "spacing": { "padding": "s" } },
+		"primary-menu": { "link": { "spacing": { "padding": "xs m" } } },
+		"menu-button":  { "position": "bottom-left", "border": { "color": "@snow" } },
+		"content":      { "spacing": { "padding": "l", "gap": "l" } },
+		"post":         { "color": { "background": "@slate" }, "border": { "color": "@line" } },
+		"comments":     { "color": { "background": "@slate" }, "border": { "color": "@line" }, "spacing": { "padding": "l", "margin": "l" } },
+		"footer":       { "color": { "background": "@night", "text": "@snow" } }
+	}
+}
+```
+
+How it reads:
+
+- **Palette colors** are written once and used as `@name`. `slate` becomes `--palette-slate`, and `@slate` becomes `var( --palette-slate )`, so a child theme can change one palette color and everything using it follows. An unknown `@name` is skipped with a warning.
+- **Every part uses the same keys:** `color`, `border`, `spacing`, `typography`. A part's own pieces nest inside it, like `header.title` or `comments.meta`, and states like `:hover` nest the same way.
+- **Each part has a friendly name**, and its schema description names the BEM block it styles:
+
+| Part | BEM block | What it is |
+|---|---|---|
+| `header` | `.app-header` | The top bar; `title` and `tagline` inside it |
+| `primary-menu` | `.app-nav` | The main menu in the header; `link` inside it |
+| `menu-button` | `.app-nav__toggle` | The button that opens the primary menu on phones |
+| `content` | `.app-content` | The content area: posts and sidebar |
+| `post` | `.entry` | Each post's box |
+| `widget` | `.widget` | Sidebar and footer widgets; `title` inside it. Follows `post` unless set |
+| `comments` | `.comments-area` | The comments and the form (ClassicPress); `meta` inside it |
+| `pagination` | `.pagination` | Page numbers |
+| `badge` | `.badge` | Badges |
+| `footer` | `.app-footer` | The bottom bar |
+
+The schema lists every setting, with the custom property it sets, so an editor autocompletes them and flags typos. Chassis also skips an unknown setting with a warning. `settings.custom` sets any other custom property by its own name, like `design` in the first shape.
+
+Both shapes work, in the same file or across a parent and child theme. Where both set the same thing, version 2 wins. Version 2 covers everything the first shape can set; new settings will be added to version 2 only.
+
 The `$schema` line gives editors autocomplete and catches typos. A child theme's `chassis.json` overrides its parent's, setting by setting. Values that aren't plain CSS (with `{`, `}`, `;`, `<`, or `>`) are skipped with a warning.
 
 A theme can still set custom properties in its own stylesheet instead, which loads after Chassis:
