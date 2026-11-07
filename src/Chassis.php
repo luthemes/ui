@@ -51,7 +51,7 @@ class Chassis
 	const SPACE_NAMES = [ 'xs', 's', 'm', 'l', 'l-plus', 'xl' ];
 
 	/**
-	 * The version 2 `chassis.json` shape: each setting's path, the custom
+	 * The `settings` and `styles` shape of `chassis.json`: each setting's path, the custom
 	 * property it sets, and whether it takes spacing names (`l`, `xs m`).
 	 *
 	 * `settings` defines things (the palette, fonts, spacing scale, widths,
@@ -353,10 +353,9 @@ class Chassis
 	 * - `menu.hide-on-scroll` → `false` keeps the Menu button on screen while
 	 *   scrolling (it hides on the way down by default)
 	 *
-	 * The version 2 shape (`"version": 2`, with `settings` and `styles`) sets
-	 * the same custom properties with clearer names; see `STYLES_MAP` and
-	 * `stylesProperties()`. Both shapes work, and version 2 wins where both set
-	 * the same thing. Any value can be a palette color, `@slate`.
+	 * The `settings` and `styles` shape sets the same custom properties with
+	 * clearer names; see `STYLES_MAP` and `stylesProperties()`. Both shapes
+	 * work, and `settings` and `styles` win where both set the same thing. Any value can be a palette color, `@slate`.
 	 *
 	 * Returns an empty string when there's nothing to set.
 	 */
@@ -421,8 +420,8 @@ class Chassis
 			$properties[ $name ] = $value;
 		}
 
-		// The version 2 shape (`settings`, `styles`), after the version 1 one so
-		// it wins where both set the same thing.
+		// The `settings` and `styles` shape, after the older one so it wins
+		// where both set the same thing.
 		$properties = array_merge( $properties, $this->stylesProperties( $design ) );
 
 		$palette = $this->group( $this->group( $design, 'settings' ), 'palette' );
@@ -466,8 +465,8 @@ class Chassis
 	}
 
 	/**
-	 * Turns the version 2 shape (`settings` and `styles`) into custom
-	 * properties, with the same names the version 1 shape sets. Settings it
+	 * Turns the `settings` and `styles` shape into custom properties, with the
+	 * same names the older shape sets. Settings it
 	 * doesn't know are skipped with a warning, so a typo doesn't fail quietly.
 	 */
 	protected function stylesProperties( array $design ): array
@@ -485,7 +484,7 @@ class Chassis
 			$properties[ "palette-{$name}" ] = $value;
 		}
 
-		// Anything else, by its custom property's own name, like version 1's `design`.
+		// Anything else, by its custom property's own name, like the older shape's `design`.
 		foreach ( $this->group( $settings, 'custom' ) as $name => $value ) {
 			$properties[ (string) $name ] = $value;
 		}
