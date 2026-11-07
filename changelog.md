@@ -2,7 +2,7 @@
 
 All notable changes to Chassis will be documented in this file.
 
-## [Unreleased]
+## [0.1.6] - 11.06.2026
 
 ### Added
 
