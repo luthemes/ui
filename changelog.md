@@ -4,6 +4,12 @@ All notable changes to Chassis will be documented in this file.
 
 ## [Unreleased]
 
+### Fixed
+
+- On ClassicPress, a comment's author and date sat right on top of its text. `.comment-meta` now has space below it, `--comments-meta-gap` (`var( --space-m )` by default), which `chassis.json` sets with `spacing.comments-meta-gap`.
+
+## [0.1.2] - 11.06.2026
+
 ### Changed
 
 - The comments box from 0.1.1 is now a setting, off by default, so comments sit on the page again unless a theme asks for the box. Turn it on in `chassis.json` with `color.comments.background`, `color.comments.border` and `spacing.comments-padding` (and `design.comments-shadow` for a shadow). These become `--color-comments-background`, `--color-comments-border`, `--comments-padding` and `--comments-shadow`.
