@@ -229,7 +229,8 @@ class Chassis
 	 * - `font.body` → `--font-family-body`
 	 * - `spacing.content-padding` → `--content-padding`; size names such as
 	 *   `l` or `xs m` become `var( --space-l )` and so on
-	 * - `width.wide` → `--width-wide`
+	 * - `layout.wide` → `--width-wide` (`width` is the older name for this
+	 *   group and still works; `layout` wins when both set the same width)
 	 * - `design.radius` → `--radius`, for any other setting
 	 * - `menu.toggle` → where the Menu button sits on phones: `bottom-left`
 	 *   (the default), `bottom-right`, `top-right`, or `top-left`
@@ -265,7 +266,8 @@ class Chassis
 			$properties[ $name ] = is_string( $value ) ? $this->spaceValue( $value ) : $value;
 		}
 
-		foreach ( $this->group( $design, 'width' ) as $name => $value ) {
+		// `width` is the older name for `layout`. Both work, `layout` last so it wins.
+		foreach ( array_replace( $this->group( $design, 'width' ), $this->group( $design, 'layout' ) ) as $name => $value ) {
 			$properties[ "width-{$name}" ] = $value;
 		}
 

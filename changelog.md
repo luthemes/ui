@@ -4,6 +4,12 @@ All notable changes to Chassis will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- In `chassis.json`, the `width` group is now `layout`: `"layout": { "wide": "75rem", "sidebar": "20rem" }`. `width` still works, so existing themes don't change; when both set the same width, `layout` wins. The schema marks `width` as deprecated.
+
+## [0.1.3] - 11.06.2026
+
 ### Fixed
 
 - On ClassicPress, a comment's author and date sat right on top of its text. `.comment-meta` now has space below it, `--comments-meta-gap` (`var( --space-m )` by default), which `chassis.json` sets with `spacing.comments-meta-gap`.
