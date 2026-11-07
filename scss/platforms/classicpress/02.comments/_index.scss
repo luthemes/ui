@@ -1,24 +1,25 @@
 ////
 /// Comments
 ///
-/// Threaded comments and the comment form, in a box like a post's. Covers the
+/// Threaded comments and the comment form, in a box when the theme sets one. Covers the
 /// default markup from `wp_list_comments()` and the `.comments` items that custom
 /// callbacks print (a `.comment-meta` header and a `.comment-content` body).
 ///
 /// @group Platforms
 ////
 
-// The comments and the form sit in a box like a post's, built from the same design
-// values (`--color-content-background`, `--border-box`, `--radius`, `--shadow`,
-// `--entry-padding`), so `chassis.json` styles both at once.
+// The comments and the form. They sit on the page by default; a theme puts them in a
+// box like a post's by setting `color.comments` and `spacing.comments-padding` in
+// `chassis.json` (`--color-comments-background`, `--color-comments-border`,
+// `--comments-padding`, and `--comments-shadow` for a shadow).
 .comments-area {
-	background: var( --color-content-background );
-	border: var( --border-box );
-	border-bottom: var( --border-box-bottom );
+	background: var( --color-comments-background );
+	border: var( --border-comments );
+	border-bottom: var( --border-comments-bottom );
 	border-radius: var( --radius );
-	box-shadow: var( --shadow );
-	margin-top: var( --entry-padding );
-	padding: var( --entry-padding );
+	box-shadow: var( --comments-shadow );
+	margin-top: var( --space-xl );
+	padding: var( --comments-padding );
 
 	> :first-child {
 		margin-top: 0;

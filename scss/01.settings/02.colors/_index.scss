@@ -44,6 +44,10 @@ $colors: map.merge( (
 	widget-title:      var( --color-content-heading ),    // "Categories", "Archives"
 	widget-text:       var( --color-content-text ),       // text inside them
 
+	// Comments. No box unless a theme sets these (`color.comments` in `chassis.json`).
+	comments-background: transparent, // behind the comments and the form
+	comments-border:     transparent, // the border around them
+
 	// Footer.
 	footer-background: #000000, // the bottom bar
 	footer-text:       #ffffff  // footer text and links

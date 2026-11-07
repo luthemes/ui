@@ -6,6 +6,12 @@ All notable changes to Chassis will be documented in this file.
 
 ### Changed
 
+- The comments box from 0.1.1 is now a setting, off by default, so comments sit on the page again unless a theme asks for the box. Turn it on in `chassis.json` with `color.comments.background`, `color.comments.border` and `spacing.comments-padding` (and `design.comments-shadow` for a shadow). These become `--color-comments-background`, `--color-comments-border`, `--comments-padding` and `--comments-shadow`.
+
+## [0.1.1] - 11.06.2026
+
+### Changed
+
 - On ClassicPress, the comments and the comment form (`.comments-area`) sit in a box like a post's, built from the same settings: `--color-content-background`, `--border-box`, `--radius`, `--shadow` and `--entry-padding`. A theme's `chassis.json` (`color.content`, `design`) styles both. Before, the comments sat on the page background.
 - Comments printed by a custom callback (`.comments` items) get the same divider as the default markup, under `.comment-content`.
 

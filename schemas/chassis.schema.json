@@ -206,6 +206,36 @@
 						"description": "A CSS value."
 					}
 				},
+				"comments": {
+					"type": "object",
+					"description": "The comments and the comment form. Transparent, so they sit on the page, unless set; set both to put them in a box like a post's.",
+					"propertyNames": {
+						"pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+					},
+					"properties": {
+						"background": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "Behind the comments and the form."
+						},
+						"border": {
+							"type": [
+								"string",
+								"number"
+							],
+							"description": "The border around them."
+						}
+					},
+					"additionalProperties": {
+						"type": [
+							"string",
+							"number"
+						],
+						"description": "A CSS value."
+					}
+				},
 				"footer": {
 					"type": "object",
 					"description": "The bottom bar.",
@@ -350,6 +380,13 @@
 						"number"
 					],
 					"description": "Inside pagination links."
+				},
+				"comments-padding": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Inside the comments box. 0 by default, so there's no box."
 				}
 			},
 			"additionalProperties": {
@@ -466,6 +503,13 @@
 						"number"
 					],
 					"description": "Site title size."
+				},
+				"comments-shadow": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Under the comments box. none by default."
 				}
 			},
 			"additionalProperties": {

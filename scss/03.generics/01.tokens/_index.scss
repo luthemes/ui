@@ -52,6 +52,8 @@
 	--border-box-bottom: var( --border-width ) #{ design.$box-border-bottom-style } var( --color-content-border );
 	--border-widget:        var( --border-width ) #{ design.$box-border-style } var( --color-widget-border );
 	--border-widget-bottom: var( --border-width ) #{ design.$box-border-bottom-style } var( --color-widget-border );
+	--border-comments:        var( --border-width ) #{ design.$box-border-style } var( --color-comments-border );
+	--border-comments-bottom: var( --border-width ) #{ design.$box-border-bottom-style } var( --color-comments-border );
 
 	// Shapes.
 	--radius: #{ design.$radius };
@@ -83,4 +85,8 @@
 
 	// Entries.
 	--entry-padding: #{ design.$entry-padding };
+
+	// Comments.
+	--comments-padding: #{ design.$comments-padding };
+	--comments-shadow:  #{ design.$comments-shadow };
 }
