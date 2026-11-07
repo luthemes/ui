@@ -388,6 +388,13 @@
 					],
 					"description": "Inside the comments box. 0 by default, so there's no box."
 				},
+				"comments-gap": {
+					"type": [
+						"string",
+						"number"
+					],
+					"description": "Between the post and the comments. xl by default."
+				},
 				"comments-meta-gap": {
 					"type": [
 						"string",

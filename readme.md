@@ -157,6 +157,7 @@ These control the look of the shared pieces, so each theme can have its own desi
 | `$sidebar-gap` | `var( --space-xl )` | `--sidebar-gap` (between the content and sidebar) |
 | `$entry-padding` | `var( --space-l )` | `--entry-padding` (inside post boxes) |
 | `$comments-padding`, `$comments-shadow` | `0`, `none` | `--comments-padding`, `--comments-shadow` (the comments box, ClassicPress) |
+| `$comments-gap` | `var( --space-xl )` | `--comments-gap` (between the post and the comments, ClassicPress) |
 | `$comments-meta-gap` | `var( --space-m )` | `--comments-meta-gap` (between a comment's author and date and its text, ClassicPress) |
 
 ```scss

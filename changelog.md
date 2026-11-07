@@ -4,6 +4,12 @@ All notable changes to Chassis will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- On ClassicPress, the space between a post and its comments is a setting, `--comments-gap` (`var( --space-xl )` by default), which `chassis.json` sets with `spacing.comments-gap`. A theme that boxes its comments can set it to `l` to match the space between posts.
+
+## [0.1.4] - 11.06.2026
+
 ### Changed
 
 - In `chassis.json`, the `width` group is now `layout`: `"layout": { "wide": "75rem", "sidebar": "20rem" }`. `width` still works, so existing themes don't change; when both set the same width, `layout` wins. The schema marks `width` as deprecated.
