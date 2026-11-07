@@ -278,7 +278,7 @@ Themes without `chassis.json` can use the `.app-nav--top` or `.app-nav--bottom` 
 
 The core works on Novaris and ClassicPress. ClassicPress prints some markup that themes can't rename, so that lives in an add-on, `dist/chassis-classicpress.css`. The Backdrop provider loads it for you.
 
-It covers captions, sticky posts, threaded comments and the comment form, the search form, the calendar widget, `the_posts_pagination()`, `entry-*` classes, and the `[gallery]` shortcode. It uses the same settings as the core, so a theme's colors and shapes apply here too. Novaris sites don't need it.
+It covers captions, sticky posts, threaded comments and the comment form (in a box like a post's), the search form, the calendar widget, `the_posts_pagination()`, `entry-*` classes, and the `[gallery]` shortcode. It uses the same settings as the core, so a theme's colors and shapes apply here too. Novaris sites don't need it.
 
 ## Utilities
 

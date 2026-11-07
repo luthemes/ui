@@ -1,14 +1,32 @@
 ////
 /// Comments
 ///
-/// Threaded comments and the comment form. Covers the default markup from
-/// `wp_list_comments()` and the `.comments` items that custom callbacks print.
+/// Threaded comments and the comment form, in a box like a post's. Covers the
+/// default markup from `wp_list_comments()` and the `.comments` items that custom
+/// callbacks print (a `.comment-meta` header and a `.comment-content` body).
 ///
 /// @group Platforms
 ////
 
+// The comments and the form sit in a box like a post's, built from the same design
+// values (`--color-content-background`, `--border-box`, `--radius`, `--shadow`,
+// `--entry-padding`), so `chassis.json` styles both at once.
 .comments-area {
-	margin-top: var( --space-xl );
+	background: var( --color-content-background );
+	border: var( --border-box );
+	border-bottom: var( --border-box-bottom );
+	border-radius: var( --radius );
+	box-shadow: var( --shadow );
+	margin-top: var( --entry-padding );
+	padding: var( --entry-padding );
+
+	> :first-child {
+		margin-top: 0;
+	}
+
+	> :last-child {
+		margin-bottom: 0;
+	}
 }
 
 .comments-title,
@@ -44,7 +62,8 @@
 	}
 }
 
-.comment-body {
+.comment-body,
+.comments > .comment-content {
 	border-bottom: var( --border-rule );
 	padding-bottom: var( --space-l );
 }

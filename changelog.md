@@ -2,6 +2,13 @@
 
 All notable changes to Chassis will be documented in this file.
 
+## [Unreleased]
+
+### Changed
+
+- On ClassicPress, the comments and the comment form (`.comments-area`) sit in a box like a post's, built from the same settings: `--color-content-background`, `--border-box`, `--radius`, `--shadow` and `--entry-padding`. A theme's `chassis.json` (`color.content`, `design`) styles both. Before, the comments sat on the page background.
+- Comments printed by a custom callback (`.comments` items) get the same divider as the default markup, under `.comment-content`.
+
 ## [0.1.0] - 11.06.2026
 
 Moving to 0.1 marks the end of the 0.0.x series. Themes that require `~0.0.x` need `^0.1` to get this and later updates:
