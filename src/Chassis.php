@@ -51,6 +51,120 @@ class Chassis
 	const SPACE_NAMES = [ 'xs', 's', 'm', 'l', 'l-plus', 'xl' ];
 
 	/**
+	 * The version 2 `chassis.json` shape: each setting's path, the custom
+	 * property it sets, and whether it takes spacing names (`l`, `xs m`).
+	 *
+	 * `settings` defines things (the palette, fonts, spacing scale, widths,
+	 * shapes), and `styles` applies them to the page: the whole site first,
+	 * then `elements` (links, headings, buttons), then each part of the page
+	 * under a friendly name. Each part's description in the schema names its
+	 * BEM block, e.g. `post` is `.entry`. Inside a part, nested names are its
+	 * BEM elements (`post.meta`), and keys starting with `--` its modifiers.
+	 *
+	 * `settings.palette`, `settings.custom`, `styles.menu-button.position`,
+	 * `styles.menu-button.hide-on-scroll` and the composed borders are handled
+	 * in `stylesProperties()`, not here.
+	 */
+	const STYLES_MAP = [
+		// Settings.
+		'settings.font.body'           => [ 'font-family-body', false ],
+		'settings.font.heading'        => [ 'font-family-heading', false ],
+		'settings.font.code'           => [ 'font-family-code', false ],
+		'settings.font.meta'           => [ 'font-family-meta', false ],
+		'settings.spacing.xs'          => [ 'space-xs', false ],
+		'settings.spacing.s'           => [ 'space-s', false ],
+		'settings.spacing.m'           => [ 'space-m', false ],
+		'settings.spacing.l'           => [ 'space-l', false ],
+		'settings.spacing.l-plus'      => [ 'space-l-plus', false ],
+		'settings.spacing.xl'          => [ 'space-xl', false ],
+		'settings.layout.width'        => [ 'width-wide', false ],
+		'settings.layout.medium'       => [ 'width-medium', false ],
+		'settings.layout.narrow'       => [ 'width-narrow', false ],
+		'settings.layout.sidebar'      => [ 'width-sidebar', false ],
+		'settings.shape.radius'        => [ 'radius', false ],
+		'settings.shape.shadow'        => [ 'shadow', false ],
+		'settings.shape.border-width'  => [ 'border-width', false ],
+
+		// The whole site (`.app`).
+		'styles.color.background'      => [ 'color-page-background', false ],
+		'styles.color.text'            => [ 'color-content-text', false ],
+		'styles.color.muted'           => [ 'color-content-muted', false ],
+		'styles.color.divider'         => [ 'color-content-divider', false ],
+		'styles.color.alt'             => [ 'color-content-alt', false ],
+		'styles.color.accent'          => [ 'color-accent', false ],
+		'styles.color.accent-text'     => [ 'color-accent-text', false ],
+		'styles.typography.size'       => [ 'font-size-base', false ],
+		'styles.typography.line-height' => [ 'line-height-base', false ],
+
+		// Elements, anywhere on the page.
+		'styles.elements.link.color.text'          => [ 'color-link', false ],
+		'styles.elements.link.:hover.color.text'   => [ 'color-link-hover', false ],
+		'styles.elements.heading.color.text'       => [ 'color-content-heading', false ],
+		'styles.elements.heading.typography.weight' => [ 'font-weight-heading', false ],
+		'styles.elements.heading.typography.line-height' => [ 'line-height-heading', false ],
+		'styles.elements.h1.typography.size'       => [ 'font-size-h1', false ],
+		'styles.elements.h2.typography.size'       => [ 'font-size-h2', false ],
+		'styles.elements.h3.typography.size'       => [ 'font-size-h3', false ],
+		'styles.elements.h4.typography.size'       => [ 'font-size-h4', false ],
+		'styles.elements.h5.typography.size'       => [ 'font-size-h5', false ],
+		'styles.elements.h6.typography.size'       => [ 'font-size-h6', false ],
+		'styles.elements.button.spacing.padding'   => [ 'button-padding', true ],
+		'styles.elements.button.border.width'      => [ 'button-border-width', false ],
+
+		// `header`: `.app-header`.
+		'styles.header.color.background'           => [ 'color-header-background', false ],
+		'styles.header.color.text'                 => [ 'color-header-text', false ],
+		'styles.header.spacing.padding'            => [ 'header-padding', true ],
+		'styles.header.title.typography.size'      => [ 'header-title-size', false ],
+		'styles.header.title.typography.size-large' => [ 'header-title-size-large', false ],
+		'styles.header.tagline.typography.size'    => [ 'header-tagline-size', false ],
+
+		// `primary-menu`: `.app-nav`.
+		'styles.primary-menu.link.spacing.padding' => [ 'nav-link-padding', true ],
+
+		// `menu-button`: `.app-nav__toggle`.
+		'styles.menu-button.color.background'      => [ 'menu-toggle-background', false ],
+		'styles.menu-button.color.text'            => [ 'menu-toggle-color', false ],
+		'styles.menu-button.spacing.padding'       => [ 'menu-toggle-padding', true ],
+
+		// `content`: `.app-content`.
+		'styles.content.spacing.padding'           => [ 'content-padding', true ],
+		'styles.content.spacing.gap'               => [ 'sidebar-gap', true ],
+
+		// `post`: `.entry`.
+		'styles.post.color.background'             => [ 'color-content-background', false ],
+		'styles.post.border.color'                 => [ 'color-content-border', false ],
+		'styles.post.spacing.padding'              => [ 'entry-padding', true ],
+
+		// `widget`: `.widget`.
+		'styles.widget.color.background'           => [ 'color-widget-background', false ],
+		'styles.widget.color.text'                 => [ 'color-widget-text', false ],
+		'styles.widget.border.color'               => [ 'color-widget-border', false ],
+		'styles.widget.title.color.text'           => [ 'color-widget-title', false ],
+
+		// `comments`: `.comments-area` (ClassicPress).
+		'styles.comments.color.background'         => [ 'color-comments-background', false ],
+		'styles.comments.border.color'             => [ 'color-comments-border', false ],
+		'styles.comments.spacing.padding'          => [ 'comments-padding', true ],
+		'styles.comments.spacing.margin'           => [ 'comments-gap', true ],
+		'styles.comments.shadow'                   => [ 'comments-shadow', false ],
+		'styles.comments.meta.spacing.margin'      => [ 'comments-meta-gap', true ],
+
+		// `pagination`: `.pagination`.
+		'styles.pagination.spacing.padding'        => [ 'pagination-padding', true ],
+
+		// `badge`: `.badge`.
+		'styles.badge.typography.size'             => [ 'badge-font-size', false ],
+		'styles.badge.typography.letter-spacing'   => [ 'badge-letter-spacing', false ],
+		'styles.badge.typography.transform'        => [ 'badge-text-transform', false ],
+		'styles.badge.spacing.padding'             => [ 'badge-padding', true ],
+
+		// `footer`: `.app-footer`.
+		'styles.footer.color.background'           => [ 'color-footer-background', false ],
+		'styles.footer.color.text'                 => [ 'color-footer-text', false ],
+	];
+
+	/**
 	 * Where the Menu button sits on phones, for `menu.toggle` in
 	 * `chassis.json`. `bottom-left` is the default, so it sets nothing.
 	 */
@@ -239,6 +353,11 @@ class Chassis
 	 * - `menu.hide-on-scroll` → `false` keeps the Menu button on screen while
 	 *   scrolling (it hides on the way down by default)
 	 *
+	 * The version 2 shape (`"version": 2`, with `settings` and `styles`) sets
+	 * the same custom properties with clearer names; see `STYLES_MAP` and
+	 * `stylesProperties()`. Both shapes work, and version 2 wins where both set
+	 * the same thing. Any value can be a palette color, `@slate`.
+	 *
 	 * Returns an empty string when there's nothing to set.
 	 */
 	public function designCss( ?array $design = null ): string
@@ -302,10 +421,27 @@ class Chassis
 			$properties[ $name ] = $value;
 		}
 
-		$css = '';
+		// The version 2 shape (`settings`, `styles`), after the version 1 one so
+		// it wins where both set the same thing.
+		$properties = array_merge( $properties, $this->stylesProperties( $design ) );
+
+		$palette = $this->group( $this->group( $design, 'settings' ), 'palette' );
+		$css     = '';
 
 		foreach ( $properties as $name => $value ) {
 			$name = (string) $name;
+
+			// `@slate` is the palette's `slate`.
+			if ( is_string( $value ) && 0 === strpos( trim( $value ), '@' ) ) {
+				$color = substr( trim( $value ), 1 );
+
+				if ( ! array_key_exists( $color, $palette ) ) {
+					trigger_error( sprintf( 'Chassis skipped the setting "%s" in chassis.json: "@%s" isn\'t in settings.palette.', $name, $color ), E_USER_WARNING );
+					continue;
+				}
+
+				$value = "var( --palette-{$color} )";
+			}
 
 			if ( ! preg_match( '/^[a-z0-9]+(-[a-z0-9]+)*$/', $name ) ) {
 				trigger_error( sprintf( 'Chassis skipped the setting "%s" in chassis.json: names use lowercase letters, numbers, and dashes.', $name ), E_USER_WARNING );
@@ -327,6 +463,148 @@ class Chassis
 		}
 
 		return $css ? ":root{{$css}}" : '';
+	}
+
+	/**
+	 * Turns the version 2 shape (`settings` and `styles`) into custom
+	 * properties, with the same names the version 1 shape sets. Settings it
+	 * doesn't know are skipped with a warning, so a typo doesn't fail quietly.
+	 */
+	protected function stylesProperties( array $design ): array
+	{
+		$properties = [];
+		$settings   = $this->group( $design, 'settings' );
+		$styles     = $this->group( $design, 'styles' );
+
+		if ( ! $settings && ! $styles ) {
+			return [];
+		}
+
+		// The palette: `slate` becomes `--palette-slate`, which `@slate` uses.
+		foreach ( $this->group( $settings, 'palette' ) as $name => $value ) {
+			$properties[ "palette-{$name}" ] = $value;
+		}
+
+		// Anything else, by its custom property's own name, like version 1's `design`.
+		foreach ( $this->group( $settings, 'custom' ) as $name => $value ) {
+			$properties[ (string) $name ] = $value;
+		}
+
+		$menu = $this->group( $styles, 'menu-button' );
+
+		if ( array_key_exists( 'position', $menu ) ) {
+			if ( is_string( $menu['position'] ) && isset( self::MENU_TOGGLE[ $menu['position'] ] ) ) {
+				$properties = array_merge( $properties, self::MENU_TOGGLE[ $menu['position'] ] );
+			} else {
+				trigger_error( sprintf( 'Chassis skipped styles.menu-button.position in chassis.json: use %s.', implode( ', ', array_keys( self::MENU_TOGGLE ) ) ), E_USER_WARNING );
+			}
+		}
+
+		if ( array_key_exists( 'hide-on-scroll', $menu ) ) {
+			if ( is_bool( $menu['hide-on-scroll'] ) ) {
+				$properties['menu-hide-on-scroll'] = $menu['hide-on-scroll'] ? '1' : '0';
+			} else {
+				trigger_error( 'Chassis skipped styles.menu-button.hide-on-scroll in chassis.json: use true or false.', E_USER_WARNING );
+			}
+		}
+
+		// Borders built from a width, a style and a color.
+		$borders = [
+			// The Menu button: `border` as plain CSS, or `color`, `width`, `style`.
+			'styles.menu-button.border' => [ 'menu-toggle-border', 'var( --border-width )', 'solid', 'currentColor' ],
+		];
+
+		foreach ( $borders as $path => list( $property, $width, $style, $color ) ) {
+			$border = $this->setting( $design, $path );
+
+			if ( is_string( $border ) ) {
+				$properties[ $property ] = $border;
+			} elseif ( is_array( $border ) ) {
+				$properties[ $property ] = sprintf(
+					'%s %s %s',
+					$border['width'] ?? $width,
+					$border['style'] ?? $style,
+					$this->paletteValue( $border['color'] ?? $color )
+				);
+			}
+		}
+
+		// The post box's border styles, around `--color-content-border`.
+		$post = $this->group( $this->group( $styles, 'post' ), 'border' );
+
+		foreach ( [ 'style' => 'border-box', 'bottom-style' => 'border-box-bottom' ] as $key => $property ) {
+			if ( isset( $post[ $key ] ) && is_string( $post[ $key ] ) ) {
+				$properties[ $property ] = "var( --border-width ) {$post[ $key ]} var( --color-content-border )";
+			}
+		}
+
+		// Everything in the map.
+		$handled = [ 'settings.palette', 'settings.custom', 'styles.menu-button.position', 'styles.menu-button.hide-on-scroll', 'styles.menu-button.border', 'styles.post.border.style', 'styles.post.border.bottom-style' ];
+
+		foreach ( $this->flatten( [ 'settings' => $settings, 'styles' => $styles ] ) as $path => $value ) {
+			if ( isset( self::STYLES_MAP[ $path ] ) ) {
+				list( $property, $space ) = self::STYLES_MAP[ $path ];
+
+				$properties[ $property ] = $space && is_string( $value ) ? $this->spaceValue( $value ) : $value;
+				continue;
+			}
+
+			foreach ( $handled as $prefix ) {
+				if ( $path === $prefix || 0 === strpos( $path, "{$prefix}." ) ) {
+					continue 2;
+				}
+			}
+
+			trigger_error( sprintf( 'Chassis skipped %s in chassis.json: it isn\'t a setting.', $path ), E_USER_WARNING );
+		}
+
+		return $properties;
+	}
+
+	/**
+	 * Flattens nested settings into dotted paths: `styles.post.color.background`.
+	 * Empty groups (`{}`) produce nothing.
+	 */
+	protected function flatten( array $values, string $prefix = '' ): array
+	{
+		$flat = [];
+
+		foreach ( $values as $key => $value ) {
+			$path = '' === $prefix ? (string) $key : "{$prefix}.{$key}";
+
+			if ( is_array( $value ) ) {
+				$flat = array_merge( $flat, $this->flatten( $value, $path ) );
+			} else {
+				$flat[ $path ] = $value;
+			}
+		}
+
+		return $flat;
+	}
+
+	/**
+	 * Returns the setting at a dotted path, or null.
+	 */
+	protected function setting( array $design, string $path )
+	{
+		foreach ( explode( '.', $path ) as $key ) {
+			if ( ! is_array( $design ) || ! array_key_exists( $key, $design ) ) {
+				return null;
+			}
+
+			$design = $design[ $key ];
+		}
+
+		return $design;
+	}
+
+	/**
+	 * Turns `@slate` into `var( --palette-slate )`, for values built from parts.
+	 * Other values are kept as they are.
+	 */
+	protected function paletteValue( $value )
+	{
+		return is_string( $value ) && 0 === strpos( trim( $value ), '@' ) ? 'var( --palette-' . substr( trim( $value ), 1 ) . ' )' : $value;
 	}
 
 	/**

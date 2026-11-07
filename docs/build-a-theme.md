@@ -116,6 +116,8 @@ What each part does:
 | `menu.hide-on-scroll` | `false` keeps the button on screen while scrolling | |
 | `design` | Any other setting, such as `radius` or `shadow` | `"radius": "0.5rem"` |
 
+There's also a second shape with friendlier names, `"version": 2`, which groups settings by part of the page (`header`, `post`, `comments`…) and names colors once in a palette. Both work; see [Version 2](../readme.md#version-2-settings-and-styles).
+
 The `$schema` line gives your editor autocomplete and catches typos. If VS Code says the schema location is untrusted, use its Quick Fix to trust `raw.githubusercontent.com`. Every setting is listed in the [readme](../readme.md#set-the-design-with-chassisjson).
 
 ## 4. Turn on Chassis and register the menu: `functions.php`
